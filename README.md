@@ -2,11 +2,33 @@
 
 You need JAVA 17 or above installed in your machine
 
+Install maven if you dont have already
+In Mac use command
+
+```
+brew install mvn
+
+```
+
 First clone the Repo
 Open command terminal and chage directory to the root folder where you cloned the Repo
 
-
 Then run the following command
+
+``` 
+mvn clean install
+
+```
+
+followed by
+
+``` 
+mvn wrapper:wrapper
+
+```
+The above commands you need to RUN only the First Time
+
+To RUN your spring boot application, run the following command, every time you need to run the app
 
 ``` 
 ./mvnw spring-boot:run
@@ -17,7 +39,7 @@ Then run the following command
 
 ### Guides
 
-The APIs are built using Spring Boot. The following Guides will help you understand how to build Services wigth springboot
+The APIs are built using Spring Boot. The following Guides will help you understand how to build Services with springboot
 Using JPA as the Data Access mechanism. The data base used is MySQL
 
 
