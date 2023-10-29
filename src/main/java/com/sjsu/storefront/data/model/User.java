@@ -1,6 +1,7 @@
 package com.sjsu.storefront.data.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,8 +21,13 @@ public class User {
 	
 	private String firstName;
 	private String lastName;
+	
+	@Column(unique = true)
 	private String email; //email is the userId
+	
 	private String password;
+	
+	@Column(unique = true)
 	private String phone;
 
     @Enumerated(EnumType.STRING)

@@ -57,13 +57,11 @@ public class UserController {
   @Operation(summary = "Create a NEW User in the system")
   @PostMapping
   public ResponseEntity<User> createUser(@RequestBody User user) {
-	  //log.info("Creating user : " + user);
-	  
       Address address = user.getAddress();
       addressRepository.save(address);
       user.setAddress(address);
-      userRepository.save(user);
-      return ResponseEntity.created(null).body(user);
+      User createdUser = userRepository.save(user);
+      return ResponseEntity.created(null).body(createdUser);
   }
   
   @Operation(summary = "Delete a user in the system given User's id")

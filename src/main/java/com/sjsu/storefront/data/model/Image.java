@@ -17,8 +17,8 @@ public class Image {
 	private String imageLink;
 	
 	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private Item items;
+    @JoinColumn(name = "item_id")
+    private Item item;
 	
 	public Image()
 	{
@@ -44,11 +44,11 @@ public class Image {
 	}
 
 	public Item getItem() {
-		return items;
+		return item;
 	}
 
 	public void setItem(Item item) {
-		this.items = item;
+		this.item = item;
 	}
 
 	@Override
