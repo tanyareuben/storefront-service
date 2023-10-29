@@ -116,16 +116,4 @@ public class UserController {
 	} 
   }
   
-  @Operation(summary = "Upadate a User address")
-  @PutMapping("/{id}/address")
-  public ResponseEntity<User> updateUserAddress(@PathVariable Long id, @RequestBody Address address) {
-      User existingUser = userRepository.findById(id).orElse(null);
-      if (existingUser == null) {
-          return ResponseEntity.notFound().build();
-      }
-      
-      existingUser.setAddress(address);
-      userRepository.save(existingUser);
-      return ResponseEntity.ok(existingUser);
-  }
 }
