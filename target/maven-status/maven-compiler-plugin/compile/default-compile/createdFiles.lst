@@ -1,0 +1,7 @@
+com/sjsu/storefront/data/model/Address.class
+com/sjsu/storefront/data/model/User$UserType.class
+com/sjsu/storefront/web/UserController.class
+com/sjsu/storefront/data/respository/AddressRepository.class
+com/sjsu/storefront/data/respository/UserRepository.class
+com/sjsu/storefront/data/model/User.class
+com/sjsu/storefront/StorefrontApplication.class

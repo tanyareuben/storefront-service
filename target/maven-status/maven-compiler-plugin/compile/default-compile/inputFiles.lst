@@ -1,0 +1,6 @@
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/StorefrontApplication.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/User.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Address.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/UserController.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/AddressRepository.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/UserRepository.java
