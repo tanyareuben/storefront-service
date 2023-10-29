@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      
+    ports:
+      - "3306:3306"
+      
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p", "root"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      
+    command: ["--init-file", "./create-schema.sql"]
+
+  storefront-app:
+    image: storefront
+    
+    ports:
+      - "8080:8080"
+      
+    depends_on:
+      - mysql
+      
+
+      
