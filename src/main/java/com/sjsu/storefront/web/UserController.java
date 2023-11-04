@@ -1,8 +1,10 @@
 package com.sjsu.storefront.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +21,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.AddressRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/users")
@@ -37,6 +39,9 @@ public class UserController {
   
   @Autowired
   private ObjectMapper objectMapper;
+  
+  @Autowired
+  private HttpSession httpSession;
  
   @Operation(summary = "Get all users in the system")
   @GetMapping
@@ -54,14 +59,42 @@ public class UserController {
       return ResponseEntity.ok(user);
   }
   
-  @Operation(summary = "Create a NEW User in the system")
-  @PostMapping
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-      Address address = user.getAddress();
-      addressRepository.save(address);
-      user.setAddress(address);
-      User createdUser = userRepository.save(user);
-      return ResponseEntity.created(null).body(createdUser);
+  @PostMapping("/register")
+  public ResponseEntity<String> registerUser(@RequestBody User user) {
+      Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+      if (existingUser.isPresent()) {
+          return ResponseEntity.badRequest().body("Username already exists");
+      }
+
+      // You might want to perform password hashing here before saving
+      userRepository.save(user);
+
+      return ResponseEntity.ok("User registered successfully");
+  }
+  
+  @PostMapping("/login")
+  public ResponseEntity<String> loginUser(@RequestBody User user) {
+      Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+      if (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())) {
+    	// Create a UserSession object
+          UserSession userSession = new UserSession();
+          userSession.setUserId(existingUser.get().getId());
+          userSession.setEmail(existingUser.get().getEmail());
+          userSession.setUserType(existingUser.get().getUserType());
+
+          // Store UserSession in HttpSession
+          httpSession.setAttribute("userSession", userSession);
+
+          return ResponseEntity.ok("Login successful");
+      } else {
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+      }
+  }
+  
+  @PostMapping("/logout")
+  public ResponseEntity<String> logoutUser() {
+      httpSession.invalidate();
+      return ResponseEntity.ok("Logout successful");
   }
   
   @Operation(summary = "Delete a user in the system given User's id")

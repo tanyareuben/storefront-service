@@ -1,5 +1,7 @@
 package com.sjsu.storefront.data.model;
 
+import com.sjsu.storefront.common.UserType;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,12 +34,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    
-    enum UserType {
-        ADMIN,
-        USER,
-        SUPER
-    }
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
