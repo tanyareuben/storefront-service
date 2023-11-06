@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.sjsu.storefront.common.UnauthorizedException;
+import com.sjsu.storefront.common.UserType;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
@@ -56,6 +58,24 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
       User user = userRepository.findById(id).orElse(null);
+      if (user == null) {
+          return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(user);
+  }
+  
+  @Operation(summary = "ME - Get currenly logged in users Info")
+  @GetMapping("/me")
+  public ResponseEntity<User> getUserME() {
+      UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
+
+      if (userSession == null) {
+          throw new UnauthorizedException("User not logged in");
+      }
+
+      Long userId = userSession.getUserId();
+      
+      User user = userRepository.findById(userId).orElse(null);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
