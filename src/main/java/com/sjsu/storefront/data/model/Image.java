@@ -18,7 +18,7 @@ public class Image {
 	
 	@ManyToOne
     @JoinColumn(name = "item_id")
-    private Item item;
+    private Product item;
 	
 	public Image()
 	{
@@ -43,11 +43,11 @@ public class Image {
 		return id;
 	}
 
-	public Item getItem() {
+	public Product getItem() {
 		return item;
 	}
 
-	public void setItem(Item item) {
+	public void setItem(Product item) {
 		this.item = item;
 	}
 

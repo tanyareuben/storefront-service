@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "items")
-public class Item {
+public class Product {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -27,12 +27,12 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> images;
 	
-	public Item()
+	public Product()
 	{
 		
 	}
 	
-	public Item(long id, String name, String description, double price, double weight, int quantityInStore) {
+	public Product(long id, String name, String description, double price, double weight, int quantityInStore) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -42,14 +42,14 @@ public class Item {
 		this.quantityInStore = quantityInStore;
 	}
 
-	//copy another user object into this user
-		public void set(Item item) {
-			this.name = item.name;
-			this.description = item.description;
-			this.price = item.price;
-			this.weight = item.weight;
-			this.quantityInStore = item.quantityInStore; 
-		}
+	//copy another Product object into this user
+	public void set(Product item) {
+		this.name = item.name;
+		this.description = item.description;
+		this.price = item.price;
+		this.weight = item.weight;
+		this.quantityInStore = item.quantityInStore; 
+	}
 	
 	public String getName() {
 		return name;
@@ -108,8 +108,6 @@ public class Item {
 		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", weight="
 				+ weight + ", quantityInStore=" + quantityInStore + "]";
 	} 
-	
-	
-	
+
 	
 }

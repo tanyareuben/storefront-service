@@ -39,12 +39,16 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    private ShoppingCart cart;
+	
 	//default constructor needed for JPA
 	public User() {
 		
 	}
 	
-	public User(long id, String firstName, String lastName, String email, String password, String phone, UserType userType) {
+	public User(long id, String firstName, String lastName, String email, String password, String phone, UserType userType, ShoppingCart cart) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -53,6 +57,7 @@ public class User {
 		this.password = password;
 		this.phone = phone;
 		this.userType = userType;
+		this.cart = cart;
 	}
 	
 	//copy another user object into this user
@@ -126,12 +131,15 @@ public class User {
 		this.userType = userType;
 	}
 
+	public ShoppingCart getCart() {
+		return cart;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", phone=" + phone + ", address=" + address + "]";
-	}
-	
-	
+				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + ", address=" + address
+				+ ", cart=" + cart + "]";
+	}	
 	
 }

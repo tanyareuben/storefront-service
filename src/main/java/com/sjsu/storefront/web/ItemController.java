@@ -21,9 +21,9 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.data.model.Image;
-import com.sjsu.storefront.data.model.Item;
+import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.respository.ImageRepository;
-import com.sjsu.storefront.data.respository.ItemRepository;
+import com.sjsu.storefront.data.respository.ProductRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpSession;
 public class ItemController {
 
 	  @Autowired
-	  ItemRepository itemRepository;
+	  ProductRepository itemRepository;
 	  
 	  @Autowired
 	  private ImageRepository imageRepository;
@@ -46,14 +46,14 @@ public class ItemController {
 	  
 	  @Operation(summary = "Get all items in the system")
 	  @GetMapping
-	  public List<Item> getAllItems() {
-	      return (List<Item>) itemRepository.findAll();
+	  public List<Product> getAllItems() {
+	      return (List<Product>) itemRepository.findAll();
 	  }
 	
 	  @Operation(summary = "Get a Item by id")
 	  @GetMapping("/{id}")
-	  public ResponseEntity<Item> getItemById(@PathVariable Long id) {
-	      Item item = itemRepository.findById(id).orElse(null);
+	  public ResponseEntity<Product> getItemById(@PathVariable Long id) {
+	      Product item = itemRepository.findById(id).orElse(null);
 	      if (item == null) {
 	          return ResponseEntity.notFound().build();
 	      }
@@ -63,7 +63,7 @@ public class ItemController {
 	  @Operation(summary = "Create a NEW Item in the system")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PostMapping
-	  public ResponseEntity<String> createItem(@RequestBody Item item) {
+	  public ResponseEntity<String> createItem(@RequestBody Product item) {
 
     	  List<Image> images = item.getImages();
 	      imageRepository.saveAll(images);
@@ -85,8 +85,8 @@ public class ItemController {
 	  @Operation(summary = "Update an item given Item's id, the whole Item object needs to be passed in the request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PutMapping("/{id}")
-	  public ResponseEntity<Item> updateItem(@PathVariable Long id, @RequestBody Item item) {
-	      Item existingItem = itemRepository.findById(id).orElse(null);
+	  public ResponseEntity<Product> updateItem(@PathVariable Long id, @RequestBody Product item) {
+	      Product existingItem = itemRepository.findById(id).orElse(null);
 	      if (existingItem == null) {
 	          return ResponseEntity.notFound().build();
 	      }
@@ -98,8 +98,8 @@ public class ItemController {
 	  @Operation(summary = "Upadate an Item, given partial data in the Request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PatchMapping("/{id}")
-	  public ResponseEntity<Item> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
-	      Item item = itemRepository.findById(id).orElse(null);
+	  public ResponseEntity<Product> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
+	      Product item = itemRepository.findById(id).orElse(null);
 	      if (item == null) {
 	          return ResponseEntity.notFound().build();
 	      }
@@ -109,8 +109,8 @@ public class ItemController {
 	  		
 	      JsonNode itemNode = objectMapper.valueToTree(item);
 	      JsonNode patchedNode = patch.apply(itemNode);
-	      Item patchedItem;
-	      patchedItem = objectMapper.treeToValue(patchedNode, Item.class);
+	      Product patchedItem;
+	      patchedItem = objectMapper.treeToValue(patchedNode, Product.class);
 
 	      // Save the updated user object to the database
 	      itemRepository.save(patchedItem);

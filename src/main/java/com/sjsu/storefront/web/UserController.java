@@ -21,8 +21,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.AddressRepository;
+import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +38,9 @@ public class UserController {
   
   @Autowired
   private AddressRepository addressRepository;
+  
+  @Autowired
+  ShoppingCartRepository shoppingCartRepository;
   
   @Autowired
   private ObjectMapper objectMapper;
@@ -67,6 +72,9 @@ public class UserController {
       }
 
       // You might want to perform password hashing here before saving
+      //TODO do the saves in the same transaction
+      ShoppingCart cart = new ShoppingCart();
+      shoppingCartRepository.save(cart);
       userRepository.save(user);
 
       return ResponseEntity.ok("User registered successfully");
@@ -100,6 +108,13 @@ public class UserController {
   @Operation(summary = "Delete a user in the system given User's id")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+	  //TODO do everything in a Transaction
+	  User existingUser = userRepository.findById(id).orElse(null);
+	  if(existingUser == null) {
+		  return ResponseEntity.notFound().build();
+	  }
+	  ShoppingCart cart = existingUser.getCart();
+	  shoppingCartRepository.delete(cart);
       userRepository.deleteById(id);
       return ResponseEntity.noContent().build();
   }
