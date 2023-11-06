@@ -24,7 +24,6 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
-import com.sjsu.storefront.data.respository.AddressRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
 
@@ -37,8 +36,6 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
   
-  @Autowired
-  private AddressRepository addressRepository;
   
   @Autowired
   ShoppingCartRepository shoppingCartRepository;
