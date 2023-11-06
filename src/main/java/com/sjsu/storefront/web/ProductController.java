@@ -30,10 +30,10 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/items")
-public class ItemController {
+public class ProductController {
 
 	  @Autowired
-	  ProductRepository itemRepository;
+	  ProductRepository productRepository;
 	  
 	  @Autowired
 	  private ImageRepository imageRepository;
@@ -47,13 +47,13 @@ public class ItemController {
 	  @Operation(summary = "Get all items in the system")
 	  @GetMapping
 	  public List<Product> getAllItems() {
-	      return (List<Product>) itemRepository.findAll();
+	      return (List<Product>) productRepository.findAll();
 	  }
 	
 	  @Operation(summary = "Get a Item by id")
 	  @GetMapping("/{id}")
 	  public ResponseEntity<Product> getItemById(@PathVariable Long id) {
-	      Product item = itemRepository.findById(id).orElse(null);
+	      Product item = productRepository.findById(id).orElse(null);
 	      if (item == null) {
 	          return ResponseEntity.notFound().build();
 	      }
@@ -68,8 +68,38 @@ public class ItemController {
     	  List<Image> images = item.getImages();
 	      imageRepository.saveAll(images);
 	      item.setImages(images);
-	      itemRepository.save(item);
+	      productRepository.save(item);
 	      return ResponseEntity.created(null).body("Item created successfully");
+	      
+	  }
+	
+	  @Operation(summary = "Add a new Image to the Product")
+	  @AuthZCheck // Apply the AuthAspect to this method
+	  @PostMapping("{id}/images")
+	  public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody Image image) {
+
+		  Product existingItem = productRepository.findById(id).orElse(null);
+	      if (existingItem == null) {
+	          return ResponseEntity.notFound().build();
+	      }
+	      existingItem.addImage(image);
+	      productRepository.save(existingItem);
+	      return ResponseEntity.ok("Images Successfully added");
+	      
+	  }
+	  
+	  @Operation(summary = "Delete an Image from the Product, given image ID")
+	  @AuthZCheck // Apply the AuthAspect to this method
+	  @DeleteMapping("{id}/images/{imgId}")
+	  public ResponseEntity<String> deleteImage(@PathVariable Long id,@PathVariable Long imgId, @RequestBody Image image) {
+
+		  Product existingItem = productRepository.findById(id).orElse(null);
+	      if (existingItem == null) {
+	          return ResponseEntity.notFound().build();
+	      }
+	      existingItem.deleteImage(imgId);
+	      productRepository.save(existingItem);
+	      return ResponseEntity.ok("Images Successfully DELETED");
 	      
 	  }
 	  
@@ -78,7 +108,7 @@ public class ItemController {
 	  @DeleteMapping("/{id}")
 	  public ResponseEntity<String> deleteItem(@PathVariable Long id) {
 
-	      itemRepository.deleteById(id);
+	      productRepository.deleteById(id);
 	      return ResponseEntity.noContent().build();
 	  }
 	  
@@ -86,20 +116,21 @@ public class ItemController {
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PutMapping("/{id}")
 	  public ResponseEntity<Product> updateItem(@PathVariable Long id, @RequestBody Product item) {
-	      Product existingItem = itemRepository.findById(id).orElse(null);
+	      Product existingItem = productRepository.findById(id).orElse(null);
 	      if (existingItem == null) {
 	          return ResponseEntity.notFound().build();
 	      }
 	      existingItem.set(item);
-	      itemRepository.save(existingItem);
+	      productRepository.save(existingItem);
 	      return ResponseEntity.ok(existingItem);
 	  }
+	  
 	  
 	  @Operation(summary = "Upadate an Item, given partial data in the Request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PatchMapping("/{id}")
 	  public ResponseEntity<Product> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
-	      Product item = itemRepository.findById(id).orElse(null);
+	      Product item = productRepository.findById(id).orElse(null);
 	      if (item == null) {
 	          return ResponseEntity.notFound().build();
 	      }
@@ -113,7 +144,7 @@ public class ItemController {
 	      patchedItem = objectMapper.treeToValue(patchedNode, Product.class);
 
 	      // Save the updated user object to the database
-	      itemRepository.save(patchedItem);
+	      productRepository.save(patchedItem);
 
 	      // Return the updated user object
 	      return ResponseEntity.ok(patchedItem);

@@ -51,6 +51,18 @@ public class Product {
 		this.quantityInStore = item.quantityInStore; 
 	}
 	
+	public void addImage(Image img) {
+		images.add(img);
+	}
+	
+	public void deleteImage(Long id) {
+		for(Image img : images) {
+			if(img.getId() == id) {
+				images.remove(img);
+			}
+		}
+	}
+	
 	public String getName() {
 		return name;
 	}
