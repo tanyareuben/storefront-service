@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.sjsu.storefront.common.AuthNCheck;
 import com.sjsu.storefront.common.UnauthorizedException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.ShoppingCart;
@@ -64,13 +65,10 @@ public class UserController {
   }
   
   @Operation(summary = "ME - Get currenly logged in users Info")
+  @AuthNCheck // Apply the AuthAspect to this method
   @GetMapping("/me")
   public ResponseEntity<User> getUserME() {
       UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
-
-      if (userSession == null) {
-          throw new UnauthorizedException("User not logged in");
-      }
 
       Long userId = userSession.getUserId();
       
