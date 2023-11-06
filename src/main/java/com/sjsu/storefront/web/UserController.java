@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.AddressRepository;
@@ -129,6 +130,19 @@ public class UserController {
       existingUser.set(user);
       userRepository.save(existingUser);
       return ResponseEntity.ok(existingUser);
+  }
+  
+  @Operation(summary = "Update a user's Address given User's id, the whole Address object needs to be passed in the request")
+  @PutMapping("/{id}/address")
+  public ResponseEntity<String> updateUserAddress(@PathVariable Long id, @RequestBody Address address) {
+	  //TODO SameUser Auth
+      User existingUser = userRepository.findById(id).orElse(null);
+      if (existingUser == null) {
+          return ResponseEntity.notFound().build();
+      }
+      existingUser.setAddress(address);
+      userRepository.save(existingUser);
+      return ResponseEntity.ok("Address Updated Successfully");
   }
   
   @Operation(summary = "Upadate a User, given partial data in the Request")
