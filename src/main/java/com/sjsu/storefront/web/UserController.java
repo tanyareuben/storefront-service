@@ -225,4 +225,9 @@ public class UserController {
       return ResponseEntity.ok(user.getOrders());
   }
   
+  //TODO get user by user email (user name)
+  //TODO get user base data or include other related entities like Address, Shopping Cart etc.
+  //TODO get user by First name or Last Name - Make it Paginated and Fuzzy search
+  //TODO add/update a PaymentInfo for a user  users/{id}/payment-info  -- need same user check
+  //TODO or do an add or Update Payment info on ME/payment-info (Create and Update). 
 }
