@@ -2,6 +2,8 @@ package com.sjsu.storefront.data.model;
 
 import java.util.List;
 
+import com.sjsu.storefront.common.ProductCategory;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +24,7 @@ public class Product {
 	private double price;
 	private double weight;
 	private int quantityInStore;
+	private ProductCategory category;
 	
     // Define the one-to-many relationship
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -31,8 +34,9 @@ public class Product {
 	{
 		
 	}
-	
-	public Product(long id, String name, String description, double price, double weight, int quantityInStore) {
+
+	public Product(long id, String name, String description, double price, double weight, int quantityInStore,
+			ProductCategory category, List<Image> images) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -40,7 +44,11 @@ public class Product {
 		this.price = price;
 		this.weight = weight;
 		this.quantityInStore = quantityInStore;
+		this.category = category;
+		this.images = images;
 	}
+
+
 
 	//copy another Product object into this user
 	public void set(Product item) {
@@ -49,6 +57,8 @@ public class Product {
 		this.price = item.price;
 		this.weight = item.weight;
 		this.quantityInStore = item.quantityInStore; 
+		this.category = item.category;
+		this.images = item.images;
 	}
 	
 	public void addImage(Image img) {

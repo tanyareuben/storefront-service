@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/items")
+@RequestMapping("/products")
 public class ProductController {
 
 	  @Autowired
@@ -40,9 +40,6 @@ public class ProductController {
 	  
 	  @Autowired
 	  private ObjectMapper objectMapper;
-	  
-	  @Autowired
-	  private HttpSession httpSession;
 	  
 	  @Operation(summary = "Get all items in the system")
 	  @GetMapping
@@ -157,4 +154,10 @@ public class ProductController {
 			return ResponseEntity.badRequest().build();
 		} 
 	  }
+	  
+	  //TODO get all products - Paginate
+	  
+	  //TODO get all products in a category - Paginate
+	  
+	  //TODO search by product name - support Fuzzy search - Paginate
 }

@@ -16,8 +16,13 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private ShoppingCart cart;
+    
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
+    @JoinColumn(name = "product", nullable = false)
     private Product product;
 
     private int quantity;

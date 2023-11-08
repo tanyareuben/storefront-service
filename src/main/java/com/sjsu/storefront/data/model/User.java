@@ -1,5 +1,7 @@
 package com.sjsu.storefront.data.model;
 
+import java.util.List;
+
 import com.sjsu.storefront.common.UserType;
 
 import jakarta.persistence.CascadeType;
@@ -7,10 +9,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -43,12 +47,21 @@ public class User {
     @JoinColumn(name = "cart_id")
     private ShoppingCart cart;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_info_id")
+    private PaymentInfo payment_info;
+	
+	 // Define the one-to-many relationship
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //is this line correct with the mappedBy = "item" or should it be something else
+    private List<Order> orders;
+	
 	//default constructor needed for JPA
 	public User() {
 		
 	}
-	
-	public User(long id, String firstName, String lastName, String email, String password, String phone, UserType userType, ShoppingCart cart) {
+
+	public User(long id, String firstName, String lastName, String email, String password, String phone,
+			UserType userType, Address address, ShoppingCart cart, PaymentInfo payment_info, List<Order> orders) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -57,9 +70,15 @@ public class User {
 		this.password = password;
 		this.phone = phone;
 		this.userType = userType;
+		this.address = address;
 		this.cart = cart;
+		this.payment_info = payment_info;
+		this.orders = orders;
 	}
-	
+
+
+
+
 	//copy another user object into this user
 	public void set(User user) {
 		this.firstName = user.firstName;
@@ -135,11 +154,31 @@ public class User {
 		return cart;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public void setCart(ShoppingCart cart) {
+		this.cart = cart;
+	}
+
+	public PaymentInfo getPayment_info() {
+		return payment_info;
+	}
+
+	public void setPayment_info(PaymentInfo payment_info) {
+		this.payment_info = payment_info;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + ", address=" + address
-				+ ", cart=" + cart + "]";
-	}	
-	
+				+ ", cart=" + cart + ", payment_info=" + payment_info + ", orders=" + orders + "]";
+	}
+
 }

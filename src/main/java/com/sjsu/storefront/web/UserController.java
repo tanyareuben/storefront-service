@@ -22,8 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.sjsu.storefront.common.AuthNCheck;
-import com.sjsu.storefront.common.UnauthorizedException;
+import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.data.model.Address;
+import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
@@ -49,12 +50,14 @@ public class UserController {
   private HttpSession httpSession;
  
   @Operation(summary = "Get all users in the system")
+  @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping
   public List<User> getAllUsers() {
       return (List<User>) userRepository.findAll();
   }
   
   @Operation(summary = "Get a User by id")
+  @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
       User user = userRepository.findById(id).orElse(null);
@@ -160,6 +163,7 @@ public class UserController {
   }
   
   @Operation(summary = "Upadate a User, given partial data in the Request")
+  //TODO AuthChecks
   @PatchMapping("/{id}")
   public ResponseEntity<User> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
       User user = userRepository.findById(id).orElse(null);
@@ -188,6 +192,37 @@ public class UserController {
 		e.printStackTrace();
 		return ResponseEntity.badRequest().build();
 	} 
+  }
+  
+  @Operation(summary = "Get the Logged in User's Shopping Cart")
+  @AuthNCheck // Apply the AuthAspect to this method
+  @GetMapping("/cart")
+  public ResponseEntity<ShoppingCart> getUserShoppingCart() {
+      UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
+
+      Long userId = userSession.getUserId();
+      
+      User user = userRepository.findById(userId).orElse(null);
+      if (user == null) {
+          return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(user.getCart());
+  }
+  
+  //TODO give an end point for Open Orders, Shipped Orders and Delivered orders with SORT option
+  @Operation(summary = "Get the Logged in User's All Orders")
+  @AuthNCheck // Apply the AuthAspect to this method
+  @GetMapping("/orders")
+  public ResponseEntity<List<Order>> getUserOrders() {
+      UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
+
+      Long userId = userSession.getUserId();
+      
+      User user = userRepository.findById(userId).orElse(null);
+      if (user == null) {
+          return ResponseEntity.notFound().build();
+      }
+      return ResponseEntity.ok(user.getOrders());
   }
   
 }
