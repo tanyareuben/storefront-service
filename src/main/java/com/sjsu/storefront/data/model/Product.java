@@ -23,7 +23,7 @@ public class Product {
 	private String description;
 	private double price;
 	private double weight;
-	private int quantityInStore;
+	private int quantityInStock;
 	private ProductCategory category;
 	
     // Define the one-to-many relationship
@@ -35,7 +35,7 @@ public class Product {
 		
 	}
 
-	public Product(long id, String name, String description, double price, double weight, int quantityInStore,
+	public Product(long id, String name, String description, double price, double weight, int quantityInStock,
 			ProductCategory category, List<Image> images) {
 		super();
 		this.id = id;
@@ -43,7 +43,7 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.weight = weight;
-		this.quantityInStore = quantityInStore;
+		this.quantityInStock = quantityInStock;
 		this.category = category;
 		this.images = images;
 	}
@@ -56,7 +56,7 @@ public class Product {
 		this.description = item.description;
 		this.price = item.price;
 		this.weight = item.weight;
-		this.quantityInStore = item.quantityInStore; 
+		this.quantityInStock = item.quantityInStock; 
 		this.category = item.category;
 		this.images = item.images;
 	}
@@ -105,12 +105,12 @@ public class Product {
 		this.weight = weight;
 	}
 
-	public int getQuantityInStore() {
-		return quantityInStore;
+	public int getQuantityInStock() {
+		return quantityInStock;
 	}
 
-	public void setQuantityInStore(int quantityInStore) {
-		this.quantityInStore = quantityInStore;
+	public void setQuantityInStock(int quantityInStore) {
+		this.quantityInStock = quantityInStore;
 	}
 
 	public long getId() {
@@ -128,7 +128,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", weight="
-				+ weight + ", quantityInStore=" + quantityInStore + "]";
+				+ weight + ", quantityInStock=" + quantityInStock + "]";
 	} 
 
 	

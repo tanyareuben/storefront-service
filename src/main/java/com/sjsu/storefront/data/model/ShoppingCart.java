@@ -59,6 +59,7 @@ public class ShoppingCart {
 		for( CartItem ci : items) {
 			if(ci.getId() == id) { //If product is already in the Cart
 				items.remove(ci);
+				//TODO move this entire code into the ShoppingCart Service
 				updateInventory(ci.getProduct(), ci.getQuantity());
 				updateShippingAndTotalCost();
 				break;
@@ -87,6 +88,8 @@ public class ShoppingCart {
 			}
 		}
 
+
+		//TODO move this entire code into the ShoppingCart Service
 		int origQty = 0;
 		int diffInQuantity = 0;
 		
@@ -122,9 +125,9 @@ public class ShoppingCart {
 	
 	private void updateInventory(Product product, int quantity) throws Exception {
 		
-		int ineventoryCount = product.getQuantityInStore() + quantity;
+		int ineventoryCount = product.getQuantityInStock() + quantity;
 		if(ineventoryCount > 0) {
-			product.setQuantityInStore(ineventoryCount); //update inventory
+			product.setQuantityInStock(ineventoryCount); //update inventory
 		}
 		else {
 			throw new Exception("Not enough Inventory to Update the Cart");
