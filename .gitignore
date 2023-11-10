@@ -28,6 +28,7 @@ replay_pid*
 #target folder
 /target/
 /bin/
+/mysql-data/
 .project
 .mvn
 .setting
