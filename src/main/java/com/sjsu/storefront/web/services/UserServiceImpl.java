@@ -8,9 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
+import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
+import com.sjsu.storefront.data.model.CartItem;
+import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
 import com.sjsu.storefront.web.UserSession;
@@ -23,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	OrderRepository orderRepository;
 	  
 	@Autowired
 	ShoppingCartRepository shoppingCartRepository;
@@ -107,6 +115,38 @@ public class UserServiceImpl implements UserService {
 		}
 		existingUser.setAddress(address);
 		userRepository.save(existingUser);
+	}
+
+	@Transactional
+	@Override
+	public Order checkOut(Long userId) throws WorkflowException {
+		User existingUser = userRepository.findById(userId).orElse(null);
+		if (existingUser == null) {
+			throw new EntityNotFoundException("User Not found");
+		}
+		//get the users cart
+		ShoppingCart cart = existingUser.getCart();
+		
+		List<CartItem> itemsInCart = cart.getItems();
+		if(itemsInCart.size() > 0) { 
+			//create Order from Cart
+			Order order = new Order();
+			
+			order.setUser(existingUser);
+			order.setPaymentInfo(existingUser.getPayment_info());
+			order.setShippingAddress(existingUser.getAddress());
+			order.setStatus(OrderStatus.RECIEVED);
+			order.setTotalCost(cart.getTotalCost());
+			order.setTotalProductCost(cart.getTotalProductCost());
+			order.setTotalShipping(cart.getTotalShipping());
+			order.setTotalWeight(cart.getTotalWeight());
+			order.setItems(itemsInCart);
+			
+			return orderRepository.save(order);
+		}
+		else {
+			throw new WorkflowException("Cart is Empty, order can't be created");
+		}
 	}
 
 }

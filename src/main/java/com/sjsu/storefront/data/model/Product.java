@@ -6,6 +6,8 @@ import com.sjsu.storefront.common.ProductCategory;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,8 @@ public class Product {
 	private double price;
 	private double weight;
 	private int quantityInStock;
+	
+	@Enumerated(EnumType.STRING)
 	private ProductCategory category;
 	
     // Define the one-to-many relationship

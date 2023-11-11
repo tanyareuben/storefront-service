@@ -21,6 +21,7 @@ import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
@@ -47,14 +48,14 @@ public class UserController {
   
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
  
-  @Operation(summary = "Get all users in the system")
+  @Operation(summary = "Get all users in the system. Only ADMIN users have can call this API")
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping
   public List<User> getAllUsers() {
       return userService.getAllUsers();
   }
   
-  @Operation(summary = "Get a User by id")
+  @Operation(summary = "Get a User by id. Only ADMIN users have can call this API")
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -65,7 +66,7 @@ public class UserController {
       return ResponseEntity.ok(user);
   }
   
-  @Operation(summary = "ME - Get currenly logged in users Info")
+  @Operation(summary = "ME - Get currenly logged in users Info. Only the currently logged in user can call this API")
   @AuthNCheck // Apply the AuthAspect to this method
   @GetMapping("/me")
   public ResponseEntity<User> getUserME() {
@@ -80,6 +81,7 @@ public class UserController {
       return ResponseEntity.ok(user);
   }
   
+  @Operation(summary = "To Register a new User in the system. If the email Id already exists in the system the Register will fail")
   @PostMapping("/register")
   public ResponseEntity<String> registerUser(@RequestBody User user) {
 	  
@@ -95,6 +97,7 @@ public class UserController {
 	  }  
   }
   
+  @Operation(summary =" Call this API to login a user. In the body pass in the email and password only")
   @PostMapping("/login")
   public ResponseEntity<String> loginUser(@RequestBody User user) {
 	  
@@ -111,6 +114,7 @@ public class UserController {
       } 
   }
   
+  @Operation(summary ="Logs out the current logged in user")
   @PostMapping("/logout")
   public ResponseEntity<String> logoutUser() {
       httpSession.invalidate();
@@ -131,7 +135,7 @@ public class UserController {
   }
   
   //TODO SAMEUSER Auth
-  @Operation(summary = "Update a user given User's id, the whole User object needs to be passed in the request")
+  @Operation(summary = "Update a User, given the User's id, the whole User object needs to be passed in the request")
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
 	  
@@ -173,7 +177,7 @@ public class UserController {
   }
   
   //TODO give an end point for Open Orders, Shipped Orders and Delivered orders with SORT option
-  @Operation(summary = "Get the Logged in User's All Orders")
+  @Operation(summary = "Get the Logged in User's  Orders, filtered by the OrderStatus requested")
   @AuthNCheck // Apply the AuthAspect to this method
   //TODO SAMEUSER auth check
   @GetMapping("/{userId}/orders/status/{status}")
@@ -183,18 +187,13 @@ public class UserController {
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
-  @PostMapping("/{userId}/orders")
-  public Order addOrderForUser(@PathVariable Long userId, @RequestBody Order order) {
-      // Retrieve the user (you might need a UserService for this)
-      User user = userService.findUserById(userId);
-
-      // Add the order for the user
-      return orderService.addOrder(user, order);
+  @Operation(summary = "Check out the shopping cart and creates an order and return the Order Object")
+  @PostMapping("/{userId}/checkOut")
+  public Order checkOutCart(@PathVariable Long userId, @RequestBody Order order) throws WorkflowException {
+	return userService.checkOut(userId);
   }
   
   //TODO get user by user email (user name)
-  //TODO get user base data or include other related entities like Address, Shopping Cart etc.
-  //TODO get user by First name or Last Name - Make it Paginated and Fuzzy search
   //TODO add/update a PaymentInfo for a user  users/{id}/payment-info  -- need same user check
   //TODO or do an add or Update Payment info on ME/payment-info (Create and Update). 
 }
