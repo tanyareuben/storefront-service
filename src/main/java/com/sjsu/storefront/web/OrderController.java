@@ -25,9 +25,9 @@ public class OrderController {
     private OrderService orderService;
 	
 	//TODO add SAMEUSER check
-	@GetMapping("/user/{userId}")
-    public List<Order> getAllOrdersForUser(@PathVariable Long userId) {
-        return orderService.getAllOrdersForUser(userId);
+	@GetMapping("/user/{id}")
+    public List<Order> getAllOrdersForUser(@PathVariable Long id) {
+        return orderService.getAllOrdersForUser(id);
     }
 	
 	//TODO add SAMEUSER check or ADMIN

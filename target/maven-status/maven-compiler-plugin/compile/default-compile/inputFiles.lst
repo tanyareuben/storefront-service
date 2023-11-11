@@ -4,10 +4,13 @@
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/UserServiceImpl.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/AddressRepository.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/UserService.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/ProductService.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/AuthNCheck.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/DuplicateResourceException.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Image.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/ProductCategory.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/StorefrontApplication.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/ProductCategoryRepository.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/ImageRepository.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/ShoppingCart.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/GlobalExceptionHandler.java
@@ -15,10 +18,11 @@
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/PaymentInfoController.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/OrderController.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/UserSession.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/ProductCategoryService.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/AuthZCheck.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Order.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/aspect/AuthAspect.java
-/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/ProductCategory.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/ProductCategoryServiceImpl.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/ShoppingCartController.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/aspect/AspectConfig.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/User.java
@@ -37,6 +41,7 @@
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/OrderStatus.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/PaymentInfoRepository.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/OrderServiceImpl.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/ProductServiceImpl.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/ProductRepository.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/ResourceNotFoundException.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/WorkflowException.java

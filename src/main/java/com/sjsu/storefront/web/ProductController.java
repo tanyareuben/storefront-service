@@ -3,84 +3,66 @@ package com.sjsu.storefront.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
 import com.sjsu.storefront.common.AuthZCheck;
+import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
-import com.sjsu.storefront.data.respository.ImageRepository;
+import com.sjsu.storefront.data.model.ProductCategory;
 import com.sjsu.storefront.data.respository.ProductRepository;
+import com.sjsu.storefront.web.services.ProductCategoryService;
+import com.sjsu.storefront.web.services.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
 	  @Autowired
-	  ProductRepository productRepository;
+	  ProductService productService;
 	  
 	  @Autowired
-	  private ImageRepository imageRepository;
-	  
-	  @Autowired
-	  private ObjectMapper objectMapper;
-	  
-	  @Operation(summary = "Get all items in the system")
+	  ProductCategoryService productCategoryService;
+	    
+	  @Operation(summary = "Get all Products in the system")
 	  @GetMapping
 	  public List<Product> getAllItems() {
-	      return (List<Product>) productRepository.findAll();
+	      return productService.getAllProducts();
 	  }
-	
-	  @Operation(summary = "Get a Item by id")
+
+
+	@Operation(summary = "Get a Product Details by id")
 	  @GetMapping("/{id}")
-	  public ResponseEntity<Product> getItemById(@PathVariable Long id) {
-	      Product item = productRepository.findById(id).orElse(null);
-	      if (item == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-	      return ResponseEntity.ok(item);
+	  public Product getItemById(@PathVariable Long id) throws ResourceNotFoundException {
+		 return productService.getProduct(id);
 	  }
 	  
-	  @Operation(summary = "Create a NEW Item in the system")
+	  @Operation(summary = "Create a NEW Product in the system")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PostMapping
-	  public ResponseEntity<String> createItem(@RequestBody Product item) {
-
-    	  List<Image> images = item.getImages();
-	      imageRepository.saveAll(images);
-	      item.setImages(images);
-	      productRepository.save(item);
+	  public ResponseEntity<String> createProduct(@RequestBody Product item) {
+		  productService.createProduct(item);
 	      return ResponseEntity.created(null).body("Item created successfully");
-	      
 	  }
 	
 	  @Operation(summary = "Add a new Image to the Product")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PostMapping("{id}/images")
-	  public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody Image image) {
+	  public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody Image image) throws Exception {
 
-		  Product existingItem = productRepository.findById(id).orElse(null);
-	      if (existingItem == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-	      existingItem.addImage(image);
-	      productRepository.save(existingItem);
+		  productService.addImage(id, image);
 	      return ResponseEntity.ok("Images Successfully added");
 	      
 	  }
@@ -88,14 +70,9 @@ public class ProductController {
 	  @Operation(summary = "Delete an Image from the Product, given image ID")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @DeleteMapping("{id}/images/{imgId}")
-	  public ResponseEntity<String> deleteImage(@PathVariable Long id,@PathVariable Long imgId, @RequestBody Image image) {
+	  public ResponseEntity<String> deleteImage(@PathVariable Long id,@PathVariable Long imgId, @RequestBody Image image) throws ResourceNotFoundException {
 
-		  Product existingItem = productRepository.findById(id).orElse(null);
-	      if (existingItem == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-	      existingItem.deleteImage(imgId);
-	      productRepository.save(existingItem);
+		  productService.deleteImage(id,imgId);
 	      return ResponseEntity.ok("Images Successfully DELETED");
 	      
 	  }
@@ -103,58 +80,45 @@ public class ProductController {
 	  @Operation(summary = "Delete an item in the system given Item's id")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @DeleteMapping("/{id}")
-	  public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+	  public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 
-	      productRepository.deleteById(id);
+		  productService.deleteProduct(id);
 	      return ResponseEntity.noContent().build();
 	  }
 	  
-	  @Operation(summary = "Update an item given Item's id, the whole Item object needs to be passed in the request")
+	  @Operation(summary = "Update a Product given Product id, the whole Product object needs to be passed in the request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PutMapping("/{id}")
-	  public ResponseEntity<Product> updateItem(@PathVariable Long id, @RequestBody Product item) {
-	      Product existingItem = productRepository.findById(id).orElse(null);
-	      if (existingItem == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-	      existingItem.set(item);
-	      productRepository.save(existingItem);
-	      return ResponseEntity.ok(existingItem);
-	  }
-	  
-	  
-	  @Operation(summary = "Upadate an Item, given partial data in the Request")
-	  @AuthZCheck // Apply the AuthAspect to this method
-	  @PatchMapping("/{id}")
-	  public ResponseEntity<Product> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
-	      Product item = productRepository.findById(id).orElse(null);
-	      if (item == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-
-	   // Apply the JSON patch to the user object
-	  	try {
-	  		
-	      JsonNode itemNode = objectMapper.valueToTree(item);
-	      JsonNode patchedNode = patch.apply(itemNode);
-	      Product patchedItem;
-	      patchedItem = objectMapper.treeToValue(patchedNode, Product.class);
-
-	      // Save the updated user object to the database
-	      productRepository.save(patchedItem);
-
-	      // Return the updated user object
-	      return ResponseEntity.ok(patchedItem);
+	  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product item) {
 	      
-	  	} catch (JsonProcessingException | IllegalArgumentException e) {
-	  		e.printStackTrace();
-	  		return ResponseEntity.badRequest().build();
-		} catch (JsonPatchException e) {
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
-		} 
+		  try {
+			  Product updatedProduct = productService.updateProduct(id, item);
+			  return ResponseEntity.ok(updatedProduct);
+		  }
+		  catch(ResourceNotFoundException nfe) {
+			  return ResponseEntity.notFound().build();
+		  }
 	  }
 	  
+	  @Operation(summary = "Eg: Serach for a Product 'computer' like /products/search/computer")
+	  @GetMapping("/search/{searchTerm}")
+	  public List<Product> getProductsByName(@PathVariable String searchTerm) {
+	      return productService.findProductsByName(searchTerm);
+	  }
+
+	  @Operation(summary = "Eg: Serach for a Product 'computer' like /products/search?searchTerm=computer")
+	  @GetMapping("/search")
+	  public List<Product> getProductsByNameQueryParam(@RequestParam String searchTerm) {
+	      return productService.findProductsByName(searchTerm);
+	  }
+	  
+	  @GetMapping("/byCategory/{categoryId}")
+	  public List<Product> getProductsByCategory(@PathVariable Long categoryId) throws NotFoundException {
+	      ProductCategory category = productCategoryService.findById(categoryId); // You need to implement this method
+	      return productService.findProductsByCategory(category);
+	  }
+	  
+	  	  
 	  //TODO get all products - Paginate
 	  
 	  //TODO get all products in a category - Paginate

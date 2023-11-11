@@ -62,10 +62,10 @@ public class ShoppingCartController {
 
 	  }
 	  
+	  //TODO add auth check SameUser
 	  @Operation(summary = "Update a cart Items given Cart's id, the List of CartItems needs to be passed in the request")
 	  @DeleteMapping("/{id}/items/{itemId}")
 	  public ResponseEntity<String> deleteCartItem(@PathVariable Long id, @RequestBody Long itemId) {
-		//TODO add auth check SameUser
 	      ShoppingCart existingCart = shoppingCartRepository.findById(id).orElse(null);
 	      if (existingCart == null) {
 	          return ResponseEntity.notFound().build();
@@ -80,38 +80,4 @@ public class ShoppingCartController {
 			}
 
 	  }
-	  
-	  @Operation(summary = "Upadate an Cart, given partial data in the Request")
-	  @PatchMapping("/{id}")
-	  public ResponseEntity<ShoppingCart> patchCart(@PathVariable Long id, @RequestBody JsonPatch patch) {
-		  //TODO add Auth check SamdUser
-	      ShoppingCart shoppingCart = shoppingCartRepository.findById(id).orElse(null);
-	      if (shoppingCart == null) {
-	          return ResponseEntity.notFound().build();
-	      }
-
-	   // Apply the JSON patch to the user object
-	  	try {
-	  		
-	      JsonNode cartNode = objectMapper.valueToTree(shoppingCart);
-	      JsonNode patchedNode = patch.apply(cartNode);
-	      ShoppingCart patchedShoppingCart;
-	      patchedShoppingCart = objectMapper.treeToValue(patchedNode, ShoppingCart.class);
-
-	      // Save the updated user object to the database
-	      shoppingCartRepository.save(patchedShoppingCart);
-
-	      // Return the updated user object
-	      return ResponseEntity.ok(patchedShoppingCart);
-	      
-	  	} catch (JsonProcessingException | IllegalArgumentException e) {
-	  		e.printStackTrace();
-	  		return ResponseEntity.badRequest().build();
-		} catch (JsonPatchException e) {
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
-		} 
-	  }
-	
-	
 }

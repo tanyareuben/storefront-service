@@ -20,11 +20,11 @@ public class PaymentInfoController {
     @Autowired
     private PaymentInfoService paymentInfoService;
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<PaymentInfo> getPaymentInfoByUserId(@PathVariable Long userId) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<PaymentInfo> getPaymentInfoByUserId(@PathVariable Long id) {
         
         try {
-            PaymentInfo paymentInfo = paymentInfoService.getPaymentInfoByUserId(userId);
+            PaymentInfo paymentInfo = paymentInfoService.getPaymentInfoByUserId(id);
             return (ResponseEntity.ok(paymentInfo));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();

@@ -163,7 +163,7 @@ public class UserController {
   
   @Operation(summary = "Get the Current User's Shopping Cart")
   @AuthNCheck // Apply the AuthAspect to this method
-  @GetMapping("/cart")
+  @GetMapping("/{id}/cart")
   public ResponseEntity<ShoppingCart> getUserShoppingCart() {
       try {
 		  UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
@@ -180,17 +180,17 @@ public class UserController {
   @Operation(summary = "Get the Logged in User's  Orders, filtered by the OrderStatus requested")
   @AuthNCheck // Apply the AuthAspect to this method
   //TODO SAMEUSER auth check
-  @GetMapping("/{userId}/orders/status/{status}")
-  public List<Order> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
+  @GetMapping("/{id}/orders/status/{status}")
+  public List<Order> getOrdersByStatusForUser(@PathVariable Long id, @PathVariable OrderStatus status) {
       // Retrieve the user (you might need a UserService for this)
-      User user = userService.findUserById(userId);
+      User user = userService.findUserById(id);
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
   @Operation(summary = "Check out the shopping cart and creates an order and return the Order Object")
-  @PostMapping("/{userId}/checkOut")
-  public Order checkOutCart(@PathVariable Long userId, @RequestBody Order order) throws WorkflowException {
-	return userService.checkOut(userId);
+  @PostMapping("/{id}/cart/checkOut")
+  public Order checkOutCart(@PathVariable Long id, @RequestBody Order order) throws WorkflowException {
+	return userService.checkOut(id);
   }
   
   //TODO get user by user email (user name)
