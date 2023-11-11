@@ -3,6 +3,8 @@ package com.sjsu.storefront.web;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,8 @@ public class UserController {
   
   @Autowired
   private HttpSession httpSession;
+  
+  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
  
   @Operation(summary = "Get all users in the system")
   @AuthZCheck // Apply the AuthAspect to this method
@@ -84,6 +88,8 @@ public class UserController {
   
   @PostMapping("/register")
   public ResponseEntity<String> registerUser(@RequestBody User user) {
+	  
+	  logger.info("Received a registration request with User: {}", user);
       Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
       if (existingUser.isPresent()) {
           return ResponseEntity.badRequest().body("Username already exists");
@@ -95,11 +101,13 @@ public class UserController {
       shoppingCartRepository.save(cart);
       userRepository.save(user);
 
+	  logger.info("Registration request SUCCESS");
       return ResponseEntity.ok("User registered successfully");
   }
   
   @PostMapping("/login")
   public ResponseEntity<String> loginUser(@RequestBody User user) {
+	  
       Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
       if (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())) {
     	// Create a UserSession object
@@ -140,6 +148,8 @@ public class UserController {
   @Operation(summary = "Update a user given User's id, the whole User object needs to be passed in the request")
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+	  
+	  
       User existingUser = userRepository.findById(id).orElse(null);
       if (existingUser == null) {
           return ResponseEntity.notFound().build();

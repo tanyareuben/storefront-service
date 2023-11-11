@@ -32,8 +32,6 @@ public class User {
 	private String email; //email is the userId
 	
 	private String password;
-	
-	@Column(unique = true)
 	private String phone;
 
     @Enumerated(EnumType.STRING)
