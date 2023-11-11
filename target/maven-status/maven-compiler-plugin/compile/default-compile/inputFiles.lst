@@ -1,8 +1,11 @@
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Product.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/UserController.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/OrderService.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/UserServiceImpl.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/AddressRepository.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/UserService.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/AuthNCheck.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/DuplicateResourceException.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Image.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/StorefrontApplication.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/ImageRepository.java
@@ -26,8 +29,10 @@
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/ProductController.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/CartItem.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/services/PaymentInfoService.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/web/WebConfig.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/UnauthorizedException.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/CartItemRepository.java
+/Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/NotAuthenticated.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/model/Address.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/common/OrderStatus.java
 /Users/reuben/dev/tanya/SJSU/storefront-service/src/main/java/com/sjsu/storefront/data/respository/PaymentInfoRepository.java

@@ -8,6 +8,8 @@ import com.sjsu.storefront.common.OrderStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +31,9 @@ public class Order {
 	private double totalWeight; 
 	private double totalProductCost;
 	private Date orderDate;
-	private OrderStatus status;
+	
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 	
 	
  // Define the relationship with Items
@@ -65,7 +69,7 @@ public class Order {
 		this.totalWeight = totalWeight;
 		this.totalProductCost = totalProductCost;
 		this.orderDate = orderDate;
-		this.status = status;
+		this.orderStatus = status;
 		this.items = items;
 		this.user = user;
 		this.shippingAddress = shippingAddress;
@@ -150,18 +154,18 @@ public class Order {
 	}
 
 	public OrderStatus getStatus() {
-		return status;
+		return orderStatus;
 	}
 
 	public void setStatus(OrderStatus status) {
-		this.status = status;
+		this.orderStatus = status;
 	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", totalCost=" + totalCost + ", totalShipping=" + totalShipping + ", totalWeight="
 				+ totalWeight + ", totalProductCost=" + totalProductCost + ", orderDate=" + orderDate + ", status="
-				+ status + ", items=" + items + ", user=" + user + ", shippingAddress=" + shippingAddress
+				+ orderStatus + ", items=" + items + ", user=" + user + ", shippingAddress=" + shippingAddress
 				+ ", paymentInfo=" + paymentInfo + "]";
 	}
 

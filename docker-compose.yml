@@ -15,11 +15,11 @@ services:
       - ./mysql-data:/var/lib/mysql
       - ./mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
       
-  storefront-app:
-    build:
-      context: .
-    image: storefront-app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql   
+#  storefront-app:
+#    build:
+#      context: .
+#    image: storefront-app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - mysql   

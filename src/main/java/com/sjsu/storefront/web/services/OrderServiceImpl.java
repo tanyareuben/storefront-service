@@ -76,4 +76,15 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.updateStatus(orderId, status);
     }
 
+	@Override
+	public List<Order> getOrdersByStatusForUser(User user, OrderStatus orderStatus) {
+        return orderRepository.findByUserAndOrderStatus(user, orderStatus);
+    }
+
+	@Override
+    public Order addOrder(User user, Order order) {
+        order.setUser(user);
+        return orderRepository.save(order);
+    }
+
 }

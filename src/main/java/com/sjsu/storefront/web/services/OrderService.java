@@ -16,4 +16,6 @@ public interface OrderService {
 	public Long createOder(User user, ShoppingCart cart);
 	public Long cancelOrder(Long id) throws ResourceNotFoundException, WorkflowException;
 	public void updateOrderStatus(Long orderId, OrderStatus status);
+	public List<Order> getOrdersByStatusForUser(User user, OrderStatus orderStatus);
+	public Order addOrder(User user, Order order);
 }

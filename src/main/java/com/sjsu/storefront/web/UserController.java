@@ -1,7 +1,6 @@
 package com.sjsu.storefront.web;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,35 +16,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
 import com.sjsu.storefront.common.AuthNCheck;
 import com.sjsu.storefront.common.AuthZCheck;
+import com.sjsu.storefront.common.DuplicateResourceException;
+import com.sjsu.storefront.common.NotAuthenticated;
+import com.sjsu.storefront.common.OrderStatus;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
-import com.sjsu.storefront.data.respository.ShoppingCartRepository;
-import com.sjsu.storefront.data.respository.UserRepository;
+import com.sjsu.storefront.web.services.OrderService;
+import com.sjsu.storefront.web.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+	
   @Autowired
-  UserRepository userRepository;
-  
-  
-  @Autowired
-  ShoppingCartRepository shoppingCartRepository;
+  private UserService userService;
   
   @Autowired
-  private ObjectMapper objectMapper;
+  private OrderService orderService;
   
   @Autowired
   private HttpSession httpSession;
@@ -57,14 +51,14 @@ public class UserController {
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping
   public List<User> getAllUsers() {
-      return (List<User>) userRepository.findAll();
+      return userService.getAllUsers();
   }
   
   @Operation(summary = "Get a User by id")
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
-      User user = userRepository.findById(id).orElse(null);
+      User user = userService.findUserById(id);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
@@ -79,7 +73,7 @@ public class UserController {
 
       Long userId = userSession.getUserId();
       
-      User user = userRepository.findById(userId).orElse(null);
+      User user = userService.findUserById(userId);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
@@ -90,39 +84,31 @@ public class UserController {
   public ResponseEntity<String> registerUser(@RequestBody User user) {
 	  
 	  logger.info("Received a registration request with User: {}", user);
-      Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-      if (existingUser.isPresent()) {
+	  try {
+		  userService.createUser(user);
+		  logger.info("Registration request SUCCESS");
+	      return ResponseEntity.ok("User registered successfully");
+	  }
+	  catch(DuplicateResourceException de) {
+		  logger.info("{} already exists", user.getEmail());
           return ResponseEntity.badRequest().body("Username already exists");
-      }
-
-      // You might want to perform password hashing here before saving
-      //TODO do the saves in the same transaction
-      ShoppingCart cart = new ShoppingCart();
-      shoppingCartRepository.save(cart);
-      userRepository.save(user);
-
-	  logger.info("Registration request SUCCESS");
-      return ResponseEntity.ok("User registered successfully");
+	  }  
   }
   
   @PostMapping("/login")
   public ResponseEntity<String> loginUser(@RequestBody User user) {
 	  
-      Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-      if (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())) {
-    	// Create a UserSession object
-          UserSession userSession = new UserSession();
-          userSession.setUserId(existingUser.get().getId());
-          userSession.setEmail(existingUser.get().getEmail());
-          userSession.setUserType(existingUser.get().getUserType());
+	  try {
+		  UserSession userSession = userService.login(user.getEmail(), user.getPassword());
 
-          // Store UserSession in HttpSession
+		  // Store UserSession in HttpSession
           httpSession.setAttribute("userSession", userSession);
 
           return ResponseEntity.ok("Login successful");
-      } else {
+	  }
+	  catch(NotAuthenticated ne) {
           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-      }
+      } 
   }
   
   @PostMapping("/logout")
@@ -134,105 +120,76 @@ public class UserController {
   @Operation(summary = "Delete a user in the system given User's id")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-	  //TODO do everything in a Transaction
-	  User existingUser = userRepository.findById(id).orElse(null);
-	  if(existingUser == null) {
-		  return ResponseEntity.notFound().build();
+	  
+	  try {
+		  userService.deleteUser(id);
+	      return ResponseEntity.noContent().build();
 	  }
-	  ShoppingCart cart = existingUser.getCart();
-	  shoppingCartRepository.delete(cart);
-      userRepository.deleteById(id);
-      return ResponseEntity.noContent().build();
+	  catch(EntityNotFoundException enf){
+		  return ResponseEntity.notFound().build();
+	  }  
   }
   
+  //TODO SAMEUSER Auth
   @Operation(summary = "Update a user given User's id, the whole User object needs to be passed in the request")
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
 	  
-	  
-      User existingUser = userRepository.findById(id).orElse(null);
-      if (existingUser == null) {
-          return ResponseEntity.notFound().build();
+	  try {
+		  User updatedUser = userService.updateUser(id, user);
+	      return ResponseEntity.ok(updatedUser);
+	  }
+      catch(EntityNotFoundException enf) {
+    	  return ResponseEntity.notFound().build();
       }
-      existingUser.set(user);
-      userRepository.save(existingUser);
-      return ResponseEntity.ok(existingUser);
   }
   
+  //TODO SameUser Auth
   @Operation(summary = "Update a user's Address given User's id, the whole Address object needs to be passed in the request")
   @PutMapping("/{id}/address")
   public ResponseEntity<String> updateUserAddress(@PathVariable Long id, @RequestBody Address address) {
-	  //TODO SameUser Auth
-      User existingUser = userRepository.findById(id).orElse(null);
-      if (existingUser == null) {
-          return ResponseEntity.notFound().build();
+	  try {
+		  userService.updateAddress(id, address);
+	      return ResponseEntity.ok("Address Updated Successfully");
+	  }
+      catch(EntityNotFoundException enf) {
+    	  return ResponseEntity.notFound().build();
       }
-      existingUser.setAddress(address);
-      userRepository.save(existingUser);
-      return ResponseEntity.ok("Address Updated Successfully");
   }
   
-  @Operation(summary = "Upadate a User, given partial data in the Request")
-  //TODO AuthChecks
-  @PatchMapping("/{id}")
-  public ResponseEntity<User> patchUser(@PathVariable Long id, @RequestBody JsonPatch patch) {
-      User user = userRepository.findById(id).orElse(null);
-      if (user == null) {
-          return ResponseEntity.notFound().build();
-      }
-
-   // Apply the JSON patch to the user object
-  	try {
-  		
-      JsonNode userNode = objectMapper.valueToTree(user);
-      JsonNode patchedNode = patch.apply(userNode);
-      User patchedUser;
-      patchedUser = objectMapper.treeToValue(patchedNode, User.class);
-
-      // Save the updated user object to the database
-      userRepository.save(patchedUser);
-
-      // Return the updated user object
-      return ResponseEntity.ok(patchedUser);
-      
-  	} catch (JsonProcessingException | IllegalArgumentException e) {
-  		e.printStackTrace();
-  		return ResponseEntity.badRequest().build();
-	} catch (JsonPatchException e) {
-		e.printStackTrace();
-		return ResponseEntity.badRequest().build();
-	} 
-  }
-  
-  @Operation(summary = "Get the Logged in User's Shopping Cart")
+  @Operation(summary = "Get the Current User's Shopping Cart")
   @AuthNCheck // Apply the AuthAspect to this method
   @GetMapping("/cart")
   public ResponseEntity<ShoppingCart> getUserShoppingCart() {
-      UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
-
-      Long userId = userSession.getUserId();
-      
-      User user = userRepository.findById(userId).orElse(null);
-      if (user == null) {
-          return ResponseEntity.notFound().build();
+      try {
+		  UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
+	      Long userId = userSession.getUserId();
+	      ShoppingCart cart = userService.getUserCart(userId);
+	      return ResponseEntity.ok(cart);
       }
-      return ResponseEntity.ok(user.getCart());
+      catch(EntityNotFoundException enf) {
+    	  return ResponseEntity.notFound().build();
+      }
   }
   
   //TODO give an end point for Open Orders, Shipped Orders and Delivered orders with SORT option
   @Operation(summary = "Get the Logged in User's All Orders")
   @AuthNCheck // Apply the AuthAspect to this method
-  @GetMapping("/orders")
-  public ResponseEntity<List<Order>> getUserOrders() {
-      UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
+  //TODO SAMEUSER auth check
+  @GetMapping("/{userId}/orders/status/{status}")
+  public List<Order> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
+      // Retrieve the user (you might need a UserService for this)
+      User user = userService.findUserById(userId);
+      return orderService.getOrdersByStatusForUser(user, status);
+  }
+  
+  @PostMapping("/{userId}/orders")
+  public Order addOrderForUser(@PathVariable Long userId, @RequestBody Order order) {
+      // Retrieve the user (you might need a UserService for this)
+      User user = userService.findUserById(userId);
 
-      Long userId = userSession.getUserId();
-      
-      User user = userRepository.findById(userId).orElse(null);
-      if (user == null) {
-          return ResponseEntity.notFound().build();
-      }
-      return ResponseEntity.ok(user.getOrders());
+      // Add the order for the user
+      return orderService.addOrder(user, order);
   }
   
   //TODO get user by user email (user name)
