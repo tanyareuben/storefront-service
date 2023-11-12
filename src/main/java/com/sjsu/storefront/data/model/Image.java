@@ -1,6 +1,7 @@
 package com.sjsu.storefront.data.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,9 +17,11 @@ public class Image {
 	private long id;
 	private String imageLink;
 	
-	@ManyToOne
-    @JoinColumn(name = "item_id")
-    private Product item;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id")
+	private Product product;
+
 	
 	public Image()
 	{
@@ -43,18 +46,8 @@ public class Image {
 		return id;
 	}
 
-	public Product getItem() {
-		return item;
-	}
-
-	public void setItem(Product item) {
-		this.item = item;
-	}
-
 	@Override
 	public String toString() {
 		return "Image [id=" + id + ", imageLink=" + imageLink + "]";
 	}
-	
-	
 }

@@ -2,10 +2,10 @@ package com.sjsu.storefront.web.services;
 
 import java.util.List;
 
+import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
-import com.sjsu.storefront.data.model.ProductCategory;
 
 public interface ProductService {
 	
@@ -21,7 +21,7 @@ public interface ProductService {
 
 	public void addImage(Long id, Image image) throws Exception;
 
-	public void createProduct(Product item);
+	public Product createProduct(Product item);
 
 	public List<Product> getAllProducts();
 

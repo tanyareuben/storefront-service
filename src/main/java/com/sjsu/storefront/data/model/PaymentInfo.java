@@ -21,10 +21,6 @@ public class PaymentInfo {
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     private Address billingAddress;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_info_id", referencedColumnName = "id")
-    private PaymentInfo paymentInfo;
-    
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -40,12 +36,11 @@ public class PaymentInfo {
     	
     }
 
-	public PaymentInfo(Long id, Address billingAddress, PaymentInfo paymentInfo, String cardNumber, String expiry,
+	public PaymentInfo(Long id, Address billingAddress, String cardNumber, String expiry,
 			String cVV, String nickName, CardType cardType) {
 		super();
 		this.id = id;
 		this.billingAddress = billingAddress;
-		this.paymentInfo = paymentInfo;
 		this.cardNumber = cardNumber;
 		this.expiry = expiry;
 		CVV = cVV;
@@ -91,14 +86,6 @@ public class PaymentInfo {
 		return id;
 	}
 
-	public PaymentInfo getPaymentInfo() {
-		return paymentInfo;
-	}
-
-	public void setPaymentInfo(PaymentInfo paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
-
 	public String getNickName() {
 		return nickName;
 	}
@@ -117,8 +104,7 @@ public class PaymentInfo {
 
 	@Override
 	public String toString() {
-		return "PaymentInfo [id=" + id + ", billingAddress=" + billingAddress + ", paymentInfo=" + paymentInfo
-				+ ", cardNumber=" + cardNumber + ", expiry=" + expiry + ", CVV=" + CVV + ", nickName=" + nickName
+		return "PaymentInfo [id=" + id + ", billingAddress=" + billingAddress + ", cardNumber=" + cardNumber + ", expiry=" + expiry + ", CVV=" + CVV + ", nickName=" + nickName
 				+ ", cardType=" + cardType + "]";
 	}
    

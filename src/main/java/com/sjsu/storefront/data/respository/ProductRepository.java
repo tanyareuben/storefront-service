@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.data.model.Product;
-import com.sjsu.storefront.data.model.ProductCategory;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -17,5 +17,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     public List<Product> findByProductNameContaining(@Param("searchTerm") String searchTerm);
     
     
-    public List<Product> findByCategory(ProductCategory category);
+    public List<Product> findByproductCategory(ProductCategory productCategory);
 }

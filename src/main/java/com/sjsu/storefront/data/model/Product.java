@@ -1,20 +1,22 @@
 package com.sjsu.storefront.data.model;
 
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.CascadeType;
+import com.sjsu.storefront.common.ProductCategory;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "items")
+@Table(name = "products")
 public class Product {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,21 +27,19 @@ public class Product {
 	private double weight;
 	private int quantityInStock;
 	
-	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false)
-	private ProductCategory category;
+	@Enumerated(EnumType.STRING)  // This annotation specifies that the enum values should be stored as strings in the database
+	private ProductCategory productCategory;
 	
     // Define the one-to-many relationship
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Image> images;
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Image> images;
 	
-	public Product()
-	{
+	public Product(){
 		
 	}
 
 	public Product(long id, String name, String description, double price, double weight, int quantityInStock,
-			ProductCategory category, List<Image> images) {
+			ProductCategory productCategory, Set<Image> images) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -47,11 +47,9 @@ public class Product {
 		this.price = price;
 		this.weight = weight;
 		this.quantityInStock = quantityInStock;
-		this.category = category;
+		this.productCategory = productCategory;
 		this.images = images;
 	}
-
-
 
 	//copy another Product object into this user
 	public void set(Product item) {
@@ -60,7 +58,7 @@ public class Product {
 		this.price = item.price;
 		this.weight = item.weight;
 		this.quantityInStock = item.quantityInStock; 
-		this.category = item.category;
+		this.productCategory = item.productCategory;
 		this.images = item.images;
 	}
 	
@@ -75,7 +73,7 @@ public class Product {
 			}
 		}
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -112,27 +110,35 @@ public class Product {
 		return quantityInStock;
 	}
 
-	public void setQuantityInStock(int quantityInStore) {
-		this.quantityInStock = quantityInStore;
+	public void setQuantityInStock(int quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public ProductCategory getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(ProductCategory productCategory) {
+		this.productCategory = productCategory;
+	}
+
+	public Set<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<Image> images) {
+		this.images = images;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", weight="
-				+ weight + ", quantityInStock=" + quantityInStock + "]";
-	} 
-
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
+				+ ", weight=" + weight + ", quantityInStock=" + quantityInStock + ", productCategory=" + productCategory + ", images="
+				+ images + "]";
+	}
 	
 }
