@@ -28,11 +28,14 @@ public class Image {
 		
 	}
 	
-	public Image(long id, String imageLink) {
+	public Image(long id, String imageLink, Product product) {
 		super();
 		this.id = id;
 		this.imageLink = imageLink;
+		this.product = product;
 	}
+
+
 
 	public String getImageLink() {
 		return imageLink;
@@ -46,8 +49,17 @@ public class Image {
 		return id;
 	}
 
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
 	@Override
 	public String toString() {
-		return "Image [id=" + id + ", imageLink=" + imageLink + "]";
+		return "Image [id=" + id + ", imageLink=" + imageLink + ", product=" + product + "]";
 	}
+
 }

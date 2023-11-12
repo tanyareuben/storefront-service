@@ -1,12 +1,15 @@
 package com.sjsu.storefront.web.services;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
+import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
@@ -134,7 +138,47 @@ public class ProductServiceTest {
         assertTrue(allProducts.contains(spinach));
         assertTrue(allProducts.contains(milk));
     }
-
     
+//    @Test
+//    public void testAddImage() {
+//        // Create a product in the database
+//        Product product = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
+//
+//        // Create an image
+//        Image image = new Image();
+//        image.setImageLink("https://example.com/apple-image.jpg");
+//
+//        // Actual service method invocation
+//        assertDoesNotThrow(() -> productService.addImage(product.getId(), image));
+//
+//        // Retrieve the product from the database to verify the image is added
+//        Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
+//
+//        // Assertions
+//        assertNotNull(updatedProduct);
+//        assertNotNull(updatedProduct.getImages());
+//        assertEquals(1, updatedProduct.getImages().size());
+//        assertTrue(updatedProduct.getImages().contains(image));
+//    }
+    
+    @Test
+    public void testDeleteImage() {
+        // Create a product with an image in the database
+        Product product = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
+        Image image = new Image();
+        image.setImageLink("https://example.com/apple-image.jpg");
+        assertDoesNotThrow(() -> productService.addImage(product.getId(), image));
+
+        // Actual service method invocation
+        assertDoesNotThrow(() -> productService.deleteImage(product.getId(), image.getId()));
+
+        // Retrieve the product from the database to verify the image is deleted
+        Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
+
+        // Assertions
+        assertNotNull(updatedProduct);
+        assertNotNull(updatedProduct.getImages());
+        assertTrue(updatedProduct.getImages().isEmpty());
+    }
 }
 

@@ -1,7 +1,7 @@
 package com.sjsu.storefront.data.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.sjsu.storefront.common.ProductCategory;
 
@@ -32,14 +32,14 @@ public class Product {
 	
     // Define the one-to-many relationship
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Image> images;
+    private List<Image> images = new ArrayList<Image>();
 	
 	public Product(){
 		
 	}
 
 	public Product(long id, String name, String description, double price, double weight, int quantityInStock,
-			ProductCategory productCategory, Set<Image> images) {
+			ProductCategory productCategory, List<Image> images) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -70,6 +70,8 @@ public class Product {
 		for(Image img : images) {
 			if(img.getId() == id) {
 				images.remove(img);
+				img.setProduct(null);
+				break;
 			}
 		}
 	}
@@ -122,11 +124,11 @@ public class Product {
 		this.productCategory = productCategory;
 	}
 
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Set<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 

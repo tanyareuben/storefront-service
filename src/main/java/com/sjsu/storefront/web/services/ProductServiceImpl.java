@@ -75,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
       if (existingProduct == null) {
           throw new ResourceNotFoundException("Product not found");
       }
+      image.setProduct(existingProduct);
       existingProduct.addImage(image);
       productRepository.save(existingProduct);
 	}
