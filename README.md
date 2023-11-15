@@ -44,8 +44,8 @@ java -version
 
 ```
 
-If the Java version displayed is less than 17, please download the JAVA 17 or later from the JAVA download site
-Make sure you download the installable for ARM (for Mac Silicon) or for Intel Mac
+If the Java version displayed is less than 17, please download the JAVA 17 or later from the [JAVA download site](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)
+Make sure you download the installable for ARM (for Mac Silicon) OR for Intel Mac
 
 Install maven if you don't have already isntall it 
 In Mac, run the following command in the terminal
