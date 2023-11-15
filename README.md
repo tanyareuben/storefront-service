@@ -1,9 +1,54 @@
 # Running the Storefront APIs
 
-You need JAVA 17 or above installed in your machine
+### MySQL:
 
-Install maven if you dont have already
-In Mac use command
+The project uses MySQL database as the backend to store the Data. There are two ways you can install MySQL locally
+
+#### 1. Using Docker:
+There is a docker compose file provided that will run the MySQL in your machine. No need to install MySQL in your machine
+But you need to have 'Docker Desktop' installed in your machine. See www.docker.com
+
+Once you have docker desktop, run the app as any other app in your machine. Once docker is running ( you can keep it running no need to shut it down), you can issue the following command in your Terminal window
+
+```
+docker compose up
+
+```
+
+This will bring up the MySQL docker image, setup the 'storefront' db for the storefront backend to connect
+
+#### 2. Downloading and Installing MySQL locally in your computer. Follow the download link below
+```
+https://dev.mysql.com/downloads/mysql/
+
+```
+You have to be careful which installable you download and install on your mac. If you have an M1 Mac dowload and install the 'macOS 13 (ARM, 64-bit), DMG Archive'. If you have an Intel based Mac, download and install the 'macOS 13 (x86, 64-bit), DMG Archive'
+Then run MySQL locally.
+
+#### Download and Run MySQL Workbench from the following location
+
+```
+https://www.mysql.com/products/workbench/
+
+```
+
+### Setting up the Storefront APIs locally in your Machine
+
+#### Setup JAVA and Maven
+
+You need JAVA 17 or above installed in your machine. Mac usually comes with JAVA.
+Check the JAVA version. On your Mac terminal, type the following
+
+```
+java -version
+
+```
+
+If the Java version displayed is less than 17, please download the JAVA 17 or later from the JAVA download site
+Make sure you download the installable for ARM (for Mac Silicon) or for Intel Mac
+
+Install maven if you don't have already isntall it 
+In Mac, run the following command in the terminal
 
 ```
 brew install mvn
@@ -18,7 +63,7 @@ git clone
 
 ```
 
-Open command terminal and chage directory to the root folder where you cloned the Repo
+Open command terminal and change directory to the root folder where you cloned the Repo
 
 Then run the following command
 
@@ -36,19 +81,8 @@ mvn wrapper:wrapper
 ```
 The above commands you need to RUN every time you sync the code from the repository to your local machine.
 
-The project uses MySQL database as the backend to store the Data. There is a docker compose file provided that will run the MySQL in your machine. No need to install MySQL in your machine
-But you need to have 'Docker Desktop' installed in your machine. See www.docker.com
 
-Once you have docker desktop, run the app as any other app in your machine. Once docker is running ( you can keep it running no need to shut it down), you can issue the following command in your Terminal window
-
-```
-docker compose up
-
-```
-
-This will bring up the MySQL docker image, setup the 'storefront' db for the storefront backend to connect
-
-Now run your SpringBoot java web applications ofr your REST APIS
+Now run your SpringBoot java web applications for your REST APIS
 
 To RUN your spring boot application, run the following command, every time you need to run the app
 
