@@ -1,5 +1,7 @@
 package com.sjsu.storefront.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+
+@JsonIgnoreProperties({"order", "cart"})
 @Entity
 public class CartItem {
     @Id

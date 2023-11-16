@@ -2,6 +2,7 @@ package com.sjsu.storefront.data.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.UserType;
 
 import jakarta.persistence.CascadeType;
@@ -18,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+@JsonIgnoreProperties({"address","cart","payment_info","orders"})
 @Entity
 @Table(name = "users")
 public class User {

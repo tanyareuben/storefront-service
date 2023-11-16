@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjsu.storefront.common.AuthZCheck;
+import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
@@ -51,11 +52,26 @@ public class ProductController {
 	public Product getItemById(@PathVariable Long id) throws ResourceNotFoundException {
 	    return productService.getProduct(id);
 	}
+	
+	@Operation(summary = "Create a NEW Product in the system")
+	@AuthZCheck // Apply the AuthAspect to this method
+	@PostMapping("/bulkadd")
+	public ResponseEntity<String> bulkAddProducts(@RequestBody List<Product> products) {
+		logger.info("Going to add a bunch of Products");
+		for(Product product : products) {
+		    try {
+				productService.createProduct(product);
+			} catch (DuplicateResourceException e) {
+				  logger.info(e.getMessage());
+			}
+		}
+	    return ResponseEntity.created(null).body("Products created successfully");			
+	}
 	  
 	@Operation(summary = "Create a NEW Product in the system")
 	@AuthZCheck // Apply the AuthAspect to this method
 	@PostMapping
-	public ResponseEntity<String> createProduct(@RequestBody Product product) {
+	public ResponseEntity<String> createProduct(@RequestBody Product product) throws DuplicateResourceException {
 	    productService.createProduct(product);
 	    return ResponseEntity.created(null).body("Product created successfully");
 	}

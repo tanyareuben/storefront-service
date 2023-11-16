@@ -1,16 +1,19 @@
 package com.sjsu.storefront.web.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
+import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.ImageRepository;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
@@ -82,9 +85,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public Product createProduct(Product product) {
-	  // Check if the category already exists
-      return productRepository.save(product);
+	public Product createProduct(Product product) throws DuplicateResourceException {
+		Optional<Product> existingProduct = productRepository.findByName(product.getName());
+		if (existingProduct.isPresent()) {
+			throw new DuplicateResourceException("Product already Exists");
+		}
+	    return productRepository.save(product);
 	}
 
 	@Transactional

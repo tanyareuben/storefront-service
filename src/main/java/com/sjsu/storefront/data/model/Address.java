@@ -1,13 +1,18 @@
 package com.sjsu.storefront.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+@JsonIgnoreProperties({"product"})
 @Entity
-@Table(name = "addresses")
+@Table(name = "user")
 public class Address {
 
     @Id
@@ -19,19 +24,26 @@ public class Address {
     private String state;
     private String zipCode;
     private String country;
-
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
 
     public Address() {
     }
 
-    public Address(String street, String city, String state, String zipCode,
-                   String country) {
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-        this.country = country;
-    }
+
+	public Address(Long id, String street, String city, String state, String zipCode, String country, User user) {
+		super();
+		this.id = id;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+		this.country = country;
+		this.user = user;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -77,10 +89,11 @@ public class Address {
 		this.country = country;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", street=" + street + ", city=" + city + ", state=" + state + ", zipCode="
-				+ zipCode + ", country=" + country + "]";
+				+ zipCode + ", country=" + country + ", user=" + user + "]";
 	}
 
 }

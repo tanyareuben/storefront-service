@@ -1,5 +1,7 @@
 package com.sjsu.storefront.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
+@JsonIgnoreProperties({"product"})
 @Entity
 @Table(name = "images")
 public class Image {

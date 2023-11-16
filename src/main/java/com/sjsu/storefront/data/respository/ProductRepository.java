@@ -1,6 +1,7 @@
 package com.sjsu.storefront.data.respository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     
     public List<Product> findByproductCategory(ProductCategory productCategory);
+
+
+	public Optional<Product> findByName(String name);
 }

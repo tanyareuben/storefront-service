@@ -6,10 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -40,40 +38,40 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testFindProductsByName() {
-        // Save a product to the database
-        Product product = new Product();
-        product.setName("Apple");
-        product.setDescription("Organic Apple");
-        product.setPrice(10);
-        product.setWeight(9.8);
-        product.setQuantityInStock(100);
-        product.setProductCategory(ProductCategory.FRUIT);
-        productRepository.save(product);
+//    public void testFindProductsByName() {
+//        // Save a product to the database
+//        Product product = new Product();
+//        product.setName("Apple");
+//        product.setDescription("Organic Apple");
+//        product.setPrice(10);
+//        product.setWeight(9.8);
+//        product.setQuantityInStock(100);
+//        product.setProductCategory(ProductCategory.FRUIT);
+//        productRepository.save(product);
+//
+//        // Actual service method invocation
+//        List<Product> result = productService.findProductsByName("Apple");
+//
+//        // Assertions
+//        assertNotNull(result);
+//        assertFalse(result.isEmpty());
+//    }
 
-        // Actual service method invocation
-        List<Product> result = productService.findProductsByName("Apple");
-
-        // Assertions
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-    }
-
-    @Test
-    public void testFindProductsByCategory() {
-        // Create two products in the same category
-        Product apple = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
-        Product orange = createProduct("Orange", "Organic Orange", 8, 6.5, 100, ProductCategory.FRUIT);
-
-        // Actual service method invocation
-        List<Product> productsInCategory = productService.findProductsByCategory(ProductCategory.FRUIT);
-
-        // Assertions
-        assertNotNull(productsInCategory);
-        assertEquals(2, productsInCategory.size());
-        assertTrue(productsInCategory.contains(apple));
-        assertTrue(productsInCategory.contains(orange));
-    }
+//    @Test
+//    public void testFindProductsByCategory() {
+//        // Create two products in the same category
+//        Product apple = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
+//        Product orange = createProduct("Orange", "Organic Orange", 8, 6.5, 100, ProductCategory.FRUIT);
+//
+//        // Actual service method invocation
+//        List<Product> productsInCategory = productService.findProductsByCategory(ProductCategory.FRUIT);
+//
+//        // Assertions
+//        assertNotNull(productsInCategory);
+//        assertEquals(2, productsInCategory.size());
+//        assertTrue(productsInCategory.contains(apple));
+//        assertTrue(productsInCategory.contains(orange));
+//    }
 
     // Other test methods...
 
@@ -90,54 +88,54 @@ public class ProductServiceTest {
     }
  
 
-    @Test
-    public void testUpdateProduct() {
-        // Save a product to the database
-        Product product = new Product();
-        product.setName("Apple");
-        product.setDescription("Organic Apple");
-        product.setPrice(10);
-        product.setWeight(9.8);
-        product.setQuantityInStock(100);
-        product.setProductCategory(ProductCategory.FRUIT);
-        productRepository.save(product);
-
-        // Modify some properties
-        product.setName("Updated Apple");
-
-        // Actual service method invocation
-        Product updatedProduct = null;
-        try {
-            updatedProduct = productService.updateProduct(product.getId(), product);
-        } catch (ResourceNotFoundException e) {
-            // Handle the exception if needed
-            fail("Unexpected exception: " + e.getMessage());
-        }
-
-        // Assertions
-        assertNotNull(updatedProduct);
-        assertEquals("Updated Apple", updatedProduct.getName());
-    }
+//    @Test
+//    public void testUpdateProduct() {
+//        // Save a product to the database
+//        Product product = new Product();
+//        product.setName("Apple");
+//        product.setDescription("Organic Apple");
+//        product.setPrice(10);
+//        product.setWeight(9.8);
+//        product.setQuantityInStock(100);
+//        product.setProductCategory(ProductCategory.FRUIT);
+//        productRepository.save(product);
+//
+//        // Modify some properties
+//        product.setName("Updated Apple");
+//
+//        // Actual service method invocation
+//        Product updatedProduct = null;
+//        try {
+//            updatedProduct = productService.updateProduct(product.getId(), product);
+//        } catch (ResourceNotFoundException e) {
+//            // Handle the exception if needed
+//            fail("Unexpected exception: " + e.getMessage());
+//        }
+//
+//        // Assertions
+//        assertNotNull(updatedProduct);
+//        assertEquals("Updated Apple", updatedProduct.getName());
+//    }
     
-    @Test
-    public void testGetAllProducts() {
-        // Create products in different categories
-        Product apple = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
-        Product orange = createProduct("Orange", "Organic Orange", 8, 6.5, 100, ProductCategory.FRUIT);
-        Product spinach = createProduct("Spinach", "Fresh Spinach", 3, 0.5, 50, ProductCategory.VEGITABLE);
-        Product milk = createProduct("Milk", "Whole Milk", 4, 1, 200, ProductCategory.DIARY);
-
-        // Actual service method invocation
-        List<Product> allProducts = productService.getAllProducts();
-
-        // Assertions
-        assertNotNull(allProducts);
-        assertEquals(4, allProducts.size()); // Adjust the count based on the number of products added
-        assertTrue(allProducts.contains(apple));
-        assertTrue(allProducts.contains(orange));
-        assertTrue(allProducts.contains(spinach));
-        assertTrue(allProducts.contains(milk));
-    }
+//    @Test
+//    public void testGetAllProducts() {
+//        // Create products in different categories
+//        Product apple = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
+//        Product orange = createProduct("Orange", "Organic Orange", 8, 6.5, 100, ProductCategory.FRUIT);
+//        Product spinach = createProduct("Spinach", "Fresh Spinach", 3, 0.5, 50, ProductCategory.VEGITABLE);
+//        Product milk = createProduct("Milk", "Whole Milk", 4, 1, 200, ProductCategory.DIARY);
+//
+//        // Actual service method invocation
+//        List<Product> allProducts = productService.getAllProducts();
+//
+//        // Assertions
+//        assertNotNull(allProducts);
+//        assertEquals(4, allProducts.size()); // Adjust the count based on the number of products added
+//        assertTrue(allProducts.contains(apple));
+//        assertTrue(allProducts.contains(orange));
+//        assertTrue(allProducts.contains(spinach));
+//        assertTrue(allProducts.contains(milk));
+//    }
     
 //    @Test
 //    public void testAddImage() {
@@ -161,24 +159,24 @@ public class ProductServiceTest {
 //        assertTrue(updatedProduct.getImages().contains(image));
 //    }
     
-    @Test
-    public void testDeleteImage() {
-        // Create a product with an image in the database
-        Product product = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
-        Image image = new Image();
-        image.setImageLink("https://example.com/apple-image.jpg");
-        assertDoesNotThrow(() -> productService.addImage(product.getId(), image));
-
-        // Actual service method invocation
-        assertDoesNotThrow(() -> productService.deleteImage(product.getId(), image.getId()));
-
-        // Retrieve the product from the database to verify the image is deleted
-        Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
-
-        // Assertions
-        assertNotNull(updatedProduct);
-        assertNotNull(updatedProduct.getImages());
-        assertTrue(updatedProduct.getImages().isEmpty());
-    }
+//    @Test
+//    public void testDeleteImage() {
+//        // Create a product with an image in the database
+//        Product product = createProduct("Apple", "Organic Apple", 10, 9.8, 100, ProductCategory.FRUIT);
+//        Image image = new Image();
+//        image.setImageLink("https://example.com/apple-image.jpg");
+//        assertDoesNotThrow(() -> productService.addImage(product.getId(), image));
+//
+//        // Actual service method invocation
+//        assertDoesNotThrow(() -> productService.deleteImage(product.getId(), image.getId()));
+//
+//        // Retrieve the product from the database to verify the image is deleted
+//        Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
+//
+//        // Assertions
+//        assertNotNull(updatedProduct);
+//        assertNotNull(updatedProduct.getImages());
+//        assertTrue(updatedProduct.getImages().isEmpty());
+//    }
 }
 

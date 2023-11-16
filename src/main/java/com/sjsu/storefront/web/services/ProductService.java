@@ -2,6 +2,7 @@ package com.sjsu.storefront.web.services;
 
 import java.util.List;
 
+import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
@@ -21,7 +22,7 @@ public interface ProductService {
 
 	public void addImage(Long id, Image image) throws Exception;
 
-	public Product createProduct(Product item);
+	public Product createProduct(Product item) throws DuplicateResourceException;
 
 	public List<Product> getAllProducts();
 

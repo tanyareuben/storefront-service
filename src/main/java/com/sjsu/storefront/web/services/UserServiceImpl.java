@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		ShoppingCart cart = new ShoppingCart();
+		cart.setUser(user);
 		shoppingCartRepository.save(cart);
 		userRepository.save(user);
 	}
@@ -94,7 +95,11 @@ public class UserServiceImpl implements UserService {
 	   if (user == null) {
 		   throw new EntityNotFoundException("User Not found");
 	   }
-	   return user.getCart();
+	   ShoppingCart cart = shoppingCartRepository.findByUser(user);
+	   if (cart == null) {
+		   throw new EntityNotFoundException("Shopping Cart Not found");
+	   }
+	   return cart;
 	}
 
 	@Override

@@ -57,9 +57,9 @@ public class UserController {
   
   @Operation(summary = "Get a User by id. Only ADMIN users have can call this API")
   @AuthZCheck // Apply the AuthAspect to this method
-  @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable Long id) {
-      User user = userService.findUserById(id);
+  @GetMapping("/{userId}")
+  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+      User user = userService.findUserById(userId);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
@@ -79,6 +79,25 @@ public class UserController {
           return ResponseEntity.notFound().build();
       }
       return ResponseEntity.ok(user);
+  }
+  
+  //TODO - add bulk user Register API - This need to have ADMIN AUTH to add bulk users
+  @Operation(summary = "Register a Bulk of users. If the user exists already, it is skipped")
+  @AuthZCheck // Apply the AuthAspect to this method
+  @PostMapping("/bulkregister")
+  public ResponseEntity<String> bulkRegisterUsers(@RequestBody List<User> users) {
+	  
+	  logger.info("Bulk user registration higin");
+	  for(User user : users) {
+		  try {
+			  userService.createUser(user);
+			  logger.info("Registration request SUCCESS");
+		  }
+		  catch(DuplicateResourceException de) {
+			  logger.info("{} already exists", user.getEmail());
+		  } 		  
+	  }
+      return ResponseEntity.ok("Bulk User registeration success");
   }
   
   @Operation(summary = "To Register a new User in the system. If the email Id already exists in the system the Register will fail")
@@ -122,11 +141,11 @@ public class UserController {
   }
   
   @Operation(summary = "Delete a user in the system given User's id")
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+  @DeleteMapping("/{userId}")
+  public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
 	  
 	  try {
-		  userService.deleteUser(id);
+		  userService.deleteUser(userId);
 	      return ResponseEntity.noContent().build();
 	  }
 	  catch(EntityNotFoundException enf){
@@ -136,11 +155,11 @@ public class UserController {
   
   //TODO SAMEUSER Auth
   @Operation(summary = "Update a User, given the User's id, the whole User object needs to be passed in the request")
-  @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+  @PutMapping("/{userId}")
+  public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
 	  
 	  try {
-		  User updatedUser = userService.updateUser(id, user);
+		  User updatedUser = userService.updateUser(userId, user);
 	      return ResponseEntity.ok(updatedUser);
 	  }
       catch(EntityNotFoundException enf) {
@@ -150,10 +169,10 @@ public class UserController {
   
   //TODO SameUser Auth
   @Operation(summary = "Update a user's Address given User's id, the whole Address object needs to be passed in the request")
-  @PutMapping("/{id}/address")
-  public ResponseEntity<String> updateUserAddress(@PathVariable Long id, @RequestBody Address address) {
+  @PutMapping("/{userId}/address")
+  public ResponseEntity<String> updateUserAddress(@PathVariable Long userId, @RequestBody Address address) {
 	  try {
-		  userService.updateAddress(id, address);
+		  userService.updateAddress(userId, address);
 	      return ResponseEntity.ok("Address Updated Successfully");
 	  }
       catch(EntityNotFoundException enf) {
@@ -163,12 +182,12 @@ public class UserController {
   
   @Operation(summary = "Get the Current User's Shopping Cart")
   @AuthNCheck // Apply the AuthAspect to this method
-  @GetMapping("/{id}/cart")
-  public ResponseEntity<ShoppingCart> getUserShoppingCart() {
+  @GetMapping("/{userId}/cart")
+  public ResponseEntity<ShoppingCart> getUserShoppingCart(@PathVariable Long userId) {
       try {
 		  UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
-	      Long userId = userSession.getUserId();
-	      ShoppingCart cart = userService.getUserCart(userId);
+	      Long id = userSession.getUserId();
+	      ShoppingCart cart = userService.getUserCart(id);
 	      return ResponseEntity.ok(cart);
       }
       catch(EntityNotFoundException enf) {
@@ -180,17 +199,16 @@ public class UserController {
   @Operation(summary = "Get the Logged in User's  Orders, filtered by the OrderStatus requested")
   @AuthNCheck // Apply the AuthAspect to this method
   //TODO SAMEUSER auth check
-  @GetMapping("/{id}/orders/status/{status}")
-  public List<Order> getOrdersByStatusForUser(@PathVariable Long id, @PathVariable OrderStatus status) {
-      // Retrieve the user (you might need a UserService for this)
-      User user = userService.findUserById(id);
+  @GetMapping("/{userId}/orders/status/{status}")
+  public List<Order> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
+      User user = userService.findUserById(userId);
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
   @Operation(summary = "Check out the shopping cart and creates an order and return the Order Object")
-  @PostMapping("/{id}/cart/checkOut")
-  public Order checkOutCart(@PathVariable Long id, @RequestBody Order order) throws WorkflowException {
-	return userService.checkOut(id);
+  @PostMapping("/{userId}/cart/checkOut")
+  public Order checkOutCart(@PathVariable Long userId, @RequestBody Order order) throws WorkflowException {
+	return userService.checkOut(userId);
   }
   
   //TODO get user by user email (user name)
