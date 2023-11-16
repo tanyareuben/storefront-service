@@ -21,6 +21,7 @@ import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
@@ -205,9 +206,10 @@ public class UserController {
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
-  @Operation(summary = "Check out the shopping cart and creates an order and return the Order Object")
+  //TODO SAMEUSER auth check
+  @Operation(summary = "Check out the shopping cart. This creates an order and return the Order Object")
   @PostMapping("/{userId}/cart/checkOut")
-  public Order checkOutCart(@PathVariable Long userId, @RequestBody Order order) throws WorkflowException {
+  public Order checkOutCart(@PathVariable Long userId) throws WorkflowException, ResourceNotFoundException {
 	return userService.checkOut(userId);
   }
   

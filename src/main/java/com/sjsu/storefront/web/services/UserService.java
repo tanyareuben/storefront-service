@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
+import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
@@ -21,7 +22,7 @@ public interface UserService {
 	public void deleteUser(Long userId);
 	
 	public ShoppingCart getUserCart(Long userId);
-	public Order checkOut(Long userId) throws WorkflowException;
+	public Order checkOut(Long userId) throws WorkflowException, ResourceNotFoundException;
 	
 	public User updateUser(Long userId, User user);
 	public void updateAddress(Long userId, Address address);

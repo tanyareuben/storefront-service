@@ -1,5 +1,6 @@
 package com.sjsu.storefront.data.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -55,6 +56,15 @@ public class ShoppingCart {
 		this.user = user;
 	}
 	
+	public void emptyCart() {
+		this.totalCost = 0.0;
+		this.totalProductCost = 0.0;
+		this.totalShipping = 0.0;
+		this.totalWeight = 0.0;
+		List<CartItem> oldItems = new ArrayList<CartItem>();
+		oldItems.addAll(items);
+		this.items.removeAll(oldItems);
+	}
 
 	public double getTotalCost() {
 		return totalCost;

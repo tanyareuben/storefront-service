@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.CartItem;
@@ -124,10 +125,10 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public Order checkOut(Long userId) throws WorkflowException {
+	public Order checkOut(Long userId) throws WorkflowException, ResourceNotFoundException {
 		User existingUser = userRepository.findById(userId).orElse(null);
 		if (existingUser == null) {
-			throw new EntityNotFoundException("User Not found");
+			throw new ResourceNotFoundException("User Not found");
 		}
 		//get the users cart
 		ShoppingCart cart = existingUser.getCart();
@@ -146,8 +147,21 @@ public class UserServiceImpl implements UserService {
 			order.setTotalShipping(cart.getTotalShipping());
 			order.setTotalWeight(cart.getTotalWeight());
 			order.setItems(itemsInCart);
+			order.setUser(existingUser); //add the order to the user
 			
-			return orderRepository.save(order);
+			//TODO set shipping address, this might have to be passed in or just use the User's address
+			
+			order.setPaymentInfo(existingUser.getPayment_info());
+			
+			//create the Order
+			Order savedOrder =  orderRepository.save(order);
+			
+			//Empty user's Shopping Cart
+			cart.emptyCart();
+			shoppingCartRepository.save(cart);
+			
+			return savedOrder;
+			
 		}
 		else {
 			throw new WorkflowException("Cart is Empty, order can't be created");
