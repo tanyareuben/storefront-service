@@ -97,6 +97,71 @@ To RUN your spring boot application, run the following command, every time you n
 
 * for the rest of the APIs available look at the documentation [here](http://localhost:8080/swagger-ui/index.html)
 
+### Building and Pushing the storefront-app docker image to Dockerhub
+
+Run the following commands in the root of the project directory
+
+* Build the storefront-app:
+
+```
+docker build -t storefront-app:v1.0 -f Dockerfile .
+
+```
+* Tag your Docker image:
+
+```
+docker tag storefront-app:v1.0 reubensjohn/store-front:v1.0
+
+```
+
+* Log in to Docker Hub:
+
+```
+docker login
+
+```
+* Push the tagged image to Docker Hub:
+
+```
+docker push reubensjohn/store-front:v1.0
+
+```
+
+### Building and Pushing the storefront-dg docker image to Dockerhub
+
+from the Project folder 
+
+```
+cd mysql
+
+```
+Then run the following commands
+
+* Build the storefront-db:
+
+```
+docker build -t storefront-db:v1.0 -f Dockerfile .
+```
+
+* Tag your Docker image:
+
+```
+docker tag storefront-db:v1.0 reubensjohn/store-front:v1.0
+```
+
+* Log in to Docker Hub:
+
+```
+docker login
+```
+
+* Push the tagged image to Docker Hub:
+
+```
+docker push reubensjohn/store-front:v1.0
+```
+
+
 ### Guides
 
 The APIs are built using Spring Boot. The following Guides will help you understand how to build Services with springboot

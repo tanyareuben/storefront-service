@@ -26,10 +26,13 @@ replay_pid*
 *.DS_Store
 
 #target folder
-/target/
+/target/*
 /bin/
 /mysql-data/
+/deploy/mysql/
+/deploy/mysql-data/
 .project
 .mvn
 .setting
 .classpath
+/target/classes/application.properties
