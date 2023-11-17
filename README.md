@@ -1,176 +1,55 @@
-# Running the Storefront APIs
+## Running the Storefront APIs in your local laptop
 
-### MySQL:
+You need to have Docker installed locally on your Laptop.
 
-The project uses MySQL database as the backend to store the Data. There are two ways you can install MySQL locally
+### Installing Docker Desktop
 
-#### 1. Using Docker:
-There is a docker compose file provided that will run the MySQL in your machine. No need to install MySQL in your machine
-But you need to have 'Docker Desktop' installed in your machine. See www.docker.com
+#### If you have a MAC
 
-Once you have docker desktop, run the app as any other app in your machine. Once docker is running ( you can keep it running no need to shut it down), you can issue the following command in your Terminal window
+Head to the docker desktop [download](https://docs.docker.com/desktop/install/mac-install/) page.
+Make sure you download the right version of the installable for your MAC and follow the installation instructions.
 
-```
-docker compose up
+Download the Apple Silicon installable if you have a M1,M2 or M3 processor - Check by clicking the 'Apple Menu' on Top Left and select 'About this Mac'
 
-```
+#### If you have a Windows laptop
 
-This will bring up the MySQL docker image, setup the 'storefront' db for the storefront backend to connect
+Head to the docker desktop [download](https://docs.docker.com/desktop/install/windows-install/) and follow the instructions to download and install Dockere Desktop
 
-#### 2. Downloading and Installing MySQL locally in your computer. Follow the download link below
-```
-https://dev.mysql.com/downloads/mysql/
 
-```
-You have to be careful which installable you download and install on your mac. If you have an M1 Mac dowload and install the 'macOS 13 (ARM, 64-bit), DMG Archive'. If you have an Intel based Mac, download and install the 'macOS 13 (x86, 64-bit), DMG Archive'
-Then run MySQL locally.
+#### Running the Storefront Services:
 
-#### Download and Run MySQL Workbench from the following location
-
-```
-https://www.mysql.com/products/workbench/
-
-```
-
-### Setting up the Storefront APIs locally in your Machine
-
-#### Setup JAVA and Maven
-
-You need JAVA 17 or above installed in your machine. Mac usually comes with JAVA.
-Check the JAVA version. On your Mac terminal, type the following
-
-```
-java -version
-
-```
-
-If the Java version displayed is less than 17, please download the JAVA 17 or later from the [JAVA download site](https://www.oracle.com/java/technologies/downloads/#jdk17-mac)
-Make sure you download the installable for ARM (for Mac Silicon) OR for Intel Mac
-
-Install maven if you don't have already isntall it 
-In Mac, run the following command in the terminal
-
-```
-brew install mvn
-
-```
-If brew is not installed, search google how to install brew
-
-First git clone the Repo. You can use the GitHub desktop or just the Mac terminal to clone
+* Clone the Github repo
 
 ```
 git clone 
 
 ```
 
-Open command terminal and change directory to the root folder where you cloned the Repo
+* Change directory to the root folder of the project.
 
-Then run the following command
+* Make sure you see a docker-compose.yaml in the folder
 
-
-``` 
-mvn clean install
+* Run the following command
 
 ```
-
-followed by
-
-``` 
-mvn wrapper:wrapper
-
-```
-The above commands you need to RUN every time you sync the code from the repository to your local machine.
-
-
-Now run your SpringBoot java web applications for your REST APIS
-
-To RUN your spring boot application, run the following command, every time you need to run the app
-
-``` 
-./mvnw spring-boot:run
-
+docker compose up
 ```
 
-* Once you run the application, the API Documentation can be accessed [here](http://localhost:8080/swagger-ui/index.html)
-
-* and your REACT app cna connect to the APIs at https://localhost:8080. For example if you want to login send a POST command with the email and password to https://localhost:8080/users/login
-
-* for the rest of the APIs available look at the documentation [here](http://localhost:8080/swagger-ui/index.html)
-
-### Building and Pushing the storefront-app docker image to Dockerhub
-
-Run the following commands in the root of the project directory
-
-* Build the storefront-app:
+You will see a bunch of logs in your window, and finally you will see something like
 
 ```
-docker build -t storefront-app:v1.0 -f Dockerfile .
-
-```
-* Tag your Docker image:
-
-```
-docker tag storefront-app:v1.0 reubensjohn/store-front:v1.0
-
+Started StorefrontApplication in 13.578 seconds (process running for 14.708)
 ```
 
-* Log in to Docker Hub:
+Then you can head over to [here](http://localhost:8080/swagger-ui/index.html) to check the APIs are available. You can actually start using the APIs as well.
 
-```
-docker login
-
-```
-* Push the tagged image to Docker Hub:
-
-```
-docker push reubensjohn/store-front:v1.0
-
-```
-
-### Building and Pushing the storefront-dg docker image to Dockerhub
-
-from the Project folder 
-
-```
-cd mysql
-
-```
-Then run the following commands
-
-* Build the storefront-db:
-
-```
-docker build -t storefront-db:v1.0 -f Dockerfile .
-```
-
-* Tag your Docker image:
-
-```
-docker tag storefront-db:v1.0 reubensjohn/store-front:v1.0
-```
-
-* Log in to Docker Hub:
-
-```
-docker login
-```
-
-* Push the tagged image to Docker Hub:
-
-```
-docker push reubensjohn/store-front:v1.0
-```
+##### Note:
+This will download the required docker images and run the app. First time it might take few minutes, but on subsequent times it will be pretty quick
 
 
-### Guides
-
-The APIs are built using Spring Boot. The following Guides will help you understand how to build Services with springboot
-Using JPA as the Data Access mechanism. The data base used is MySQL
+If you want to conenct to the Datbase and see the Storefront tables and contents, you can download MySQL workbench (search google for download links for Mac and Windows)
 
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
+#### Building and Running the Storefront APIs locally
 
+If you  want to build and run the code yourself follow the instructions [here](BuildAndRunLocally.md)
