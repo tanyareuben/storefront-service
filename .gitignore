@@ -36,3 +36,4 @@ replay_pid*
 .setting
 .classpath
 /target/classes/application.properties
+/target/
