@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.ShoppingCart;
+import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.web.services.CartService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +41,7 @@ public class ShoppingCartController {
 	  //TODO add the SameUser
 	  @Operation(summary = "Add a CartItem to the Cart given Cart's id")
 	  @PostMapping("/{cartId}/items")
-	  public ResponseEntity<ShoppingCart> addItemToCart(@PathVariable Long cartId, @RequestBody CartItem item) {
+	  public ResponseEntity<ShoppingCart> addItemToCart(@PathVariable Long cartId, @RequestBody CartItemDTO item) {
 
 		  try {
 			ShoppingCart cart =  cartService.addItemIntoCart(cartId, item);

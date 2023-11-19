@@ -7,10 +7,12 @@ import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
+import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.web.UserSession;
 
 public interface UserService {
@@ -31,5 +33,7 @@ public interface UserService {
 	public Address addAddress(Long userId, Address address)throws WorkflowException, ResourceNotFoundException;
 
 	public PaymentInfo addPaymentInfo(Long userId, PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException;
+
+	public ShoppingCart addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException;
 
 }

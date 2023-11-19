@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sjsu.storefront.common.ResourceNotFoundException;
+import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.model.ShoppingCart;
+import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 
 import jakarta.transaction.Transactional;
@@ -18,6 +20,9 @@ public class CartServiceImpl implements CartService{
 	
 	@Autowired
 	ShoppingCartRepository shoppingCartRepository;
+	
+	@Autowired
+	ProductService productService;
 
 	@Override
 	public ShoppingCart getShoppingCartById(Long id) {
@@ -26,11 +31,13 @@ public class CartServiceImpl implements CartService{
 	
 	@Transactional
 	@Override
-	public ShoppingCart addItemIntoCart(Long cartId, CartItem item) throws ResourceNotFoundException {
+	public ShoppingCart addItemIntoCart(Long cartId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException {
 	  ShoppingCart existingCart = shoppingCartRepository.findById(cartId).orElse(null);
       if (existingCart != null) {
-
-		existingCart.addItem(item);
+    	  
+    	CartItem cartItem = new CartItem();
+    	cartItem.setProduct(productService.getProduct(item.getProductId()));
+		existingCart.addItem(cartItem);
 		updateShippingAndTotalCost(existingCart);
 		return shoppingCartRepository.save(existingCart);
       

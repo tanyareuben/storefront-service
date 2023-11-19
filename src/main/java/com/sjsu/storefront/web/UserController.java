@@ -28,6 +28,8 @@ import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.CartItemDTO;
+import com.sjsu.storefront.data.model.DTO.UserLoginDTO;
 import com.sjsu.storefront.web.services.OrderService;
 import com.sjsu.storefront.web.services.UserService;
 
@@ -120,7 +122,7 @@ public class UserController {
   
   @Operation(summary =" Call this API to login a user. In the body pass in the email and password only")
   @PostMapping("/login")
-  public ResponseEntity<String> loginUser(@RequestBody User user) {
+  public ResponseEntity<String> loginUser(@RequestBody UserLoginDTO user) {
 	  
 	  try {
 		  UserSession userSession = userService.login(user.getEmail(), user.getPassword());
@@ -238,5 +240,12 @@ public class UserController {
   @PostMapping("/{userId}/payment")
   public PaymentInfo addPaymentInfo(@PathVariable Long userId, @RequestBody PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException {
 	return userService.addPaymentInfo(userId, paymentInfo);
+  }
+  
+  //TODO SAMEUSER auth check
+  @Operation(summary = "Add an Item the user[given by userId] cart.")
+  @PostMapping("/{userId}/cart/items")
+  public ShoppingCart addItemToUSerCart(@PathVariable Long userId, @RequestBody CartItemDTO item) throws WorkflowException, ResourceNotFoundException {
+	return userService.addItemToUserCart(userId, item);
   }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sjsu.storefront.common.WorkflowException;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -128,8 +129,31 @@ public class ShoppingCart {
 		this.user = user;
 	}
 
-	public void addItem(CartItem item) {
-		this.items.add(item);
+	public void addItem(CartItem cartItem) throws WorkflowException {
+		boolean bFoundProduct = false;
+		for(CartItem item : this.items) {
+			if(item.getProduct().getName().compareToIgnoreCase(cartItem.getProduct().getName()) == 0) {
+				bFoundProduct = true;
+				//just increment the count of the CartItem for that product
+				int newQty = item.getQuantity()+ cartItem.getQuantity();
+				if(newQty <= item.getProduct().getQuantityInStock()) { //if there is still enough in inventory
+					item.setQuantity(newQty);
+				}
+				else {
+					throw new WorkflowException("Not enough Inventory for " + item.getProduct().getName());
+				}
+			}
+		}
+		if(!bFoundProduct) {
+			this.items.add(cartItem);
+		}
+		
+	}
+	
+	private boolean doesProductAlreadyExistInCart(CartItem cartItem) {
+		
+
+		return true;
 	}
 
 	@Override

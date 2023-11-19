@@ -17,6 +17,7 @@ import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 	  
 	@Autowired
 	ShoppingCartRepository shoppingCartRepository;
+	
+	@Autowired
+	CartService cartService;
 	  
 
 	@Transactional
@@ -134,7 +138,7 @@ public class UserServiceImpl implements UserService {
 			throw new ResourceNotFoundException("User Not found");
 		}
 		//get the users cart
-		ShoppingCart cart = existingUser.getCart();
+		ShoppingCart cart = getUserCart(userId);
 		
 		List<CartItem> itemsInCart = cart.getItems();
 		if(itemsInCart.size() > 0) { 
@@ -152,8 +156,7 @@ public class UserServiceImpl implements UserService {
 			order.setItems(itemsInCart);
 			order.setUser(existingUser); //add the order to the user
 			
-			//TODO set shipping address, this might have to be passed in or just use the User's address
-			
+			order.setShippingAddress(existingUser.getAddress());
 			order.setPaymentInfo(existingUser.getPayment_info());
 			
 			//create the Order
@@ -205,6 +208,15 @@ public class UserServiceImpl implements UserService {
 		existingUser.setPayment_info(paymentInfo);
 		userRepository.save(existingUser);
 		return existingUser.getPayment_info();
+	}
+
+	@Override
+	public ShoppingCart addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException {
+		ShoppingCart cart = getUserCart(userId);
+		if (cart == null) {
+			throw new WorkflowException("User's cart is not found, this is weird");
+		}
+		return cartService.addItemIntoCart(cart.getId(), item);
 	}
 
 }

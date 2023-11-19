@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 
 @JsonIgnoreProperties({"order", "cart"})
@@ -21,7 +22,7 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private ShoppingCart cart;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
 

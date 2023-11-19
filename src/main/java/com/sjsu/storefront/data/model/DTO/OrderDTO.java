@@ -1,4 +1,4 @@
-package com.sjsu.storefront.data.model;
+package com.sjsu.storefront.data.model.DTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,6 +6,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.data.model.Address;
+import com.sjsu.storefront.data.model.CartItem;
+import com.sjsu.storefront.data.model.PaymentInfo;
+import com.sjsu.storefront.data.model.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,7 +29,7 @@ import jakarta.persistence.Table;
 @JsonIgnoreProperties({"user"})
 @Entity
 @Table(name = "order_table")
-public class Order {
+public class OrderDTO {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,11 +63,11 @@ public class Order {
     @JoinColumn(name = "payment_info_id")
     private PaymentInfo paymentInfo;
 	
-	public Order() {
+	public OrderDTO() {
 		
 	}
 
-	public Order(long id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
+	public OrderDTO(long id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
 			Date orderDate, OrderStatus status, List<CartItem> items, User user, Address shippingAddress,
 			PaymentInfo paymentInfo) {
 		super();
