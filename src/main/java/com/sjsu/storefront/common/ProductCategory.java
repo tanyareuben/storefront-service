@@ -3,7 +3,8 @@ package com.sjsu.storefront.common;
 public enum ProductCategory {
 	VEGITABLE,
 	FRUIT,
-	PAULTRY,
+	POULTRY,
+	MEAT,
 	SEAFOOD,
 	GRAIN,
 	DIARY,

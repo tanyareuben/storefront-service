@@ -54,7 +54,7 @@ public class ProductController {
 	}
 	
 	@Operation(summary = "Create a NEW Product in the system")
-	@AuthZCheck // Apply the AuthAspect to this method
+	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping("/bulkadd")
 	public ResponseEntity<String> bulkAddProducts(@RequestBody List<Product> products) {
 		logger.info("Going to add a bunch of Products");
@@ -69,7 +69,7 @@ public class ProductController {
 	}
 	  
 	@Operation(summary = "Create a NEW Product in the system")
-	@AuthZCheck // Apply the AuthAspect to this method
+	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping
 	public ResponseEntity<String> createProduct(@RequestBody Product product) throws DuplicateResourceException {
 	    productService.createProduct(product);
@@ -78,7 +78,7 @@ public class ProductController {
 
 	
 	@Operation(summary = "Add a new Image to the Product")
-	@AuthZCheck // Apply the AuthAspect to this method
+	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping("{id}/images")
 	public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody Image image) throws Exception {
 	    productService.addImage(id, image);

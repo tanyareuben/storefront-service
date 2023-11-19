@@ -1,0 +1,83 @@
+[
+  {
+    "firstName": "roger",
+    "lastName": "more",
+    "email": "rger@more.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "ADMIN"
+  },
+  {
+    "firstName": "tom",
+    "lastName": "cruise",
+    "email": "tom@cruise.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "ADMIN"
+  },
+  {
+    "firstName": "james",
+    "lastName": "bond",
+    "email": "james@bond.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "ADMIN"
+  },
+  {
+    "firstName": "tylor",
+    "lastName": "swift",
+    "email": "tylor@swift.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "ADMIN"
+  },
+  {
+    "firstName": "katy",
+    "lastName": "perry",
+    "email": "katy@perry.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "ADMIN"
+  },
+  {
+    "firstName": "jackie",
+    "lastName": "chan",
+    "email": "jackie@chan.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "USER"
+  },
+  {
+    "firstName": "indiana",
+    "lastName": "jones",
+    "email": "indiana@jones.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "USER"
+  },
+  {
+    "firstName": "spider",
+    "lastName": "man",
+    "email": "spider@man.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "USER"
+  },
+  {
+    "firstName": "iron",
+    "lastName": "man",
+    "email": "iron@man.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "USER"
+  },
+  {
+    "firstName": "bat",
+    "lastName": "man",
+    "email": "bat@man.com",
+    "password": "sjsu@1",
+    "phone": "1234567890",
+    "userType": "USER"
+  }
+  
+]

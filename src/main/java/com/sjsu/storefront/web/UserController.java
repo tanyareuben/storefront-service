@@ -25,6 +25,7 @@ import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
+import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.web.services.OrderService;
@@ -206,6 +207,16 @@ public class UserController {
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
+  //TODO give an end point for all orders with SORT option
+  @Operation(summary = "Get the User's (for the USer Id provided) Orders")
+  @AuthNCheck // Apply the AuthAspect to this method
+  //TODO SAMEUSER auth check
+  @GetMapping("/{userId}/orders")
+  public List<Order> getAllOrdersByUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
+      User user = userService.findUserById(userId);
+      return orderService.getOrdersForUser(user);
+  }
+  
   //TODO SAMEUSER auth check
   @Operation(summary = "Check out the shopping cart. This creates an order and return the Order Object")
   @PostMapping("/{userId}/cart/checkOut")
@@ -213,7 +224,19 @@ public class UserController {
 	return userService.checkOut(userId);
   }
   
-  //TODO get user by user email (user name)
-  //TODO add/update a PaymentInfo for a user  users/{id}/payment-info  -- need same user check
-  //TODO or do an add or Update Payment info on ME/payment-info (Create and Update). 
+  //TODO SAMEUSER auth check
+  @Operation(summary = "Add adress for a user. If the User already has an address, the add address will fail. "
+  		+ "To update an address, use PUT")
+  @PostMapping("/{userId}/address")
+  public Address addAddress(@PathVariable Long userId, @RequestBody Address address) throws WorkflowException, ResourceNotFoundException {
+	return userService.addAddress(userId, address);
+  }
+  
+  //TODO SAMEUSER auth check
+  @Operation(summary = "Add Payment method for a user. If the User already has an Payment method, the call will fail. "
+  		+ "To update Payment Method, use PUT")
+  @PostMapping("/{userId}/payment")
+  public PaymentInfo addPaymentInfo(@PathVariable Long userId, @RequestBody PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException {
+	return userService.addPaymentInfo(userId, paymentInfo);
+  }
 }

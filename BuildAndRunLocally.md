@@ -93,7 +93,7 @@ To RUN your spring boot application, run the following command, every time you n
 
 * Once you run the application, the API Documentation can be accessed [here](http://localhost:8080/swagger-ui/index.html)
 
-* and your REACT app cna connect to the APIs at https://localhost:8080. For example if you want to login send a POST command with the email and password to https://localhost:8080/users/login
+* and your REACT app can connect to the APIs at https://localhost:8080. For example if you want to login send a POST command with the email and password to https://localhost:8080/users/login
 
 * for the rest of the APIs available look at the documentation [here](http://localhost:8080/swagger-ui/index.html)
 

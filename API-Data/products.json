@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Apple",
+    "description": "Crunchy and Organic",
+    "price": 1.1,
+    "weight": 20,
+    "quantityInStock": 100,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://produits.bienmanger.com/34887-0w470h470_Organic_Apples_Royal_Gala_From_Frnace.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Orange",
+    "description": "Juicy and Organic",
+    "price": 1.25,
+    "weight": 10,
+    "quantityInStock": 300,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://produits.bienmanger.com/33285-0w470h470_Organic_Fresh_Oranges_From_Italy_New_Hall.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Tomatto",
+    "description": "Juicy and Organic",
+    "price": 0.25,
+    "weight": 50,
+    "quantityInStock": 700,
+    "productCategory": "VEGITABLE",
+    "images": [
+      {
+        "imageLink": "https://images.albertsons-media.com/is/image/ABS/184710696?$ecom-pdp-desktop$&defaultImage=Not_Available&defaultImage=Not_Available"
+      }
+    ]
+  },
+  {
+    "name": "Carrots",
+    "description": "Crunchy and Organic",
+    "price": 0.75,
+    "weight": 75,
+    "quantityInStock": 200,
+    "productCategory": "VEGITABLE",
+    "images": [
+      {
+        "imageLink": "https://images.albertsons-media.com/is/image/ABS/184710082?$ecom-pdp-desktop$&defaultImage=Not_Available&defaultImage=Not_Available"
+      }
+    ]
+  }
+]

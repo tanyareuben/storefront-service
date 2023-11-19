@@ -8,6 +8,7 @@ import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.Order;
+import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.web.UserSession;
@@ -26,5 +27,9 @@ public interface UserService {
 	
 	public User updateUser(Long userId, User user);
 	public void updateAddress(Long userId, Address address);
+
+	public Address addAddress(Long userId, Address address)throws WorkflowException, ResourceNotFoundException;
+
+	public PaymentInfo addPaymentInfo(Long userId, PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException;
 
 }

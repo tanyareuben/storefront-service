@@ -19,7 +19,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@JsonIgnoreProperties({"address","cart","payment_info","orders"})
+//@JsonIgnoreProperties({"address","cart","payment_info","orders"})
+@JsonIgnoreProperties({"cart","orders"})
 @Entity
 @Table(name = "users")
 public class User {

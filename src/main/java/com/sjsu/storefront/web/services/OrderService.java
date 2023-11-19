@@ -18,4 +18,5 @@ public interface OrderService {
 	public void updateOrderStatus(Long orderId, OrderStatus status);
 	public List<Order> getOrdersByStatusForUser(User user, OrderStatus orderStatus);
 	public Order addOrder(User user, Order order);
+	public List<Order> getOrdersForUser(User user);
 }

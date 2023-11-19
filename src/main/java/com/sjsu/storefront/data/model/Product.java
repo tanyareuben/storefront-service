@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sjsu.storefront.common.ProductCategory;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,7 +32,7 @@ public class Product {
 	private ProductCategory productCategory;
 	
     // Define the one-to-many relationship
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<Image>();
 	
 	public Product(){

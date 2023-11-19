@@ -26,12 +26,12 @@ public class UserInitialization {
     @PostConstruct
     public void initializeDat() {
        
-    	createSomeUsers();
-    	createSomeProductsAndCategories();
+    	createSuperUsers();
+    	//createSomeProductsAndCategories();
 
     }
     
-    public void createSomeUsers() {
+    public void createSuperUsers() {
 
     	User adminUser = 	new User();
         adminUser.setFirstName("Roxie");
@@ -47,7 +47,7 @@ public class UserInitialization {
         normalUser.setEmail("kevin@bacon.com");
         normalUser.setPassword("password1");
         normalUser.setPhone("1234567891");
-        normalUser.setUserType(UserType.USER);
+        normalUser.setUserType(UserType.SUPER);
         
         try {
 			userService.createUser(adminUser);

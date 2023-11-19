@@ -13,7 +13,6 @@ import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
-import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.ImageRepository;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
@@ -89,6 +88,10 @@ public class ProductServiceImpl implements ProductService {
 		Optional<Product> existingProduct = productRepository.findByName(product.getName());
 		if (existingProduct.isPresent()) {
 			throw new DuplicateResourceException("Product already Exists");
+		}
+		List<Image> images = product.getImages();
+		for(Image img : images) {
+			img.setProduct(product);
 		}
 	    return productRepository.save(product);
 	}

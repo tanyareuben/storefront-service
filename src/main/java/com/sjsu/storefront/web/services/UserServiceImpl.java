@@ -14,6 +14,7 @@ import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.Order;
+import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
 import com.sjsu.storefront.data.respository.OrderRepository;
@@ -103,6 +104,7 @@ public class UserServiceImpl implements UserService {
 	   return cart;
 	}
 
+	@Transactional
 	@Override
 	public User updateUser(Long userId, User user) {
 	      User existingUser = userRepository.findById(userId).orElse(null);
@@ -113,6 +115,7 @@ public class UserServiceImpl implements UserService {
 	      return userRepository.save(existingUser);
 	}
 
+	@Transactional
 	@Override
 	public void updateAddress(Long userId, Address address) {
 		User existingUser = userRepository.findById(userId).orElse(null);
@@ -166,6 +169,42 @@ public class UserServiceImpl implements UserService {
 		else {
 			throw new WorkflowException("Cart is Empty, order can't be created");
 		}
+	}
+
+	@Transactional
+	@Override
+	public Address addAddress(Long userId, Address address) throws WorkflowException, ResourceNotFoundException {
+		
+		User existingUser = userRepository.findById(userId).orElse(null);
+		if (existingUser == null) {
+			throw new ResourceNotFoundException("User Not found");
+		}
+		
+		if(existingUser.getAddress() != null) {
+			throw new WorkflowException("User already has address.");
+		}
+		
+		existingUser.setAddress(address);
+		userRepository.save(existingUser);
+		return existingUser.getAddress();
+	}
+	
+	@Transactional
+	@Override
+	public PaymentInfo addPaymentInfo(Long userId, PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException {
+		
+		User existingUser = userRepository.findById(userId).orElse(null);
+		if (existingUser == null) {
+			throw new ResourceNotFoundException("User Not found");
+		}
+		
+		if(existingUser.getPayment_info() != null) {
+			throw new WorkflowException("User already has Payment method setup.");
+		}
+		
+		existingUser.setPayment_info(paymentInfo);
+		userRepository.save(existingUser);
+		return existingUser.getPayment_info();
 	}
 
 }

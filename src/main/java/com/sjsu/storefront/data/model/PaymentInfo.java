@@ -18,11 +18,6 @@ public class PaymentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
-    private Address billingAddress;
     
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -39,26 +34,15 @@ public class PaymentInfo {
     	
     }
 
-	public PaymentInfo(Long id, Address billingAddress, String cardNumber, String expiry,
+	public PaymentInfo(Long id, String cardNumber, String expiry,
 			String cVV, String nickName, CardType cardType) {
 		super();
 		this.id = id;
-		this.billingAddress = billingAddress;
 		this.cardNumber = cardNumber;
 		this.expiry = expiry;
 		CVV = cVV;
 		this.nickName = nickName;
 		this.cardType = cardType;
-	}
-
-
-
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
-
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
 	}
 
 	public String getCardNumber() {
@@ -107,7 +91,7 @@ public class PaymentInfo {
 
 	@Override
 	public String toString() {
-		return "PaymentInfo [id=" + id + ", billingAddress=" + billingAddress + ", cardNumber=" + cardNumber + ", expiry=" + expiry + ", CVV=" + CVV + ", nickName=" + nickName
+		return "PaymentInfo [id=" + id +  ", cardNumber=" + cardNumber + ", expiry=" + expiry + ", CVV=" + CVV + ", nickName=" + nickName
 				+ ", cardType=" + cardType + "]";
 	}
    
