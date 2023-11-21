@@ -1,5 +1,6 @@
 package com.sjsu.storefront.web.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.OrderDTO;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.data.respository.OrderRepository;
 
 @Service
@@ -77,13 +80,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
 	@Override
-	public List<Order> getOrdersByStatusForUser(User user, OrderStatus orderStatus) {
-        return orderRepository.findByUserAndOrderStatus(user, orderStatus);
+	public List<OrderDTO> getOrdersByStatusForUser(UserDTO user, OrderStatus orderStatus) {
+		User usr = new User(user);
+        List<Order> orders = orderRepository.findByUserAndOrderStatus(usr, orderStatus);
+        List<OrderDTO> ordrs = new ArrayList<OrderDTO>();
+        for(Order order : orders) {
+        	ordrs.add(new OrderDTO(order));
+        }
+        return ordrs;
     }
 
 	@Override
-	public List<Order> getOrdersForUser(User user) {
-        return orderRepository.findByUser(user);
+	public List<OrderDTO> getOrdersForUser(UserDTO user) {
+		User usr = new User(user);
+        List<Order> orders = orderRepository.findByUser(usr);
+        List<OrderDTO> ordrs = new ArrayList<OrderDTO>();
+        for(Order order : orders) {
+        	ordrs.add(new OrderDTO(order));
+        }
+        return ordrs;
+        
     }
 
 	@Override

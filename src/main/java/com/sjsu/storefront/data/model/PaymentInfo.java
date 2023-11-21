@@ -2,8 +2,8 @@ package com.sjsu.storefront.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.CardType;
+import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,6 +43,15 @@ public class PaymentInfo {
 		CVV = cVV;
 		this.nickName = nickName;
 		this.cardType = cardType;
+	}
+
+	public PaymentInfo(PaymentInfoDTO pInfo) {
+		this.cardNumber = pInfo.getCardNumber();
+		this.cardType = pInfo.getCardType();
+		this.CVV = pInfo.getCVV();
+		this.expiry = pInfo.getExpiry();
+		this.id = pInfo.getId();
+		this.nickName = pInfo.getNickName();
 	}
 
 	public String getCardNumber() {

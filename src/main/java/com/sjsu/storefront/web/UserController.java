@@ -23,12 +23,13 @@ import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
-import com.sjsu.storefront.data.model.Address;
-import com.sjsu.storefront.data.model.Order;
-import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
-import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.AddressDTO;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
+import com.sjsu.storefront.data.model.DTO.MeDTO;
+import com.sjsu.storefront.data.model.DTO.OrderDTO;
+import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.data.model.DTO.UserLoginDTO;
 import com.sjsu.storefront.web.services.OrderService;
 import com.sjsu.storefront.web.services.UserService;
@@ -55,15 +56,15 @@ public class UserController {
   @Operation(summary = "Get all users in the system. Only ADMIN users have can call this API")
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping
-  public List<User> getAllUsers() {
+  public List<UserDTO> getAllUsers() {
       return userService.getAllUsers();
   }
   
   @Operation(summary = "Get a User by id. Only ADMIN users have can call this API")
   @AuthZCheck // Apply the AuthAspect to this method
   @GetMapping("/{userId}")
-  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-      User user = userService.findUserById(userId);
+  public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+      UserDTO user = userService.findUserById(userId);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
@@ -73,12 +74,12 @@ public class UserController {
   @Operation(summary = "ME - Get currenly logged in users Info. Only the currently logged in user can call this API")
   @AuthNCheck // Apply the AuthAspect to this method
   @GetMapping("/me")
-  public ResponseEntity<User> getUserME() {
+  public ResponseEntity<MeDTO> getUserME() {
       UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
 
       Long userId = userSession.getUserId();
       
-      User user = userService.findUserById(userId);
+      MeDTO user = userService.findMe(userId);
       if (user == null) {
           return ResponseEntity.notFound().build();
       }
@@ -89,10 +90,10 @@ public class UserController {
   @Operation(summary = "Register a Bulk of users. If the user exists already, it is skipped")
   @AuthZCheck // Apply the AuthAspect to this method
   @PostMapping("/bulkregister")
-  public ResponseEntity<String> bulkRegisterUsers(@RequestBody List<User> users) {
+  public ResponseEntity<String> bulkRegisterUsers(@RequestBody List<UserDTO> users) {
 	  
 	  logger.info("Bulk user registration higin");
-	  for(User user : users) {
+	  for(UserDTO user : users) {
 		  try {
 			  userService.createUser(user);
 			  logger.info("Registration request SUCCESS");
@@ -106,7 +107,7 @@ public class UserController {
   
   @Operation(summary = "To Register a new User in the system. If the email Id already exists in the system the Register will fail")
   @PostMapping("/register")
-  public ResponseEntity<String> registerUser(@RequestBody User user) {
+  public ResponseEntity<String> registerUser(@RequestBody UserDTO user) {
 	  
 	  logger.info("Received a registration request with User: {}", user);
 	  try {
@@ -160,10 +161,10 @@ public class UserController {
   //TODO SAMEUSER Auth
   @Operation(summary = "Update a User, given the User's id, the whole User object needs to be passed in the request")
   @PutMapping("/{userId}")
-  public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
+  public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO user) {
 	  
 	  try {
-		  User updatedUser = userService.updateUser(userId, user);
+		  UserDTO updatedUser = userService.updateUser(userId, user);
 	      return ResponseEntity.ok(updatedUser);
 	  }
       catch(EntityNotFoundException enf) {
@@ -174,7 +175,7 @@ public class UserController {
   //TODO SameUser Auth
   @Operation(summary = "Update a user's Address given User's id, the whole Address object needs to be passed in the request")
   @PutMapping("/{userId}/address")
-  public ResponseEntity<String> updateUserAddress(@PathVariable Long userId, @RequestBody Address address) {
+  public ResponseEntity<String> updateUserAddress(@PathVariable Long userId, @RequestBody AddressDTO address) {
 	  try {
 		  userService.updateAddress(userId, address);
 	      return ResponseEntity.ok("Address Updated Successfully");
@@ -204,8 +205,8 @@ public class UserController {
   @AuthNCheck // Apply the AuthAspect to this method
   //TODO SAMEUSER auth check
   @GetMapping("/{userId}/orders/status/{status}")
-  public List<Order> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
-      User user = userService.findUserById(userId);
+  public List<OrderDTO> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
+      UserDTO user = userService.findUserById(userId);
       return orderService.getOrdersByStatusForUser(user, status);
   }
   
@@ -214,15 +215,15 @@ public class UserController {
   @AuthNCheck // Apply the AuthAspect to this method
   //TODO SAMEUSER auth check
   @GetMapping("/{userId}/orders")
-  public List<Order> getAllOrdersByUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
-      User user = userService.findUserById(userId);
+  public List<OrderDTO> getAllOrdersByUser(@PathVariable Long userId) {
+      UserDTO user = userService.findUserById(userId);
       return orderService.getOrdersForUser(user);
   }
   
   //TODO SAMEUSER auth check
   @Operation(summary = "Check out the shopping cart. This creates an order and return the Order Object")
   @PostMapping("/{userId}/cart/checkOut")
-  public Order checkOutCart(@PathVariable Long userId) throws WorkflowException, ResourceNotFoundException {
+  public OrderDTO checkOutCart(@PathVariable Long userId) throws WorkflowException, ResourceNotFoundException {
 	return userService.checkOut(userId);
   }
   
@@ -230,7 +231,7 @@ public class UserController {
   @Operation(summary = "Add adress for a user. If the User already has an address, the add address will fail. "
   		+ "To update an address, use PUT")
   @PostMapping("/{userId}/address")
-  public Address addAddress(@PathVariable Long userId, @RequestBody Address address) throws WorkflowException, ResourceNotFoundException {
+  public AddressDTO addAddress(@PathVariable Long userId, @RequestBody AddressDTO address) throws WorkflowException, ResourceNotFoundException {
 	return userService.addAddress(userId, address);
   }
   
@@ -238,7 +239,7 @@ public class UserController {
   @Operation(summary = "Add Payment method for a user. If the User already has an Payment method, the call will fail. "
   		+ "To update Payment Method, use PUT")
   @PostMapping("/{userId}/payment")
-  public PaymentInfo addPaymentInfo(@PathVariable Long userId, @RequestBody PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException {
+  public PaymentInfoDTO addPaymentInfo(@PathVariable Long userId, @RequestBody PaymentInfoDTO paymentInfo) throws WorkflowException, ResourceNotFoundException {
 	return userService.addPaymentInfo(userId, paymentInfo);
   }
   

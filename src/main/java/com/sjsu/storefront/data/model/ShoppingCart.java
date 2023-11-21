@@ -62,9 +62,10 @@ public class ShoppingCart {
 		this.totalProductCost = 0.0;
 		this.totalShipping = 0.0;
 		this.totalWeight = 0.0;
-		List<CartItem> oldItems = new ArrayList<CartItem>();
-		oldItems.addAll(items);
-		this.items.removeAll(oldItems);
+		
+		 if (items != null) {
+	       items.clear();
+	     }
 	}
 
 	public double getTotalCost() {

@@ -7,7 +7,7 @@ import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.UserType;
 import com.sjsu.storefront.data.model.Product;
-import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.web.services.ProductService;
 import com.sjsu.storefront.web.services.UserService;
 
@@ -33,7 +33,7 @@ public class UserInitialization {
     
     public void createSuperUsers() {
 
-    	User adminUser = 	new User();
+    	UserDTO adminUser = 	new UserDTO();
         adminUser.setFirstName("Roxie");
         adminUser.setLastName("john");
         adminUser.setEmail("roxie@john.com");
@@ -41,7 +41,7 @@ public class UserInitialization {
         adminUser.setPhone("1234567890");
         adminUser.setUserType(UserType.ADMIN);
         
-    	User normalUser = 	new User();
+    	UserDTO normalUser = 	new UserDTO();
         normalUser.setFirstName("kevin");
         normalUser.setLastName("bacon");
         normalUser.setEmail("kevin@bacon.com");

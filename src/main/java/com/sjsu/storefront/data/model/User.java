@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.UserType;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -60,6 +61,16 @@ public class User {
 	public User() {
 		
 	}
+	
+	public User(UserDTO usrDto) {
+		this.id = usrDto.getId();
+		this.firstName = usrDto.getFirstName();
+		this.lastName = usrDto.getLastName();
+		this.email = usrDto.getEmail();
+		this.password = usrDto.getPassword();
+		this.phone = usrDto.getPhone();
+		this.userType = usrDto.getUserType();
+	}
 
 	public User(long id, String firstName, String lastName, String email, String password, String phone,
 			UserType userType, Address address, ShoppingCart cart, PaymentInfo payment_info, List<Order> orders) {
@@ -81,13 +92,13 @@ public class User {
 
 
 	//copy another user object into this user
-	public void set(User user) {
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.email = user.email;
-		this.password = user.password;
-		this.phone = user.phone;
-		this.userType = user.userType;
+	public void set(UserDTO user) {
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.phone = user.getPhone();
+		this.userType = user.getUserType();
 	}
 
 	public long getId() {

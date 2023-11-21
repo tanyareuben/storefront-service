@@ -37,6 +37,7 @@ public class CartServiceImpl implements CartService{
     	  
     	CartItem cartItem = new CartItem();
     	cartItem.setProduct(productService.getProduct(item.getProductId()));
+    	cartItem.setQuantity(item.getQuantity());
 		existingCart.addItem(cartItem);
 		updateShippingAndTotalCost(existingCart);
 		return shoppingCartRepository.save(existingCart);

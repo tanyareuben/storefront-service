@@ -1,5 +1,6 @@
 package com.sjsu.storefront.web.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,12 @@ import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.AddressDTO;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
+import com.sjsu.storefront.data.model.DTO.MeDTO;
+import com.sjsu.storefront.data.model.DTO.OrderDTO;
+import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
@@ -44,13 +50,13 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public void createUser(User user) throws DuplicateResourceException {
+	public void createUser(UserDTO userDTO) throws DuplicateResourceException {
 		
-		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+		Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
 		if (existingUser.isPresent()) {
 			throw new DuplicateResourceException("User with email already Exists");
 		}
-		
+		User user = new User(userDTO);
 		ShoppingCart cart = new ShoppingCart();
 		cart.setUser(user);
 		shoppingCartRepository.save(cart);
@@ -74,13 +80,41 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserById(Long id) {
-		return userRepository.findById(id).orElse(null);
+	public UserDTO findUserById(Long id) {
+		UserDTO usr;
+		User user = userRepository.findById(id).orElse(null);
+		if(user != null) {
+			usr = new UserDTO(user);
+		}
+		else {
+			usr = null;
+		}
+		return usr;
+	}
+	
+	@Override
+	public MeDTO findMe(Long id) {
+		MeDTO usr;
+		User user = userRepository.findById(id).orElse(null);
+		if(user != null) {
+			usr = new MeDTO(user);
+		}
+		else {
+			usr = null;
+		}
+		return usr;
 	}
 
+
 	@Override
-	public List<User> getAllUsers() {
-		return (List<User>) userRepository.findAll();
+	public List<UserDTO> getAllUsers() {
+		List<UserDTO> usrs = new ArrayList<UserDTO>();
+		List<User> users =  (List<User>) userRepository.findAll();
+		for (User user : users) {
+			UserDTO usrDTO = new UserDTO(user);
+			usrs.add(usrDTO);
+		}
+		return usrs;
 	}
 
 	@Transactional
@@ -110,29 +144,31 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public User updateUser(Long userId, User user) {
+	public UserDTO updateUser(Long userId, UserDTO user) {
 	      User existingUser = userRepository.findById(userId).orElse(null);
 	      if (existingUser == null) {
 	    	  throw new EntityNotFoundException("User Not found");
 	      }
 	      existingUser.set(user);
-	      return userRepository.save(existingUser);
+	      User savedUser = userRepository.save(existingUser);
+	      return new UserDTO(savedUser);
 	}
 
 	@Transactional
 	@Override
-	public void updateAddress(Long userId, Address address) {
+	public void updateAddress(Long userId, AddressDTO address) {
 		User existingUser = userRepository.findById(userId).orElse(null);
 		if (existingUser == null) {
 			throw new EntityNotFoundException("User Not found");
 		}
-		existingUser.setAddress(address);
+		Address newAddr = new Address(address);
+		existingUser.setAddress(newAddr);
 		userRepository.save(existingUser);
 	}
 
 	@Transactional
 	@Override
-	public Order checkOut(Long userId) throws WorkflowException, ResourceNotFoundException {
+	public OrderDTO checkOut(Long userId) throws WorkflowException, ResourceNotFoundException {
 		User existingUser = userRepository.findById(userId).orElse(null);
 		if (existingUser == null) {
 			throw new ResourceNotFoundException("User Not found");
@@ -145,7 +181,6 @@ public class UserServiceImpl implements UserService {
 			//create Order from Cart
 			Order order = new Order();
 			
-			order.setUser(existingUser);
 			order.setPaymentInfo(existingUser.getPayment_info());
 			order.setShippingAddress(existingUser.getAddress());
 			order.setStatus(OrderStatus.RECIEVED);
@@ -156,7 +191,15 @@ public class UserServiceImpl implements UserService {
 			order.setItems(itemsInCart);
 			order.setUser(existingUser); //add the order to the user
 			
+			if(existingUser.getAddress() == null) {
+				throw new WorkflowException("User do not have an address on file to ship the Orders to");
+			}
+			
 			order.setShippingAddress(existingUser.getAddress());
+
+			if(existingUser.getPayment_info() == null) {
+				throw new WorkflowException("User do not have a Payment Info setup.");
+			}
 			order.setPaymentInfo(existingUser.getPayment_info());
 			
 			//create the Order
@@ -164,9 +207,9 @@ public class UserServiceImpl implements UserService {
 			
 			//Empty user's Shopping Cart
 			cart.emptyCart();
-			shoppingCartRepository.save(cart);
+			//shoppingCartRepository.save(cart); - entity manager will handle the state
 			
-			return savedOrder;
+			return new OrderDTO(savedOrder);
 			
 		}
 		else {
@@ -176,7 +219,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public Address addAddress(Long userId, Address address) throws WorkflowException, ResourceNotFoundException {
+	public AddressDTO addAddress(Long userId, AddressDTO address) throws WorkflowException, ResourceNotFoundException {
 		
 		User existingUser = userRepository.findById(userId).orElse(null);
 		if (existingUser == null) {
@@ -186,15 +229,16 @@ public class UserServiceImpl implements UserService {
 		if(existingUser.getAddress() != null) {
 			throw new WorkflowException("User already has address.");
 		}
-		
-		existingUser.setAddress(address);
+		Address addr = new Address(address);
+		addr.setUser(existingUser);
+		existingUser.setAddress(addr);
 		userRepository.save(existingUser);
-		return existingUser.getAddress();
+		return new AddressDTO(existingUser.getAddress());
 	}
 	
 	@Transactional
 	@Override
-	public PaymentInfo addPaymentInfo(Long userId, PaymentInfo paymentInfo) throws WorkflowException, ResourceNotFoundException {
+	public PaymentInfoDTO addPaymentInfo(Long userId, PaymentInfoDTO paymentInfo) throws WorkflowException, ResourceNotFoundException {
 		
 		User existingUser = userRepository.findById(userId).orElse(null);
 		if (existingUser == null) {
@@ -204,10 +248,10 @@ public class UserServiceImpl implements UserService {
 		if(existingUser.getPayment_info() != null) {
 			throw new WorkflowException("User already has Payment method setup.");
 		}
-		
-		existingUser.setPayment_info(paymentInfo);
+		PaymentInfo pInfo = new PaymentInfo(paymentInfo);
+		existingUser.setPayment_info(pInfo);
 		userRepository.save(existingUser);
-		return existingUser.getPayment_info();
+		return(new PaymentInfoDTO(existingUser.getPayment_info()));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.sjsu.storefront.data.model.DTO;
 
+import com.sjsu.storefront.data.model.Address;
+
 public class AddressDTO {
 
     private Long id;
@@ -11,6 +13,16 @@ public class AddressDTO {
     private String country;
     
     public AddressDTO() {
+    }
+
+    public AddressDTO(Address address) {
+    	if(address != null) {
+    		this.street = address.getStreet();
+        	this.city = address.getCity();
+        	this.state = address.getState();
+        	this.zipCode = address.getZipCode();
+        	this.country = address.getCountry();
+    	}
     }
 
 

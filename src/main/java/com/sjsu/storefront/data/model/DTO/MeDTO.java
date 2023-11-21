@@ -1,13 +1,13 @@
 package com.sjsu.storefront.data.model.DTO;
 
-import java.util.List;
-
 import com.sjsu.storefront.common.UserType;
+import com.sjsu.storefront.data.model.Address;
+import com.sjsu.storefront.data.model.User;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
-public class meDTO {
+public class MeDTO {
     private long id;
 	
 	private String firstName;
@@ -25,14 +25,29 @@ public class meDTO {
 		
     private PaymentInfoDTO payment_info;
 	
-    private List<OrderDTO> orders;
-	
-	public meDTO() {
+	public MeDTO() {
 		
 	}
+	
+	public MeDTO(User usr) {
+		this.id = usr.getId();
+		this.email = usr.getEmail();
+		this.firstName = usr.getFirstName();
+		this.lastName = usr.getLastName();
+		this.password = usr.getPassword();
+		this.phone = usr.getPhone();
+		this.userType = usr.getUserType();
+		
+		if(usr.getAddress() != null) {
+			this.address = new AddressDTO(usr.getAddress());
+		}
+		if(usr.getPayment_info() != null) {
+			this.payment_info = new PaymentInfoDTO(usr.getPayment_info());
+		}
+	}
 
-	public meDTO(long id, String firstName, String lastName, String email, String password, String phone,
-			UserType userType, AddressDTO address, PaymentInfoDTO payment_info, List<OrderDTO> orders) {
+	public MeDTO(long id, String firstName, String lastName, String email, String password, String phone,
+			UserType userType, AddressDTO address, PaymentInfoDTO payment_info) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -43,7 +58,6 @@ public class meDTO {
 		this.userType = userType;
 		this.address = address;
 		this.payment_info = payment_info;
-		this.orders = orders;
 	}
 
 	public long getId() {
@@ -118,19 +132,11 @@ public class meDTO {
 		this.payment_info = payment_info;
 	}
 
-	public List<OrderDTO> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<OrderDTO> orders) {
-		this.orders = orders;
-	}
-
 	@Override
 	public String toString() {
 		return "meDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + ", address=" + address
-				+ ", payment_info=" + payment_info + ", orders=" + orders + "]";
+				+ ", payment_info=" + payment_info + "]";
 	}
 
 }

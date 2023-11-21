@@ -8,6 +8,8 @@ import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.DTO.OrderDTO;
+import com.sjsu.storefront.data.model.DTO.UserDTO;
 
 public interface OrderService {
 	public List<Order> getAllOrdersForUser( User user);
@@ -16,7 +18,7 @@ public interface OrderService {
 	public Long createOder(User user, ShoppingCart cart);
 	public Long cancelOrder(Long id) throws ResourceNotFoundException, WorkflowException;
 	public void updateOrderStatus(Long orderId, OrderStatus status);
-	public List<Order> getOrdersByStatusForUser(User user, OrderStatus orderStatus);
 	public Order addOrder(User user, Order order);
-	public List<Order> getOrdersForUser(User user);
+	public List<OrderDTO> getOrdersForUser(UserDTO user);
+	public List<OrderDTO> getOrdersByStatusForUser(UserDTO user, OrderStatus orderStatus);
 }

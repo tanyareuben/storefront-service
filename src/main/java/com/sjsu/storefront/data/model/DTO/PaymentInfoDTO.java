@@ -1,6 +1,7 @@
 package com.sjsu.storefront.data.model.DTO;
 
 import com.sjsu.storefront.common.CardType;
+import com.sjsu.storefront.data.model.PaymentInfo;
 
 
 public class PaymentInfoDTO {
@@ -14,6 +15,17 @@ public class PaymentInfoDTO {
     
     public PaymentInfoDTO() {
     	
+    }
+    
+    public PaymentInfoDTO(PaymentInfo info) {
+    	if(info != null) {
+        	this.cardNumber = info.getCardNumber();
+        	this.cardType = info.getCardType();
+        	this.CVV = info.getCVV();
+        	this.expiry = info.getExpiry();
+        	this.id = info.getId();
+        	this.nickName = info.getNickName();    		
+    	}
     }
 
 	public PaymentInfoDTO(Long id, String cardNumber, String expiry,

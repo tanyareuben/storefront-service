@@ -2,6 +2,7 @@ package com.sjsu.storefront.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,44 +14,35 @@ import jakarta.persistence.OneToOne;
 
 @JsonIgnoreProperties({"order", "cart"})
 @Entity
-public class CartItem {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private ShoppingCart cart;
     
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product", nullable = false)
     private Product product;
 
     private int quantity;
     
-    public CartItem() {
+    public OrderItem() {
     	
     }
-
-	public CartItem(Long id, ShoppingCart cart, Order order, Product product, int quantity) {
+    public OrderItem(CartItem item) {
+    	this.order = item.getOrder();
+    	this.product = item.getProduct();
+    	this.quantity = item.getQuantity();
+    }
+	public OrderItem(Long id, Order order, Product product, int quantity) {
 		super();
 		this.id = id;
-		this.cart = cart;
 		this.order = order;
 		this.product = product;
 		this.quantity = quantity;
-	}
-
-	public ShoppingCart getCart() {
-		return cart;
-	}
-
-	public void setCart(ShoppingCart cart) {
-		this.cart = cart;
 	}
 
 	public Product getProduct() {
@@ -83,7 +75,7 @@ public class CartItem {
 
 	@Override
 	public String toString() {
-		return "CartItem [id=" + id + ", cart=" + cart + ", order=" + order + ", product=" + product + ", quantity="
+		return "CartItem [id=" + id + ", order=" + order + ", product=" + product + ", quantity="
 				+ quantity + "]";
 	}
 

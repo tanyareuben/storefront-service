@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.data.model.Image;
+import com.sjsu.storefront.data.model.Product;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -40,6 +41,17 @@ public class ProductDTO {
 		
 	}
 
+	public ProductDTO(Product prod) {
+		this.id = prod.getId();
+		this.name = prod.getName();
+		this.description = prod.getDescription();
+		this.price = prod.getPrice();
+		this.weight = prod.getWeight();
+		this.quantityInStock = prod.getQuantityInStock();
+		this.productCategory = prod.getProductCategory();
+		this.images = prod.getImages();
+	}
+	
 	public ProductDTO(long id, String name, String description, double price, double weight, int quantityInStock,
 			ProductCategory productCategory, List<Image> images) {
 		super();

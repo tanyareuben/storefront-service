@@ -1,12 +1,7 @@
 package com.sjsu.storefront.data.model.DTO;
 
-import java.util.List;
-
 import com.sjsu.storefront.common.UserType;
-import com.sjsu.storefront.data.model.Address;
-import com.sjsu.storefront.data.model.Order;
-import com.sjsu.storefront.data.model.PaymentInfo;
-import com.sjsu.storefront.data.model.ShoppingCart;
+import com.sjsu.storefront.data.model.User;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,9 +26,20 @@ public class UserDTO {
 	public UserDTO() {
 		
 	}
+	
+	public UserDTO(User usr) {
+		this.id = usr.getId();
+		this.email = usr.getEmail();
+		this.firstName = usr.getFirstName();
+		this.lastName = usr.getLastName();
+		this.password = usr.getPassword();
+		this.phone = usr.getPhone();
+		this.userType = usr.getUserType();
+	}
+
 
 	public UserDTO(long id, String firstName, String lastName, String email, String password, String phone,
-			UserType userType, Address address, ShoppingCart cart, PaymentInfo payment_info, List<Order> orders) {
+			UserType userType) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -101,6 +107,4 @@ public class UserDTO {
 		return "UserDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + "]";
 	}
-	
-	
 }

@@ -1,6 +1,7 @@
 package com.sjsu.storefront.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sjsu.storefront.data.model.DTO.AddressDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,16 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 @JsonIgnoreProperties({"product"})
 @Entity
-@Table(name = "user")
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String street;
     private String city;
@@ -32,6 +31,13 @@ public class Address {
     public Address() {
     }
 
+    public Address(AddressDTO addr) {
+    	this.street = addr.getStreet();
+    	this.city = addr.getCity();
+    	this.state = addr.getState();
+    	this.zipCode = addr.getZipCode();
+    	this.country = addr.getCountry();
+    }
 
 	public Address(Long id, String street, String city, String state, String zipCode, String country, User user) {
 		super();
@@ -89,6 +95,14 @@ public class Address {
 		this.country = country;
 	}
 
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public String toString() {

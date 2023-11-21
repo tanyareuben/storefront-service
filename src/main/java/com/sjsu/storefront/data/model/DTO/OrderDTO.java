@@ -4,36 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.OrderStatus;
-import com.sjsu.storefront.data.model.Address;
-import com.sjsu.storefront.data.model.CartItem;
-import com.sjsu.storefront.data.model.PaymentInfo;
-import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.Order;
+import com.sjsu.storefront.data.model.OrderItem;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
-
-@JsonIgnoreProperties({"user"})
-@Entity
-@Table(name = "order_table")
 public class OrderDTO {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private long orderId;
 	private double totalCost;
 	private double totalShipping; 
 	private double totalWeight; 
@@ -44,44 +24,64 @@ public class OrderDTO {
 	private OrderStatus orderStatus;
 	
 	
- // Define the relationship with Items
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<CartItem> items = new ArrayList<>();
+    private List<OrderItemDTO> items = new ArrayList<>();
     
- // Define the relationship with User
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 	
- // Define the relationship with ShippingAddress
-    @OneToOne
-    @JoinColumn(name = "shipping_address_id")
-    private Address shippingAddress;
+    private AddressDTO shippingAddress;
 	
-	// Define the relationship with PaymentInfo
-    @OneToOne
-    @JoinColumn(name = "payment_info_id")
-    private PaymentInfo paymentInfo;
+    private PaymentInfoDTO paymentInfo;
 	
 	public OrderDTO() {
 		
 	}
+	
+	public OrderDTO(Order order) {
+		this.userId = order.getUser().getId();
+		this.orderId = order.getId();
+		this.orderDate = order.getOrderDate();
+		this.orderStatus = order.getOrderStatus();
+		this.totalCost = order.getTotalCost();
+		this.totalProductCost = order.getTotalProductCost();
+		this.totalShipping = order.getTotalShipping();
+		this.totalWeight = order.getTotalWeight();
+		this.shippingAddress = new AddressDTO(order.getShippingAddress());
+		this.paymentInfo = new PaymentInfoDTO(order.getPaymentInfo());
+		this.items = getDTOItems(order.getItems());
+	}
+	
+	private List<OrderItemDTO>getDTOItems(List<OrderItem> items) {
+		
+		List<OrderItemDTO> dtoItems = new ArrayList<OrderItemDTO>();
+		for(OrderItem item : items) {
+			dtoItems.add(new OrderItemDTO(item));
+		}
+		return dtoItems;
+	}
 
 	public OrderDTO(long id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
-			Date orderDate, OrderStatus status, List<CartItem> items, User user, Address shippingAddress,
-			PaymentInfo paymentInfo) {
+			Date orderDate, OrderStatus orderStatus, List<OrderItemDTO> items, Long userId, AddressDTO shippingAddress,
+			PaymentInfoDTO paymentInfo) {
 		super();
-		this.id = id;
+		this.orderId = id;
 		this.totalCost = totalCost;
 		this.totalShipping = totalShipping;
 		this.totalWeight = totalWeight;
 		this.totalProductCost = totalProductCost;
 		this.orderDate = orderDate;
-		this.orderStatus = status;
+		this.orderStatus = orderStatus;
 		this.items = items;
-		this.user = user;
+		this.userId = userId;
 		this.shippingAddress = shippingAddress;
 		this.paymentInfo = paymentInfo;
+	}
+
+	public long getId() {
+		return orderId;
+	}
+
+	public void setId(long id) {
+		this.orderId = id;
 	}
 
 	public double getTotalCost() {
@@ -116,43 +116,6 @@ public class OrderDTO {
 		this.totalProductCost = totalProductCost;
 	}
 
-	public List<CartItem> getItems() {
-		return items;
-	}
-
-	public void setItems(List<CartItem> items) {
-		this.items.addAll(items);
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Address getShippingAddress() {
-		return shippingAddress;
-	}
-
-	public void setShippingAddress(Address shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}
-
-	public PaymentInfo getPaymentInfo() {
-		return paymentInfo;
-	}
-
-	public void setPaymentInfo(PaymentInfo paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
-
-	public long getId() {
-		return id;
-	}
-	
-
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -161,20 +124,51 @@ public class OrderDTO {
 		this.orderDate = orderDate;
 	}
 
-	public OrderStatus getStatus() {
+	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setStatus(OrderStatus status) {
-		this.orderStatus = status;
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public List<OrderItemDTO> getItems() {
+		return items;
+	}
+
+	public void setItems(List<OrderItemDTO> items) {
+		this.items = items;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public AddressDTO getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(AddressDTO shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public PaymentInfoDTO getPaymentInfo() {
+		return paymentInfo;
+	}
+
+	public void setPaymentInfo(PaymentInfoDTO paymentInfo) {
+		this.paymentInfo = paymentInfo;
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", totalCost=" + totalCost + ", totalShipping=" + totalShipping + ", totalWeight="
-				+ totalWeight + ", totalProductCost=" + totalProductCost + ", orderDate=" + orderDate + ", status="
-				+ orderStatus + ", items=" + items + ", user=" + user + ", shippingAddress=" + shippingAddress
+		return "OrderDTO [id=" + orderId + ", totalCost=" + totalCost + ", totalShipping=" + totalShipping + ", totalWeight="
+				+ totalWeight + ", totalProductCost=" + totalProductCost + ", orderDate=" + orderDate + ", orderStatus="
+				+ orderStatus + ", items=" + items + ", userId=" + userId + ", shippingAddress=" + shippingAddress
 				+ ", paymentInfo=" + paymentInfo + "]";
 	}
-
 }

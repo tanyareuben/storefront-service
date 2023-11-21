@@ -19,7 +19,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 
 @JsonIgnoreProperties({"user"})
@@ -34,6 +37,8 @@ public class Order {
 	private double totalShipping; 
 	private double totalWeight; 
 	private double totalProductCost;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date orderDate;
 	
 	@Enumerated(EnumType.STRING)
@@ -42,7 +47,7 @@ public class Order {
 	
  // Define the relationship with Items
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<CartItem> items = new ArrayList<>();
+    private List<OrderItem> items;
     
  // Define the relationship with User
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,13 +63,18 @@ public class Order {
     @OneToOne
     @JoinColumn(name = "payment_info_id")
     private PaymentInfo paymentInfo;
+    
+    @PrePersist
+    protected void onCreate() {
+    	orderDate = new Date();
+    }
 	
 	public Order() {
 		
 	}
 
 	public Order(long id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
-			Date orderDate, OrderStatus status, List<CartItem> items, User user, Address shippingAddress,
+			Date orderDate, OrderStatus status, List<OrderItem> items, User user, Address shippingAddress,
 			PaymentInfo paymentInfo) {
 		super();
 		this.id = id;
@@ -112,12 +122,19 @@ public class Order {
 		this.totalProductCost = totalProductCost;
 	}
 
-	public List<CartItem> getItems() {
+	public List<OrderItem> getItems() {
 		return items;
 	}
 
 	public void setItems(List<CartItem> items) {
-		this.items.addAll(items);
+		for(CartItem item : items) {
+			OrderItem oItem = new OrderItem(item);
+			oItem.setOrder(this); //set the order to the item
+			if(this.items == null) {
+				this.items = new ArrayList<OrderItem>();
+			}
+			this.items.add(oItem);
+		}
 	}
 
 	public User getUser() {
@@ -163,6 +180,14 @@ public class Order {
 
 	public void setStatus(OrderStatus status) {
 		this.orderStatus = status;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	@Override
