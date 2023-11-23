@@ -1,6 +1,5 @@
 package com.sjsu.storefront.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.data.model.DTO.AddressDTO;
 
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
-@JsonIgnoreProperties({"product"})
 @Entity
 public class Address {
 

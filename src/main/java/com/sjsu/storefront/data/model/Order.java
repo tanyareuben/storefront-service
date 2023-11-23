@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -24,8 +23,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-
-@JsonIgnoreProperties({"user"})
 @Entity
 @Table(name = "order_table")
 public class Order {
@@ -128,7 +125,7 @@ public class Order {
 
 	public void setItems(List<CartItem> items) {
 		for(CartItem item : items) {
-			OrderItem oItem = new OrderItem(item);
+			OrderItem oItem = new OrderItem(item, this);
 			oItem.setOrder(this); //set the order to the item
 			if(this.items == null) {
 				this.items = new ArrayList<OrderItem>();

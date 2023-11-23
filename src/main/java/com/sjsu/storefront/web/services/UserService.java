@@ -12,6 +12,7 @@ import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.model.DTO.MeDTO;
 import com.sjsu.storefront.data.model.DTO.OrderDTO;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
+import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.web.UserSession;
 
@@ -26,7 +27,7 @@ public interface UserService {
 	public ShoppingCart getUserCart(Long userId);
 	public OrderDTO checkOut(Long userId) throws WorkflowException, ResourceNotFoundException;
 	
-	public ShoppingCart addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException;
+	public ShoppingCartDTO addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException;
 
 	public void createUser(UserDTO userDTO) throws DuplicateResourceException;
 	public UserDTO updateUser(Long userId, UserDTO user);

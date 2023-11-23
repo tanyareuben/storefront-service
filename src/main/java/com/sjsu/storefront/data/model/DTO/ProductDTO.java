@@ -7,22 +7,10 @@ import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "products")
 public class ProductDTO {
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
 	private String description;
@@ -33,9 +21,7 @@ public class ProductDTO {
 	@Enumerated(EnumType.STRING)  // This annotation specifies that the enum values should be stored as strings in the database
 	private ProductCategory productCategory;
 	
-    // Define the one-to-many relationship
-    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images = new ArrayList<Image>();
+    private List<ImageDTO> images = new ArrayList<ImageDTO>();
 	
 	public ProductDTO(){
 		
@@ -49,11 +35,13 @@ public class ProductDTO {
 		this.weight = prod.getWeight();
 		this.quantityInStock = prod.getQuantityInStock();
 		this.productCategory = prod.getProductCategory();
-		this.images = prod.getImages();
+		for(Image img : prod.getImages()) {
+			this.images.add(new ImageDTO(img));
+		}
 	}
 	
 	public ProductDTO(long id, String name, String description, double price, double weight, int quantityInStock,
-			ProductCategory productCategory, List<Image> images) {
+			ProductCategory productCategory, List<ImageDTO> images) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -74,20 +62,6 @@ public class ProductDTO {
 		this.quantityInStock = item.quantityInStock; 
 		this.productCategory = item.productCategory;
 		this.images = item.images;
-	}
-	
-	public void addImage(Image img) {
-		images.add(img);
-	}
-	
-	public void deleteImage(Long id) {
-		for(Image img : images) {
-			if(img.getId() == id) {
-				images.remove(img);
-				img.setProduct(null);
-				break;
-			}
-		}
 	}
 
 	public String getName() {
@@ -138,11 +112,11 @@ public class ProductDTO {
 		this.productCategory = productCategory;
 	}
 
-	public List<Image> getImages() {
+	public List<ImageDTO> getImages() {
 		return images;
 	}
 
-	public void setImages(List<Image> images) {
+	public void setImages(List<ImageDTO> images) {
 		this.images = images;
 	}
 

@@ -1,6 +1,6 @@
 package com.sjsu.storefront.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sjsu.storefront.data.model.DTO.ImageDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-
-@JsonIgnoreProperties({"product"})
 @Entity
 @Table(name = "images")
 public class Image {
@@ -30,6 +28,13 @@ public class Image {
 	public Image()
 	{
 		
+	}
+	
+	public Image(ImageDTO img, Product prod)
+	{
+		this.id = img.getId();
+		this.imageLink = img.getImageLink();
+		this.product = prod;
 	}
 	
 	public Image(long id, String imageLink, Product product) {

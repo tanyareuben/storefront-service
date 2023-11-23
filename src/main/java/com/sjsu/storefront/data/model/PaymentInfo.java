@@ -1,6 +1,5 @@
 package com.sjsu.storefront.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sjsu.storefront.common.CardType;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
 
@@ -11,8 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
-
-@JsonIgnoreProperties({"user"})
 @Entity
 public class PaymentInfo {
     @Id

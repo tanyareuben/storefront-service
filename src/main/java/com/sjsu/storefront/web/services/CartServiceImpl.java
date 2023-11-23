@@ -11,6 +11,7 @@ import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
+import com.sjsu.storefront.data.respository.ProductRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,6 +21,9 @@ public class CartServiceImpl implements CartService{
 	
 	@Autowired
 	ShoppingCartRepository shoppingCartRepository;
+	
+	@Autowired
+	ProductRepository productRepository;
 	
 	@Autowired
 	ProductService productService;
@@ -36,11 +40,15 @@ public class CartServiceImpl implements CartService{
       if (existingCart != null) {
     	  
     	CartItem cartItem = new CartItem();
-    	cartItem.setProduct(productService.getProduct(item.getProductId()));
+	    Product prod = productRepository.findById(item.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + item.getProductId()));
+
+    	cartItem.setProduct(prod);
     	cartItem.setQuantity(item.getQuantity());
 		existingCart.addItem(cartItem);
 		updateShippingAndTotalCost(existingCart);
-		return shoppingCartRepository.save(existingCart);
+		ShoppingCart updatedCart = shoppingCartRepository.save(existingCart);
+		return updatedCart;
       
       }
       else {

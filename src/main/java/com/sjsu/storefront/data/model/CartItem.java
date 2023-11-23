@@ -1,17 +1,12 @@
 package com.sjsu.storefront.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
-
-@JsonIgnoreProperties({"order", "cart"})
 @Entity
 public class CartItem {
     @Id
@@ -21,13 +16,9 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private ShoppingCart cart;
-    
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
@@ -40,7 +31,6 @@ public class CartItem {
 		super();
 		this.id = id;
 		this.cart = cart;
-		this.order = order;
 		this.product = product;
 		this.quantity = quantity;
 	}
@@ -73,17 +63,9 @@ public class CartItem {
 		return id;
 	}
 
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
 	@Override
 	public String toString() {
-		return "CartItem [id=" + id + ", cart=" + cart + ", order=" + order + ", product=" + product + ", quantity="
+		return "CartItem [id=" + id + ", cart=" + cart + ", product=" + product + ", quantity="
 				+ quantity + "]";
 	}
 

@@ -8,7 +8,7 @@
     "productCategory": "FRUIT",
     "images": [
       {
-        "imageLink": "https://produits.bienmanger.com/34887-0w470h470_Organic_Apples_Royal_Gala_From_Frnace.jpg"
+        "imageLink": "https://cdn.midjourney.com/7f881400-ecf5-42a0-875f-a1eebc1e1b2f/0_2.webp"
       }
     ]
   },
@@ -48,6 +48,19 @@
     "images": [
       {
         "imageLink": "https://images.albertsons-media.com/is/image/ABS/184710082?$ecom-pdp-desktop$&defaultImage=Not_Available&defaultImage=Not_Available"
+      }
+    ]
+  },
+  {
+    "name": "Eggs",
+    "description": "Farm Fresh",
+    "price": 8.70,
+    "weight": 1.2,
+    "quantityInStock": 200,
+    "productCategory": "POULTRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/3085e1b4-8438-4bdc-bc23-b33aed55ccd4/0_1.webp"
       }
     ]
   }

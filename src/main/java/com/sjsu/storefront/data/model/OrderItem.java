@@ -1,30 +1,26 @@
 package com.sjsu.storefront.data.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 
-@JsonIgnoreProperties({"order", "cart"})
 @Entity
 public class OrderItem {
-    @Id
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
@@ -32,8 +28,8 @@ public class OrderItem {
     public OrderItem() {
     	
     }
-    public OrderItem(CartItem item) {
-    	this.order = item.getOrder();
+    public OrderItem(CartItem item, Order order) {
+    	this.order = order;
     	this.product = item.getProduct();
     	this.quantity = item.getQuantity();
     }

@@ -1,7 +1,6 @@
 package com.sjsu.storefront.data.model.DTO;
 
 import com.sjsu.storefront.common.UserType;
-import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.User;
 
 import jakarta.persistence.EnumType;

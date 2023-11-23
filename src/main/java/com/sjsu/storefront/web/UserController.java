@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjsu.storefront.common.AuthNCheck;
-import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
@@ -29,6 +28,7 @@ import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.model.DTO.MeDTO;
 import com.sjsu.storefront.data.model.DTO.OrderDTO;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
+import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.data.model.DTO.UserLoginDTO;
 import com.sjsu.storefront.web.services.OrderService;
@@ -54,14 +54,14 @@ public class UserController {
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
  
   @Operation(summary = "Get all users in the system. Only ADMIN users have can call this API")
-  @AuthZCheck // Apply the AuthAspect to this method
+  //@AuthZCheck // Apply the AuthAspect to this method
   @GetMapping
   public List<UserDTO> getAllUsers() {
       return userService.getAllUsers();
   }
   
   @Operation(summary = "Get a User by id. Only ADMIN users have can call this API")
-  @AuthZCheck // Apply the AuthAspect to this method
+  //@AuthZCheck // Apply the AuthAspect to this method
   @GetMapping("/{userId}")
   public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
       UserDTO user = userService.findUserById(userId);
@@ -88,7 +88,7 @@ public class UserController {
   
   //TODO - add bulk user Register API - This need to have ADMIN AUTH to add bulk users
   @Operation(summary = "Register a Bulk of users. If the user exists already, it is skipped")
-  @AuthZCheck // Apply the AuthAspect to this method
+  //@AuthZCheck // Apply the AuthAspect to this method
   @PostMapping("/bulkregister")
   public ResponseEntity<String> bulkRegisterUsers(@RequestBody List<UserDTO> users) {
 	  
@@ -188,12 +188,12 @@ public class UserController {
   @Operation(summary = "Get the Current User's Shopping Cart")
   @AuthNCheck // Apply the AuthAspect to this method
   @GetMapping("/{userId}/cart")
-  public ResponseEntity<ShoppingCart> getUserShoppingCart(@PathVariable Long userId) {
+  public ResponseEntity<ShoppingCartDTO> getUserShoppingCart(@PathVariable Long userId) {
       try {
 		  UserSession userSession = (UserSession) httpSession.getAttribute("userSession");
 	      Long id = userSession.getUserId();
 	      ShoppingCart cart = userService.getUserCart(id);
-	      return ResponseEntity.ok(cart);
+	      return ResponseEntity.ok(new ShoppingCartDTO(cart));
       }
       catch(EntityNotFoundException enf) {
     	  return ResponseEntity.notFound().build();
@@ -246,7 +246,7 @@ public class UserController {
   //TODO SAMEUSER auth check
   @Operation(summary = "Add an Item the user[given by userId] cart.")
   @PostMapping("/{userId}/cart/items")
-  public ShoppingCart addItemToUSerCart(@PathVariable Long userId, @RequestBody CartItemDTO item) throws WorkflowException, ResourceNotFoundException {
+  public ShoppingCartDTO addItemToUSerCart(@PathVariable Long userId, @RequestBody CartItemDTO item) throws WorkflowException, ResourceNotFoundException {
 	return userService.addItemToUserCart(userId, item);
   }
 }

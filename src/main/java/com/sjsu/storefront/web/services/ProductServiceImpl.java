@@ -1,5 +1,6 @@
 package com.sjsu.storefront.web.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,8 @@ import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
+import com.sjsu.storefront.data.model.DTO.ImageDTO;
+import com.sjsu.storefront.data.model.DTO.ProductDTO;
 import com.sjsu.storefront.data.respository.ImageRepository;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
@@ -72,13 +75,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public void addImage(Long id, Image image) throws Exception {
+	public void addImage(Long id, ImageDTO image) throws Exception {
 	  Product existingProduct = productRepository.findById(id).orElse(null);
       if (existingProduct == null) {
           throw new ResourceNotFoundException("Product not found");
       }
-      image.setProduct(existingProduct);
-      existingProduct.addImage(image);
+      Image img = new Image(image,existingProduct);
+      existingProduct.addImage(img);
       productRepository.save(existingProduct);
 	}
 
@@ -98,14 +101,22 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public List<Product> getAllProducts() {
-	   return (List<Product>) productRepository.findAll();
+	public List<ProductDTO> getAllProducts() {
+	   
+	   List<Product> products = productRepository.findAll();
+	   List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+	   for(Product product : products) {
+		   ProductDTO pDTO = new ProductDTO(product);
+		   productDTOs.add(pDTO);
+	   }
+	   return productDTOs;
 	}
 
 	@Transactional
 	@Override
-	public Product getProduct(Long id) throws ResourceNotFoundException {
-	      return productRepository.findById(id)
+	public ProductDTO getProduct(Long id) throws ResourceNotFoundException {
+	    Product prod = productRepository.findById(id)
 	                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
+	    return new ProductDTO(prod);
 	}
 }

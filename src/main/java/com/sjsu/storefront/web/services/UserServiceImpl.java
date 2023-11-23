@@ -23,6 +23,7 @@ import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.model.DTO.MeDTO;
 import com.sjsu.storefront.data.model.DTO.OrderDTO;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
+import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
@@ -255,12 +256,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ShoppingCart addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException {
+	public ShoppingCartDTO addItemToUserCart(Long userId, CartItemDTO item) throws ResourceNotFoundException, WorkflowException {
 		ShoppingCart cart = getUserCart(userId);
 		if (cart == null) {
 			throw new WorkflowException("User's cart is not found, this is weird");
 		}
-		return cartService.addItemIntoCart(cart.getId(), item);
+		ShoppingCart updatedCart = cartService.addItemIntoCart(cart.getId(), item);
+		return new ShoppingCartDTO(updatedCart);
 	}
 
 }

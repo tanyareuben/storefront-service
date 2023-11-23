@@ -24,6 +24,8 @@ import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
+import com.sjsu.storefront.data.model.DTO.ImageDTO;
+import com.sjsu.storefront.data.model.DTO.ProductDTO;
 import com.sjsu.storefront.web.services.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,16 +42,16 @@ public class ProductController {
 	    
 	@Operation(summary = "Get all Products in the system")
 	@GetMapping
-	public ResponseEntity<List<Product>> getAllProducts() {
+	public ResponseEntity<List<ProductDTO>> getAllProducts() {
 
-        List<Product> products = productService.getAllProducts();
+        List<ProductDTO> products = productService.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
 
 	@Operation(summary = "Get a Product Details by id")
 	@GetMapping("/{id}")
-	public Product getItemById(@PathVariable Long id) throws ResourceNotFoundException {
+	public ProductDTO getItemById(@PathVariable Long id) throws ResourceNotFoundException {
 	    return productService.getProduct(id);
 	}
 	
@@ -80,7 +82,7 @@ public class ProductController {
 	@Operation(summary = "Add a new Image to the Product")
 	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping("{id}/images")
-	public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody Image image) throws Exception {
+	public ResponseEntity<String> addImage(@PathVariable Long id, @RequestBody ImageDTO image) throws Exception {
 	    productService.addImage(id, image);
 	    return ResponseEntity.ok("Images Successfully added");
 	}

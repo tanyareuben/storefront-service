@@ -17,6 +17,7 @@ public class AddressDTO {
 
     public AddressDTO(Address address) {
     	if(address != null) {
+    		this.id = address.getId();
     		this.street = address.getStreet();
         	this.city = address.getCity();
         	this.state = address.getState();

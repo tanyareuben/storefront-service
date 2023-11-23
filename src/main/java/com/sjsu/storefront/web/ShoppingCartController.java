@@ -15,6 +15,8 @@ import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
+import com.sjsu.storefront.data.model.DTO.CartItemDetailDTO;
+import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 import com.sjsu.storefront.web.services.CartService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,22 +32,22 @@ public class ShoppingCartController {
 	  //TODO add auth check SameUser
 	  @Operation(summary = "Get a shopping cart by id")
 	  @GetMapping("/{cartId}")
-	  public ResponseEntity<ShoppingCart> getShoppingCartById(@PathVariable Long cartId) {
+	  public ResponseEntity<ShoppingCartDTO> getShoppingCartById(@PathVariable Long cartId) {
 		  ShoppingCart shoppingCart = cartService.getShoppingCartById(cartId);
 	      if (shoppingCart == null) {
 	          return ResponseEntity.notFound().build();
 	      }
-	      return ResponseEntity.ok(shoppingCart);
+	      return ResponseEntity.ok(new ShoppingCartDTO(shoppingCart));
 	  }
 	  
 	  //TODO add the SameUser
 	  @Operation(summary = "Add a CartItem to the Cart given Cart's id")
 	  @PostMapping("/{cartId}/items")
-	  public ResponseEntity<ShoppingCart> addItemToCart(@PathVariable Long cartId, @RequestBody CartItemDTO item) {
+	  public ResponseEntity<ShoppingCartDTO> addItemToCart(@PathVariable Long cartId, @RequestBody CartItemDTO item) {
 
 		  try {
 			ShoppingCart cart =  cartService.addItemIntoCart(cartId, item);
-			return ResponseEntity.ok(cart);
+			return ResponseEntity.ok(new ShoppingCartDTO(cart));
 		  } catch (ResourceNotFoundException e) {
 			  return ResponseEntity.notFound().build();
 		  } catch (Exception e) {
@@ -71,7 +73,7 @@ public class ShoppingCartController {
 	  //TODO add auth check SameUser
 	  @Operation(summary = "Update a cart Items given Cart's id, the List of CartItems needs to be passed in the request")
 	  @DeleteMapping("/{cartId}/items/{cartItemId}")
-	  public ResponseEntity<ShoppingCart> deleteCartItem(@PathVariable Long cartId, @RequestBody Long cartItemId) {
+	  public ResponseEntity<ShoppingCart> deleteCartItem(@PathVariable Long cartId, @PathVariable Long cartItemId) {
 		  try {
 			ShoppingCart cart =  cartService.deleteItemFromCart(cartId, cartItemId);
 			return ResponseEntity.ok(cart);
