@@ -2,8 +2,8 @@
   {
     "name": "Apple",
     "description": "Crunchy and Organic",
-    "price": 1.1,
-    "weight": 20,
+    "price": 2.99,
+    "weight": 1,
     "quantityInStock": 100,
     "productCategory": "FRUIT",
     "images": [
@@ -15,52 +15,871 @@
   {
     "name": "Orange",
     "description": "Juicy and Organic",
-    "price": 1.25,
-    "weight": 10,
+    "price": 1.49,
+    "weight": 1,
     "quantityInStock": 300,
     "productCategory": "FRUIT",
     "images": [
       {
-        "imageLink": "https://produits.bienmanger.com/33285-0w470h470_Organic_Fresh_Oranges_From_Italy_New_Hall.jpg"
+        "imageLink": "https://cdn.midjourney.com/ffd4abfa-6282-473b-b432-2916e12c802b/0_2.webp"
       }
     ]
   },
   {
-    "name": "Tomatto",
+    "name": "Strawberry",
     "description": "Juicy and Organic",
-    "price": 0.25,
-    "weight": 50,
-    "quantityInStock": 700,
-    "productCategory": "VEGITABLE",
+    "price": 4.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "FRUIT",
     "images": [
       {
-        "imageLink": "https://images.albertsons-media.com/is/image/ABS/184710696?$ecom-pdp-desktop$&defaultImage=Not_Available&defaultImage=Not_Available"
+        "imageLink": "https://cdn.midjourney.com/e625886d-1447-42d4-aa35-c70d7f0917ad/0_1.webp"
       }
     ]
   },
   {
-    "name": "Carrots",
+    "name": "Pear",
     "description": "Crunchy and Organic",
-    "price": 0.75,
-    "weight": 75,
-    "quantityInStock": 200,
-    "productCategory": "VEGITABLE",
+    "price": 2.69,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "FRUIT",
     "images": [
       {
-        "imageLink": "https://images.albertsons-media.com/is/image/ABS/184710082?$ecom-pdp-desktop$&defaultImage=Not_Available&defaultImage=Not_Available"
+        "imageLink": "https://cdn.midjourney.com/38452054-966b-482a-a543-cb58659f1714/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Cherries",
+    "description": "Juicy and Organic",
+    "price": 3.21,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/97070fd6-bb50-43ee-88a7-a66b1537228d/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Green Grapes",
+    "description": "Crunchy and Organic",
+    "price": 3.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/12718793-e3e1-4ce4-a6c2-b2a4b6e7e551/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Red Grapes",
+    "description": "Crunchy and Organic",
+    "price": 3.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/afbb6156-7627-46cb-a9ae-533c01c1c541/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Purple Grapes",
+    "description": "Crunchy and Organic",
+    "price": 3.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/c61c7ce8-c659-469e-be20-76b685e666f0/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Banana",
+    "description": "Delicious and Organic",
+    "price": 0.99,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/86dccbc0-f8e5-42ab-9533-1984236d5494/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Peach",
+    "description": "Juicy and Organic",
+    "price": 2.99,
+    "weight": 1.0,
+    "quantityInStock": 250,
+    "productCategory": "FRUIT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/baf6e37f-df5a-4fdf-9267-116b29c726bc/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Tomato",
+    "description": "Juicy and Organic",
+    "price": 3.69,
+    "weight": 1,
+    "quantityInStock": 400,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/f3db5e5e-f8d1-49be-a042-361b97f0facc/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Carrot",
+    "description": "Crunchy and Organic",
+    "price": 1.49,
+    "weight": 1,
+    "quantityInStock": 150,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/cab96cfe-a4b0-4e1e-9b80-c6adf15f2cce/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Red Bell Pepper",
+    "description": "Crunchy and Organic",
+    "price": 4.47,
+    "weight": 1.00,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/f7e910a4-d6b8-40dd-a0d7-1a1807572359/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Green Bell Pepper",
+    "description": "Crunchy and Organic",
+    "price": 4.47,
+    "weight": 1.00,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/bd93cd50-3ce0-4389-9c0b-57b9e8114aa2/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Yellow Bell Pepper",
+    "description": "Crunchy and Organic",
+    "price": 4.47,
+    "weight": 1.00,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/0d2a4b06-c780-4e42-93d9-1f1df63f7573/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Orange Bell Pepper",
+    "description": "Crunchy and Organic",
+    "price": 4.47,
+    "weight": 1.00,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/38bca86d-0039-4239-811d-5eda25f12590/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Lettuce",
+    "description": "Crunchy and Organic",
+    "price": 2.99,
+    "weight": 1.00,
+    "quantityInStock": 350,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/864e125a-ca17-442a-96da-157fb6bc9104/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Red Cabbage",
+    "description": "Crunchy and Organic",
+    "price": 1.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/aff4561f-d2f1-4086-a12e-dcac1eb718f5/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Green Cabbage",
+    "description": "Crunchy and Organic",
+    "price": 1.99,
+    "weight": 1.00,
+    "quantityInStock": 200,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/99f57b20-9c3c-4fb3-85d4-8198aa1fee25/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Red Onion",
+    "description": "Crunchy and Organic",
+    "price": 2.49,
+    "weight": 1.00,
+    "quantityInStock": 250,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/57aeda97-61d2-40bc-9703-5f96917e4ee5/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Yellow Onion",
+    "description": "Crunchy and Organic",
+    "price": 2.49,
+    "weight": 1.00,
+    "quantityInStock": 250,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/ed58c368-af12-488d-859d-90b0f130cf2a/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Spinach",
+    "description": "Crunchy and Organic",
+    "price": 2.49,
+    "weight": 1.00,
+    "quantityInStock": 250,
+    "productCategory": "VEGETABLE",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/7f5b2718-e355-4ac9-90b3-55ad2ac8412a/0_3.webp"
       }
     ]
   },
   {
     "name": "Eggs",
-    "description": "Farm Fresh",
-    "price": 8.70,
-    "weight": 1.2,
-    "quantityInStock": 200,
-    "productCategory": "POULTRY",
+    "description": "Dozen Farm Fresh Eggs",
+    "price": 4.99,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "MEAT",
     "images": [
       {
-        "imageLink": "https://cdn.midjourney.com/3085e1b4-8438-4bdc-bc23-b33aed55ccd4/0_1.webp"
+        "imageLink": "https://cdn.midjourney.com/94c5cff7-642b-47eb-b8de-b82a460a35f7/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Chicken Breast",
+    "description": "Organic Chicken Breast",
+    "price": 5.99,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "MEAT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/cf0d9890-b972-45a4-be96-3cad9a5893fe/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Ground Turkey",
+    "description": "Organic Ground Turkey",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "MEAT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/016e8756-151a-4c79-96c1-98d49fe75cd2/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Beef Ribeye",
+    "description": "Organic Beef Ribeye",
+    "price": 18.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "MEAT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/d8b0281a-9c06-4ff6-9274-13711ef72e06/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Ground Beef",
+    "description": "Organic Ground Beef",
+    "price": 7.99,
+    "weight": 1.0,
+    "quantityInStock": 250,
+    "productCategory": "MEAT",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/6c60d285-9f7c-4a5b-a03d-bd9a39f1be71/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Shrimp",
+    "description": "Organic Shrimp",
+    "price": 12.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/4bf118fb-98c6-4a7f-9c59-00a82ca319aa/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Mahi Mahi",
+    "description": "Organic Mahi Mahi Fish",
+    "price": 13.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/29e4f299-cf31-4b51-8dde-a0c2e825349a/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Salmon",
+    "description": "Organic Salmon Fish",
+    "price": 16.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/82947aa0-8836-4531-9a99-31f01ba5a1d6/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Tilapia",
+    "description": "Organic Tilapia Fish",
+    "price": 11.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/689530e7-e0c6-40be-8271-f373a53f24cd/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Tuna",
+    "description": "Organic Tuna Fish",
+    "price": 24.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/70964d17-170c-4d3d-bacc-710a90fee40a/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Cod",
+    "description": "Organic Cod Fish",
+    "price": 12.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/b1d4c338-ab3f-40d8-a8a8-193a1509da9f/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Scallops",
+    "description": "Organic Scallops",
+    "price": 21.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/58334388-8e87-4f6f-acb5-74a9dac069ad/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Lobster Tails",
+    "description": "Organic Lobster Tails",
+    "price": 36.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "SEAFOOD",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/ccb5cb56-0d1f-4f38-9f88-cbf980eaf71f/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "White Rice",
+    "description": "Organic White Rice",
+    "price": 1.10,
+    "weight": 1.0,
+    "quantityInStock": 500,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/d60debd2-8fc2-4c10-916e-23e5c5a053c9/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Brown Rice",
+    "description": "Organic Brown Rice",
+    "price": 1.49,
+    "weight": 1.0,
+    "quantityInStock": 400,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/a2c86827-3591-4627-b010-819a1bcc3092/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Fettuccine",
+    "description": "Organic Fettuccine Pasta",
+    "price": 1.79,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/14815433-4041-4b47-9390-9e1e5ff7f791/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Rotini",
+    "description": "Organic Rotini Pasta",
+    "price": 1.79,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/84743619-5e99-4ffe-9717-4e253284abdb/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Elbows",
+    "description": "Organic Elbows Pasta",
+    "price": 1.79,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/ec1b6a52-b9ca-4175-9d19-4bf6556c53ba/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Spaghetti",
+    "description": "Organic Spaghetti Pasta",
+    "price": 1.79,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/df95395c-047f-4c3c-94fc-bd74be906591/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Barley",
+    "description": "Organic Barley",
+    "price": 2.29,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/79c8e607-0318-4e20-97c9-240c8b5337d6/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Oats",
+    "description": "Organic Oats",
+    "price": 2.49,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/fbb8ed6a-0a91-4d53-bd40-fab700b60674/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Quinoa",
+    "description": "Organic Quinoa",
+    "price": 3.79,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/2bf97bcd-9722-42d9-9c61-7dd6b678a8d3/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Flour",
+    "description": "Organic Flour",
+    "price": 1.10,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "GRAIN",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/fcb7d08a-4dfd-4f5c-8a9b-a8b4ee7e62dc/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Milk",
+    "description": "One Gallon Of Organic Milk",
+    "price": 7.99,
+    "weight": 9.00,
+    "quantityInStock": 300,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/b362a592-b946-4575-9c2e-584281a8c787/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Cheddar",
+    "description": "Organic Cheddar Cheese",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/66f8f521-6f96-48fc-9bf5-6812688691ab/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Mozzarella",
+    "description": "Organic Mozzarella Cheese",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/42f4531c-323d-45f9-ae53-1324559ea454/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Parmesan",
+    "description": "Organic Parmesan Cheese",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/a42b9c04-cb5d-47f6-be10-ab8799fadca9/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Plain Yogurt",
+    "description": "Organic Plain Yogurt",
+    "price": 1.50,
+    "weight": 1.0,
+    "quantityInStock": 250,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/9f5c4cbe-a139-45bf-9fce-53e8d2ab6a42/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Strawberry Yogurt",
+    "description": "Organic Strawberry Yogurt",
+    "price": 1.50,
+    "weight": 1.0,
+    "quantityInStock": 250,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/3ecdb443-4ec1-4b20-87ec-aa236fb98977/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Honey Vanilla Yogurt",
+    "description": "Organic Honey Vanilla Yogurt",
+    "price": 1.50,
+    "weight": 1.0,
+    "quantityInStock": 250,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/206e110f-700d-4449-a0c7-1d643b385c83/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Butter",
+    "description": "Organic Butter",
+    "price": 5.99,
+    "weight": 1.0,
+    "quantityInStock": 400,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/1ac54999-85d3-4cc7-b53f-099c2f03130e/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Heavy Cream",
+    "description": "Organic Heavy Cream",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/6acfb25c-88c7-48cd-a529-415b5e7b5968/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Sour Cream",
+    "description": "Organic Sour Cream",
+    "price": 2.50,
+    "weight": 1.0,
+    "quantityInStock": 150,
+    "productCategory": "DAIRY",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/afc46eea-25ee-4bf1-9964-8309bcde85c4/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Cinnamon Cereal",
+    "description": "Delicious and Crunchy ",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/72c1d47d-d8e6-490c-a6e3-a5207810acbd/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Honey Nut Cereal",
+    "description": "Delicious and Crunchy ",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/c7bead73-242c-495e-bfd0-4cf611ff9cd0/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Frosted Flakes Cereal",
+    "description": "Delicious and Crunchy ",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/2d895103-fb7c-4c85-bbd2-f964ac35afc7/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Raisin Bran Cereal",
+    "description": "Delicious and Crunchy ",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/ff4ec36c-7552-46d9-89b3-40fef9be25f0/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "White Sugar",
+    "description": "Organic Sugar",
+    "price": 1.37,
+    "weight": 1.0,
+    "quantityInStock": 400,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/18d0cc4a-a4ac-421b-a122-a057c4e8b9b0/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Brown Sugar",
+    "description": "Organic Brown Sugar",
+    "price": 2.65,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/a5c82721-306a-4e35-85ff-48dddc161d5c/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Baking Powder",
+    "description": "Organic Baking Powder",
+    "price": 3.45,
+    "weight": 1.0,
+    "quantityInStock": 100,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/f2670132-f903-4daa-852c-9e8c59bc0f4f/0_3.webp"
+      }
+    ]
+  },
+  {
+    "name": "Olive Oil",
+    "description": "Organic Olive Oil",
+    "price": 5.99,
+    "weight": 1.0,
+    "quantityInStock": 200,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/56349c1e-3258-4f7c-8bc4-7094f82e8300/0_0.webp"
+      }
+    ]
+  },
+  {
+    "name": "Vegetable Oil",
+    "description": "Organic Vegetable Oil",
+    "price": 3.69,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/8d0c6dfa-a8f1-46ff-80e9-4c63eeb1fb62/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Salt",
+    "description": "Flavorful And Delicous In Foods",
+    "price": 1.00,
+    "weight": 1.0,
+    "quantityInStock": 500,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/a16797c8-dff1-4eab-8d75-c4d41f81d2e8/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Black Pepper",
+    "description": "Flavorful And Delicous In Foods",
+    "price": 1.50,
+    "weight": 1.0,
+    "quantityInStock": 500,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/ddd856f2-e428-4427-991a-2f8e03a9055e/0_1.webp"
+      }
+    ]
+  },
+  {
+    "name": "Almonds",
+    "description": "Delicious and Crunchy",
+    "price": 10.99,
+    "weight": 1.0,
+    "quantityInStock": 300,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/5a0a8a7b-4eef-41f9-8041-9f8830567a17/0_2.webp"
+      }
+    ]
+  },
+  {
+    "name": "Honey",
+    "description": "Organic Honey",
+    "price": 6.99,
+    "weight": 1.0,
+    "quantityInStock": 350,
+    "productCategory": "PANTRY_STAPLES",
+    "images": [
+      {
+        "imageLink": "https://cdn.midjourney.com/b0b83824-4cec-44db-9453-227aa8cfac4b/0_2.webp"
       }
     ]
   }
