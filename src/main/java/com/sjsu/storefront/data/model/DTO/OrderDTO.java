@@ -3,6 +3,7 @@ package com.sjsu.storefront.data.model.DTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.sjsu.storefront.common.OrderStatus;
 import com.sjsu.storefront.data.model.Order;
@@ -13,7 +14,7 @@ import jakarta.persistence.Enumerated;
 
 public class OrderDTO {
 	
-	private long orderId;
+	private UUID orderId;
 	private double totalCost;
 	private double totalShipping; 
 	private double totalWeight; 
@@ -38,7 +39,7 @@ public class OrderDTO {
 	
 	public OrderDTO(Order order) {
 		this.userId = order.getUser().getId();
-		this.orderId = order.getId();
+		this.orderId = order.getOrderId();
 		this.orderDate = order.getOrderDate();
 		this.orderStatus = order.getOrderStatus();
 		this.totalCost = order.getTotalCost();
@@ -59,7 +60,7 @@ public class OrderDTO {
 		return dtoItems;
 	}
 
-	public OrderDTO(long id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
+	public OrderDTO(UUID id, double totalCost, double totalShipping, double totalWeight, double totalProductCost,
 			Date orderDate, OrderStatus orderStatus, List<OrderItemDTO> items, Long userId, AddressDTO shippingAddress,
 			PaymentInfoDTO paymentInfo) {
 		super();
@@ -76,11 +77,11 @@ public class OrderDTO {
 		this.paymentInfo = paymentInfo;
 	}
 
-	public long getId() {
+	public UUID getOrderId() {
 		return orderId;
 	}
 
-	public void setId(long id) {
+	public void setOrderId(UUID id) {
 		this.orderId = id;
 	}
 

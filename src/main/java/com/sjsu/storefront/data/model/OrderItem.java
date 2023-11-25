@@ -14,8 +14,8 @@ public class OrderItem {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
+	
+	@ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -40,39 +40,33 @@ public class OrderItem {
 		this.product = product;
 		this.quantity = quantity;
 	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	public Long getId() {
 		return id;
 	}
-
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Order getOrder() {
 		return order;
 	}
-
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	@Override
 	public String toString() {
-		return "CartItem [id=" + id + ", order=" + order + ", product=" + product + ", quantity="
-				+ quantity + "]";
+		return "OrderItem [id=" + id + ", order=" + order + ", product=" + product + ", quantity=" + quantity + "]";
 	}
-
+    
 }

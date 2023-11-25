@@ -14,10 +14,10 @@ import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
 import com.sjsu.storefront.data.model.CartItem;
-import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.PaymentInfo;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.User;
+import com.sjsu.storefront.data.model.Order;
 import com.sjsu.storefront.data.model.DTO.AddressDTO;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
 import com.sjsu.storefront.data.model.DTO.MeDTO;
@@ -25,12 +25,14 @@ import com.sjsu.storefront.data.model.DTO.OrderDTO;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
 import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 import com.sjsu.storefront.data.model.DTO.UserDTO;
-import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.ShoppingCartRepository;
+import com.sjsu.storefront.data.respository.OrderRepository;
 import com.sjsu.storefront.data.respository.UserRepository;
 import com.sjsu.storefront.web.UserSession;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -47,6 +49,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	CartService cartService;
+	
+
+    @PersistenceContext
+    private EntityManager entityManager;
 	  
 
 	@Transactional
@@ -202,14 +208,32 @@ public class UserServiceImpl implements UserService {
 				throw new WorkflowException("User do not have a Payment Info setup.");
 			}
 			order.setPaymentInfo(existingUser.getPayment_info());
-			
+//FIXME - probably the merge code below is not needed			
 			//create the Order
 			Order savedOrder =  orderRepository.save(order);
 			
+//			UserOrder savedOrder;
+//			
+//			if (entityManager.contains(order)) {
+//			    // The entity is managed (not detached)
+//			    savedOrder = orderRepository.save(order);
+//			} else {
+//			    // The entity is detached, handle accordingly (e.g., merge or reattach)
+//			    UserOrder mergedOrder = entityManager.merge(order);
+//		        // Now, iterate over the items and merge them as well
+//		        for (OrderItem item : mergedOrder.getItems()) {
+//		            if (!entityManager.contains(item)) {
+//		                // The item is detached, merge it
+//		                OrderItem mergedItem = entityManager.merge(item);
+//		            }
+//		        }
+//			    savedOrder = orderRepository.save(mergedOrder);
+//		        return new OrderDTO(savedOrder);
+//			}
+			
 			//Empty user's Shopping Cart
 			cart.emptyCart();
-			//shoppingCartRepository.save(cart); - entity manager will handle the state
-			
+
 			return new OrderDTO(savedOrder);
 			
 		}

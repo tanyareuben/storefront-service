@@ -1,5 +1,8 @@
 package com.sjsu.storefront.data.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sjsu.storefront.data.model.DTO.AddressDTO;
 
 import jakarta.persistence.Entity;
@@ -7,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -25,6 +29,10 @@ public class Address {
     @OneToOne
     @JoinColumn(name = "user_id")
     User user;
+    
+    @OneToMany(mappedBy = "shippingAddress")
+    private List<Order> orders = new ArrayList<>();
+    
 
     public Address() {
     }

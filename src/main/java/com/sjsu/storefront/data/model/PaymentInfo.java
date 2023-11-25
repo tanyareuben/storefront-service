@@ -1,5 +1,8 @@
 package com.sjsu.storefront.data.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sjsu.storefront.common.CardType;
 import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
 
@@ -8,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -27,20 +31,27 @@ public class PaymentInfo {
     private String nickName; //my VISA card or my ATM card etc.
     private CardType cardType;
     
+    @OneToMany(mappedBy = "paymentInfo")
+    private List<Order> orders = new ArrayList<>();
+    
     public PaymentInfo() {
     	
     }
 
-	public PaymentInfo(Long id, String cardNumber, String expiry,
-			String cVV, String nickName, CardType cardType) {
+	public PaymentInfo(Long id, User user, String cardNumber, String expiry, String cVV, String nickName,
+			CardType cardType, List<Order> orders) {
 		super();
 		this.id = id;
+		this.user = user;
 		this.cardNumber = cardNumber;
 		this.expiry = expiry;
 		CVV = cVV;
 		this.nickName = nickName;
 		this.cardType = cardType;
+		this.orders = orders;
 	}
+
+
 
 	public PaymentInfo(PaymentInfoDTO pInfo) {
 		this.cardNumber = pInfo.getCardNumber();
@@ -94,12 +105,28 @@ public class PaymentInfo {
 	public void setCardType(CardType cardType) {
 		this.cardType = cardType;
 	}
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 
 	@Override
 	public String toString() {
-		return "PaymentInfo [id=" + id +  ", cardNumber=" + cardNumber + ", expiry=" + expiry + ", CVV=" + CVV + ", nickName=" + nickName
-				+ ", cardType=" + cardType + "]";
+		return "PaymentInfo [id=" + id + ", user=" + user + ", cardNumber=" + cardNumber + ", expiry=" + expiry
+				+ ", CVV=" + CVV + ", nickName=" + nickName + ", cardType=" + cardType + ", orders=" + orders + "]";
 	}
-   
+
 }
 

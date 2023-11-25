@@ -1,14 +1,5 @@
 package com.sjsu.storefront.web.services;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sjsu.storefront.common.ProductCategory;
-import com.sjsu.storefront.common.ResourceNotFoundException;
-import com.sjsu.storefront.data.model.Image;
 import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
@@ -34,10 +23,10 @@ public class ProductServiceTest {
     @AfterEach
     public void cleanup() {
         // Clean up the database after each test
-        productRepository.deleteAll();
+        // productRepository.deleteAll();
     }
 
-    @Test
+//    @Test
 //    public void testFindProductsByName() {
 //        // Save a product to the database
 //        Product product = new Product();
@@ -75,17 +64,17 @@ public class ProductServiceTest {
 
     // Other test methods...
 
-    private Product createProduct(String name, String description, double price, double weight, int quantityInStock, ProductCategory category) {
-        Product product = new Product();
-        product.setName(name);
-        product.setDescription(description);
-        product.setPrice(price);
-        product.setWeight(weight);
-        product.setQuantityInStock(quantityInStock);
-        product.setProductCategory(category);
-        productRepository.save(product);
-        return product;
-    }
+//    private Product createProduct(String name, String description, double price, double weight, int quantityInStock, ProductCategory category) {
+//        Product product = new Product();
+//        product.setName(name);
+//        product.setDescription(description);
+//        product.setPrice(price);
+//        product.setWeight(weight);
+//        product.setQuantityInStock(quantityInStock);
+//        product.setProductCategory(category);
+//        productRepository.save(product);
+//        return product;
+//    }
  
 
 //    @Test

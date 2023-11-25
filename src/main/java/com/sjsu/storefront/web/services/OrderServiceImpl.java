@@ -3,6 +3,7 @@ package com.sjsu.storefront.web.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,18 +30,24 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public List<Order> getAllOrdersForUser(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderDTO> getAllOrdersForUser(Long userId) {
+        List<OrderDTO> orders = new ArrayList<OrderDTO>();
+        for(Order order : orderRepository.findByUserId(userId)) {
+        	OrderDTO orderDTO = new OrderDTO(order);
+        	orders.add(orderDTO);
+        }
+        return orders;
     }
 
     @Override
-    public Order getOderById(Long id) throws ResourceNotFoundException {
-        return orderRepository.findById(id)
+    public OrderDTO getOderById(Long id) throws ResourceNotFoundException {
+        Order ordr =  orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + id));
+        return new OrderDTO(ordr);
     }
 
     @Override
-    public Long createOder(User user, ShoppingCart cart) {
+    public UUID createOder(User user, ShoppingCart cart) {
     	Order order = new Order();
     	order.setItems(cart.getItems());
     	order.setPaymentInfo(user.getPayment_info());
@@ -52,12 +59,12 @@ public class OrderServiceImpl implements OrderService {
     	order.setUser(user);
     	
     	Order newOrder = orderRepository.save(order);
-    	return newOrder.getId();
+    	return newOrder.getOrderId();
     	
     }
 
     @Override
-    public Long cancelOrder(Long orderId) throws ResourceNotFoundException, WorkflowException {
+    public UUID cancelOrder(Long orderId) throws ResourceNotFoundException, WorkflowException {
     	Optional<Order> orderTemp = orderRepository.findById(orderId);
     	if(orderTemp.isPresent()) {
     		Order order = orderTemp.get();
@@ -65,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
     		if(order.getStatus() == OrderStatus.RECIEVED) {
 	            order.setStatus(OrderStatus.CANCELLED); 
 	            orderRepository.save(order);
-	            return order.getId();
+	            return order.getOrderId();
     		}
     		else {
     			throw new WorkflowException("Order can not be Cancelled, already shipped " + orderId);

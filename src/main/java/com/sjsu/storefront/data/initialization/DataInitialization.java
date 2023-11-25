@@ -1,12 +1,19 @@
 package com.sjsu.storefront.data.initialization;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sjsu.storefront.common.CardType;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
+import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.UserType;
+import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Product;
+import com.sjsu.storefront.data.model.DTO.AddressDTO;
+import com.sjsu.storefront.data.model.DTO.PaymentInfoDTO;
 import com.sjsu.storefront.data.model.DTO.UserDTO;
 import com.sjsu.storefront.web.services.ProductService;
 import com.sjsu.storefront.web.services.UserService;
@@ -14,7 +21,7 @@ import com.sjsu.storefront.web.services.UserService;
 import jakarta.annotation.PostConstruct;
 
 @Component
-public class UserInitialization {
+public class DataInitialization {
 
     @Autowired
     private UserService userService;
@@ -24,14 +31,66 @@ public class UserInitialization {
 
     
     @PostConstruct
-    public void initializeDat() {
+    public void initializeData() {
        
-    	createSuperUsers();
-    	//createSomeProductsAndCategories();
+    	createSomeUsers();
+    	addAddressfoForAllusers();
+    	addPaymentInfoForAllusers();
+    	
+    	createSomeProductsAndCategories();
 
     }
     
-    public void createSuperUsers() {
+    private void addAddressfoForAllusers() {
+		
+		AddressDTO addr = new AddressDTO();
+		addr.setStreet("123 abc street");
+		addr.setCity("San Jose");
+		addr.setState("CA");
+		addr.setZipCode("95112");
+		addr.setCountry("USA");
+		
+    	//get all existing users
+    	List<UserDTO> users = userService.getAllUsers();
+    	
+    	//add address to all users
+    	for(UserDTO user : users) {
+    		try {
+				userService.addAddress(user.getId(), addr);
+			} catch (WorkflowException e) {
+				//ignore
+			} catch (ResourceNotFoundException e) {
+				//ignore
+			}
+    	}
+		
+	}
+    
+    private void addPaymentInfoForAllusers() {
+    	
+    	PaymentInfoDTO paymentInfo = new PaymentInfoDTO();
+    	paymentInfo.setCardNumber("1111 1111 1111 1111");
+    	paymentInfo.setCardType(CardType.VISA);
+    	paymentInfo.setCVV("055");
+    	paymentInfo.setExpiry("07/27");
+    	paymentInfo.setNickName("Chase Visa");
+    	
+    	//get all existing users
+    	List<UserDTO> users = userService.getAllUsers();
+    	
+    	//add address to all users
+    	for(UserDTO user : users) {
+    		try {
+				userService.addPaymentInfo(user.getId(), paymentInfo);
+			} catch (WorkflowException e) {
+				//ignore
+			} catch (ResourceNotFoundException e) {
+				//ignore
+			}
+    	}
+    }
+
+	public void createSomeUsers() {
 
     	UserDTO adminUser = 	new UserDTO();
         adminUser.setFirstName("Roxie");
@@ -41,13 +100,21 @@ public class UserInitialization {
         adminUser.setPhone("1234567890");
         adminUser.setUserType(UserType.ADMIN);
         
+    	UserDTO superUser = 	new UserDTO();
+        superUser.setFirstName("kevin");
+        superUser.setLastName("bacon");
+        superUser.setEmail("kevin@bacon.com");
+        superUser.setPassword("password1");
+        superUser.setPhone("1234567891");
+        superUser.setUserType(UserType.SUPER);
+        
     	UserDTO normalUser = 	new UserDTO();
-        normalUser.setFirstName("kevin");
-        normalUser.setLastName("bacon");
-        normalUser.setEmail("kevin@bacon.com");
+        normalUser.setFirstName("dua");
+        normalUser.setLastName("lipa");
+        normalUser.setEmail("dua@lipa.com");
         normalUser.setPassword("password1");
         normalUser.setPhone("1234567891");
-        normalUser.setUserType(UserType.SUPER);
+        normalUser.setUserType(UserType.USER);
         
         try {
 			userService.createUser(adminUser);
@@ -89,7 +156,7 @@ public class UserInitialization {
         carrot.setPrice(1.99);
         carrot.setWeight(7.5);
         carrot.setQuantityInStock(175);
-        carrot.setProductCategory(ProductCategory.VEGITABLE);  
+        carrot.setProductCategory(ProductCategory.VEGETABLE);  
         
 
         Product cabbage = new Product();
@@ -98,7 +165,7 @@ public class UserInitialization {
         cabbage.setPrice(1.98);
         cabbage.setWeight(2.5);
         cabbage.setQuantityInStock(200);
-        cabbage.setProductCategory(ProductCategory.VEGITABLE); 
+        cabbage.setProductCategory(ProductCategory.VEGETABLE); 
         
 	    try {
 	    	productService.createProduct(apple);
