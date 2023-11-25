@@ -1,19 +1,11 @@
 [
   {
-    "firstName": "roger",
-    "lastName": "more",
-    "email": "rger@more.com",
-    "password": "sjsu@1",
-    "phone": "1234567890",
-    "userType": "ADMIN"
-  },
-  {
     "firstName": "tom",
     "lastName": "cruise",
     "email": "tom@cruise.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "SUPER"
   },
   {
     "firstName": "james",
@@ -29,20 +21,12 @@
     "email": "tylor@swift.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "USER"
   },
   {
     "firstName": "katy",
     "lastName": "perry",
     "email": "katy@perry.com",
-    "password": "sjsu@1",
-    "phone": "1234567890",
-    "userType": "ADMIN"
-  },
-  {
-    "firstName": "jackie",
-    "lastName": "chan",
-    "email": "jackie@chan.com",
     "password": "sjsu@1",
     "phone": "1234567890",
     "userType": "USER"
@@ -53,7 +37,7 @@
     "email": "indiana@jones.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
+    "userType": "ADMIN"
   },
   {
     "firstName": "spider",
@@ -69,7 +53,7 @@
     "email": "iron@man.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
+    "userType": "ADMIN"
   },
   {
     "firstName": "bat",

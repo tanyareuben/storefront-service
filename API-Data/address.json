@@ -1,0 +1,23 @@
+[
+	{
+	  "street": "1 Hollywood Way",
+	  "city": "Los Angeles",
+	  "state": "CA",
+	  "zipCode": "99999",
+	  "country": "USA"
+	},
+	{
+	  "street": "100 Market Street",
+	  "city": "San Francisco",
+	  "state": "CA",
+	  "zipCode": "98888",
+	  "country": "USA"
+	},
+	{
+	  "street": "10 North First Street",
+	  "city": "San Jose",
+	  "state": "CA",
+	  "zipCode": "99111",
+	  "country": "USA"
+	}
+]

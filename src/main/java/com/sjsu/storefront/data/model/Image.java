@@ -44,8 +44,6 @@ public class Image {
 		this.product = product;
 	}
 
-
-
 	public String getImageLink() {
 		return imageLink;
 	}

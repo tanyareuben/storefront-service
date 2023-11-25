@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sjsu.storefront.common.ProductCategory;
+import com.sjsu.storefront.data.model.DTO.ImageDTO;
+import com.sjsu.storefront.data.model.DTO.ProductDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -50,6 +52,20 @@ public class Product {
 		this.quantityInStock = quantityInStock;
 		this.productCategory = productCategory;
 		this.images = images;
+	}
+
+	public Product(ProductDTO productDTO) {
+		this.id = productDTO.getId();
+		this.description = productDTO.getDescription();
+		this.name = productDTO.getName();
+		this.price = productDTO.getPrice();
+		this.productCategory = productDTO.getProductCategory();
+		this.quantityInStock = productDTO.getQuantityInStock();
+		this.weight = productDTO.getWeight();
+		for(ImageDTO img : productDTO.getImages()) {
+			Image image = new Image(img, this);
+			this.addImage(image);
+		}
 	}
 
 	//copy another Product object into this user

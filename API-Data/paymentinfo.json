@@ -1,0 +1,23 @@
+[
+	{
+	  "cardNumber": "1111 1111 1111 1111",
+	  "expiry": "07/27",
+	  "nickName": "Personal VISA",
+	  "cardType": "VISA",
+	  "cvv": "054"
+	},
+	{
+	  "cardNumber": "2222 222222 2222",
+	  "expiry": "09/29",
+	  "nickName": "Amex Biz",
+	  "cardType": "AMEX",
+	  "cvv": "1045"
+	},	
+	{
+	  "cardNumber": "3333 3333 3333 3333",
+	  "expiry": "09/29",
+	  "nickName": "Chase Visa",
+	  "cardType": "VISA",
+	  "cvv": "045"
+	}
+]

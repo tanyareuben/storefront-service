@@ -1,7 +1,6 @@
 package com.sjsu.storefront.data.model.DTO;
 
 import com.sjsu.storefront.data.model.Image;
-import com.sjsu.storefront.data.model.Product;
 
 public class ImageDTO {
 	private long id;
