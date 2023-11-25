@@ -69,7 +69,7 @@ Then run the following command
 
 
 ``` 
-mvn clean install
+mvn clean install -DskipTests
 
 ```
 
