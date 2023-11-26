@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
+import com.sjsu.storefront.common.PasswordEncrypt;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.Address;
@@ -63,6 +64,8 @@ public class UserServiceImpl implements UserService {
 		if (existingUser.isPresent()) {
 			throw new DuplicateResourceException("User with email already Exists");
 		}
+		//encrypt user password before saving
+		userDTO.setPassword(PasswordEncrypt.hashPassword(userDTO.getPassword()));
 		User user = new User(userDTO);
 		ShoppingCart cart = new ShoppingCart();
 		cart.setUser(user);
@@ -73,17 +76,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserSession login(String email, String password) throws NotAuthenticated {
 	      Optional<User> existingUser = userRepository.findByEmail(email);
-	      if (existingUser.isPresent() && existingUser.get().getPassword().equals(password)) {
-	    	// Create a UserSession object
-	          UserSession userSession = new UserSession();
-	          userSession.setUserId(existingUser.get().getId());
-	          userSession.setEmail(existingUser.get().getEmail());
-	          userSession.setUserType(existingUser.get().getUserType());
-	          return userSession;
+	      if (existingUser.isPresent()) {
+	    	  //check the encrypted password is same as the one provided
+	    	  if(PasswordEncrypt.checkPassword(password, existingUser.get().getPassword())) {
+		    	// Create a UserSession object
+		          UserSession userSession = new UserSession();
+		          userSession.setUserId(existingUser.get().getId());
+		          userSession.setEmail(existingUser.get().getEmail());
+		          userSession.setUserType(existingUser.get().getUserType());
+		          return userSession;
+	    	  }
+		      else {
+		    	  throw new NotAuthenticated("Login Failed");
+		      }
 	      }
-	      else {
-	    	  throw new NotAuthenticated("Login Failed");
-	      }
+	      throw new NotAuthenticated("User password combination not found");
 	}
 
 	@Override

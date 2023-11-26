@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjsu.storefront.common.AuthNCheck;
+import com.sjsu.storefront.common.AuthSameUser;
+import com.sjsu.storefront.common.AuthZCheck;
 import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.NotAuthenticated;
 import com.sjsu.storefront.common.OrderStatus;
@@ -54,14 +56,14 @@ public class UserController {
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
  
   @Operation(summary = "Get all users in the system. Only ADMIN users have can call this API")
-  //@AuthZCheck // Apply the AuthAspect to this method
+  @AuthZCheck // Apply the AuthAspect to this method - user need to be ADMIN
   @GetMapping
   public List<UserDTO> getAllUsers() {
       return userService.getAllUsers();
   }
   
   @Operation(summary = "Get a User by id. Only ADMIN users have can call this API")
-  //@AuthZCheck // Apply the AuthAspect to this method
+  @AuthZCheck // Apply the AuthAspect to this method - user need to be ADMIN
   @GetMapping("/{userId}")
   public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
       UserDTO user = userService.findUserById(userId);
@@ -88,7 +90,7 @@ public class UserController {
   
   //TODO - add bulk user Register API - This need to have ADMIN AUTH to add bulk users
   @Operation(summary = "Register a Bulk of users. If the user exists already, it is skipped")
-  //@AuthZCheck // Apply the AuthAspect to this method
+  @AuthZCheck // Apply the AuthAspect to this method - user need to be ADMIN
   @PostMapping("/bulkregister")
   public ResponseEntity<String> bulkRegisterUsers(@RequestBody List<UserDTO> users) {
 	  
@@ -187,6 +189,7 @@ public class UserController {
   
   @Operation(summary = "Get the Current User's Shopping Cart")
   @AuthNCheck // Apply the AuthAspect to this method
+  @AuthSameUser //SAMEUSER auth check
   @GetMapping("/{userId}/cart")
   public ResponseEntity<ShoppingCartDTO> getUserShoppingCart(@PathVariable Long userId) {
       try {
@@ -203,7 +206,7 @@ public class UserController {
   //TODO give an end point for Open Orders, Shipped Orders and Delivered orders with SORT option
   @Operation(summary = "Get the Logged in User's  Orders, filtered by the OrderStatus requested")
   @AuthNCheck // Apply the AuthAspect to this method
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @GetMapping("/{userId}/orders/status/{status}")
   public List<OrderDTO> getOrdersByStatusForUser(@PathVariable Long userId, @PathVariable OrderStatus status) {
       UserDTO user = userService.findUserById(userId);
@@ -213,21 +216,21 @@ public class UserController {
   //TODO give an end point for all orders with SORT option
   @Operation(summary = "Get the User's (for the USer Id provided) Orders")
   @AuthNCheck // Apply the AuthAspect to this method
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @GetMapping("/{userId}/orders")
   public List<OrderDTO> getAllOrdersByUser(@PathVariable Long userId) {
       UserDTO user = userService.findUserById(userId);
       return orderService.getOrdersForUser(user);
   }
   
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @Operation(summary = "Check out the shopping cart. This creates an order and return the Order Object")
   @PostMapping("/{userId}/cart/checkOut")
   public OrderDTO checkOutCart(@PathVariable Long userId) throws WorkflowException, ResourceNotFoundException {
 	return userService.checkOut(userId);
   }
   
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @Operation(summary = "Add adress for a user. If the User already has an address, the add address will fail. "
   		+ "To update an address, use PUT")
   @PostMapping("/{userId}/address")
@@ -235,7 +238,7 @@ public class UserController {
 	return userService.addAddress(userId, address);
   }
   
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @Operation(summary = "Add Payment method for a user. If the User already has an Payment method, the call will fail. "
   		+ "To update Payment Method, use PUT")
   @PostMapping("/{userId}/payment")
@@ -243,7 +246,7 @@ public class UserController {
 	return userService.addPaymentInfo(userId, paymentInfo);
   }
   
-  //TODO SAMEUSER auth check
+  @AuthSameUser //SAMEUSER auth check
   @Operation(summary = "Add an Item the user[given by userId] cart.")
   @PostMapping("/{userId}/cart/items")
   public ShoppingCartDTO addItemToUSerCart(@PathVariable Long userId, @RequestBody CartItemDTO item) throws WorkflowException, ResourceNotFoundException {
