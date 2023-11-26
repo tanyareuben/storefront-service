@@ -20,6 +20,8 @@ public class UserDTO {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    
+    private AddressDTO address;
 	
 	
 	//default constructor needed for JPA
@@ -35,11 +37,11 @@ public class UserDTO {
 		this.password = usr.getPassword();
 		this.phone = usr.getPhone();
 		this.userType = usr.getUserType();
+		this.address = new AddressDTO(usr.getAddress());
 	}
 
-
 	public UserDTO(long id, String firstName, String lastName, String email, String password, String phone,
-			UserType userType) {
+			UserType userType, AddressDTO address) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -48,10 +50,15 @@ public class UserDTO {
 		this.password = password;
 		this.phone = phone;
 		this.userType = userType;
+		this.address = address;
 	}
 
 	public long getId() {
 		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -102,9 +109,18 @@ public class UserDTO {
 		this.userType = userType;
 	}
 
+	public AddressDTO getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressDTO address) {
+		this.address = address;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + "]";
+				+ ", password=" + password + ", phone=" + phone + ", userType=" + userType + ", address=" + address
+				+ "]";
 	}
 }

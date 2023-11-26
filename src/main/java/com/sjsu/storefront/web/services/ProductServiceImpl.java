@@ -1,8 +1,10 @@
 package com.sjsu.storefront.web.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,5 +130,13 @@ public class ProductServiceImpl implements ProductService {
 	    Product prod = productRepository.findById(id)
 	                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
 	    return new ProductDTO(prod);
+	}
+
+	@Override
+	public List<String> getProductCategories() {
+		List<String> categoryStrings = Arrays.stream(ProductCategory.values())
+                .map(Enum::name) // Convert each enum constant to its string representation
+                .collect(Collectors.toList());
+        return categoryStrings;
 	}
 }

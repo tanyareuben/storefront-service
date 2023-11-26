@@ -5,7 +5,14 @@
     "email": "tom@cruise.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "ADMIN",
+    "address": {
+	  "street": "1 Hollywood Way",
+	  "city": "Los Angeles",
+	  "state": "CA",
+	  "zipCode": "99999",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "james",
@@ -13,7 +20,14 @@
     "email": "james@bond.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "ADMIN",
+    "address": {
+	  "street": "10 North First Street",
+	  "city": "San Jose",
+	  "state": "CA",
+	  "zipCode": "99111",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "tylor",
@@ -21,7 +35,14 @@
     "email": "tylor@swift.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
+    "userType": "USER",
+    "address": {
+	  "street": "10 North First Street",
+	  "city": "San Jose",
+	  "state": "CA",
+	  "zipCode": "99111",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "katy",
@@ -29,15 +50,14 @@
     "email": "katy@perry.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
-  },
-  {
-    "firstName": "indiana",
-    "lastName": "jones",
-    "email": "indiana@jones.com",
-    "password": "sjsu@1",
-    "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "USER",
+    "address": {
+	  "street": "10 North First Street",
+	  "city": "San Jose",
+	  "state": "CA",
+	  "zipCode": "99111",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "spider",
@@ -45,7 +65,14 @@
     "email": "spider@man.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
+    "userType": "USER",
+    "address" : {
+	  "street": "100 Market Street",
+	  "city": "San Francisco",
+	  "state": "CA",
+	  "zipCode": "98888",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "iron",
@@ -53,7 +80,14 @@
     "email": "iron@man.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "ADMIN"
+    "userType": "ADMIN",
+    "address": {
+	  "street": "1 Hollywood Way",
+	  "city": "Los Angeles",
+	  "state": "CA",
+	  "zipCode": "99999",
+	  "country": "USA"
+	}
   },
   {
     "firstName": "bat",
@@ -61,7 +95,13 @@
     "email": "bat@man.com",
     "password": "sjsu@1",
     "phone": "1234567890",
-    "userType": "USER"
+    "userType": "USER",
+    "address": {
+	  "street": "100 Market Street",
+	  "city": "Gotham City",
+	  "state": "CA",
+	  "zipCode": "98888",
+	  "country": "USA"
+	}
   }
-  
 ]

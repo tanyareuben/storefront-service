@@ -133,10 +133,17 @@ public class ProductController {
 	      return productService.findProductsByName(searchTerm);
 	  }
 	  
+	  @Operation(summary = "Returns all the Products under the Categoy give")
 	  @GetMapping("/byCategory/{category}")
 	  public List<ProductDTO> getProductsByCategory(@PathVariable ProductCategory category) throws NotFoundException {
 	      return productService.findProductsByCategory(category);
 	  }
+	  
+	  @Operation(summary = "Returns a List of all Product Categories")
+	  @GetMapping("/categories")
+	  public List<String> getProductCategories(){
+	      return productService.getProductCategories();
+	  }	  
 	  
 	  	  
 	  //TODO get all products - Paginate

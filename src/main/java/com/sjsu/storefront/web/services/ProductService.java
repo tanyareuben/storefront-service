@@ -28,4 +28,6 @@ public interface ProductService {
 	public ProductDTO getProduct(Long id) throws ResourceNotFoundException;
 
 	void addImage(Long id, ImageDTO image) throws Exception;
+
+	public List<String> getProductCategories();
 }
