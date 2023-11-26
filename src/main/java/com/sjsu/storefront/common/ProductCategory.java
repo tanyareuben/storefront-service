@@ -7,5 +7,5 @@ public enum ProductCategory {
 	SEAFOOD,
 	GRAIN,
 	DAIRY,
-	PANTRY_STAPLES
+	PANTRY
 }
