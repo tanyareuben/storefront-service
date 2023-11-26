@@ -11,11 +11,11 @@ import com.sjsu.storefront.data.model.DTO.ProductDTO;
 
 public interface ProductService {
 	
-	public List<Product> findProductsByName(String searchTerm);
+	public List<ProductDTO> findProductsByName(String searchTerm);
 	
-	public List<Product> findProductsByCategory(ProductCategory category);
+	public List<ProductDTO> findProductsByCategory(ProductCategory category);
 	
-	public Product updateProduct(Long id, Product product) throws ResourceNotFoundException;
+	public ProductDTO updateProduct(Long id, Product product) throws ResourceNotFoundException;
 
 	public void deleteProduct(Long id);
 

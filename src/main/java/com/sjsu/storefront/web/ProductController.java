@@ -110,10 +110,10 @@ public class ProductController {
 	  @Operation(summary = "Update a Product given Product id, the whole Product object needs to be passed in the request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PutMapping("/{id}")
-	  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product item) {
+	  public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody Product item) {
 	      
 		  try {
-			  Product updatedProduct = productService.updateProduct(id, item);
+			  ProductDTO updatedProduct = productService.updateProduct(id, item);
 			  return ResponseEntity.ok(updatedProduct);
 		  }
 		  catch(ResourceNotFoundException nfe) {
@@ -123,18 +123,18 @@ public class ProductController {
 	  
 	  @Operation(summary = "Eg: Serach for a Product 'computer' like /products/search/computer")
 	  @GetMapping("/search/{searchTerm}")
-	  public List<Product> getProductsByName(@PathVariable String searchTerm) {
+	  public List<ProductDTO> getProductsByName(@PathVariable String searchTerm) {
 	      return productService.findProductsByName(searchTerm);
 	  }
 
 	  @Operation(summary = "Eg: Serach for a Product 'computer' like /products/search?searchTerm=computer")
 	  @GetMapping("/search")
-	  public List<Product> getProductsByNameQueryParam(@RequestParam String searchTerm) {
+	  public List<ProductDTO> getProductsByNameQueryParam(@RequestParam String searchTerm) {
 	      return productService.findProductsByName(searchTerm);
 	  }
 	  
 	  @GetMapping("/byCategory/{category}")
-	  public List<Product> getProductsByCategory(@PathVariable ProductCategory category) throws NotFoundException {
+	  public List<ProductDTO> getProductsByCategory(@PathVariable ProductCategory category) throws NotFoundException {
 	      return productService.findProductsByCategory(category);
 	  }
 	  

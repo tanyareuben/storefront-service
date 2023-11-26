@@ -1,13 +1,10 @@
 package com.sjsu.storefront.web.services;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sjsu.storefront.common.ProductCategory;
-import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.respository.ProductRepository;
 
 @SpringBootTest

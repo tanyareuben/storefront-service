@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.sjsu.storefront.common.UnauthorizedException;
 import com.sjsu.storefront.common.UserType;
-import com.sjsu.storefront.web.ProductController;
 import com.sjsu.storefront.web.UserSession;
 
 import jakarta.servlet.http.HttpSession;

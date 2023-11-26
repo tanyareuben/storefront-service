@@ -5,7 +5,6 @@ import com.sjsu.storefront.common.WorkflowException;
 import com.sjsu.storefront.data.model.CartItem;
 import com.sjsu.storefront.data.model.ShoppingCart;
 import com.sjsu.storefront.data.model.DTO.CartItemDTO;
-import com.sjsu.storefront.data.model.DTO.ShoppingCartDTO;
 
 public interface CartService {
 

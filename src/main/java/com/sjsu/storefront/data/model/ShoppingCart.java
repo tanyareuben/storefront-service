@@ -149,12 +149,7 @@ public class ShoppingCart {
 		}
 		
 	}
-	
-	private boolean doesProductAlreadyExistInCart(CartItem cartItem) {
-		
 
-		return true;
-	}
 
 	@Override
 	public String toString() {

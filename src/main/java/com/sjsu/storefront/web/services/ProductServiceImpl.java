@@ -35,25 +35,35 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public List<Product> findProductsByName(String searchTerm) {
-        return productRepository.findByProductNameContaining(searchTerm);
+    public List<ProductDTO> findProductsByName(String searchTerm) {
+        List<Product> prdts = productRepository.findByProductNameContaining(searchTerm);
+        List<ProductDTO> products = new ArrayList<ProductDTO>();
+        for(Product prod : prdts) {
+        	products.add(new ProductDTO(prod));
+        }
+        return products;
     }
     
     @Transactional
     @Override
-    public List<Product> findProductsByCategory(ProductCategory category) {
-        return productRepository.findByproductCategory(category);
+    public List<ProductDTO> findProductsByCategory(ProductCategory category) {
+        List<Product> prdts = productRepository.findByproductCategory(category);
+        List<ProductDTO> products = new ArrayList<>();
+        for(Product product : prdts) {
+        	products.add(new ProductDTO(product));
+        }
+        return products;
     }
 
 	@Transactional
 	@Override
-	public Product updateProduct(Long id, Product product) throws ResourceNotFoundException {
+	public ProductDTO updateProduct(Long id, Product product) throws ResourceNotFoundException {
 		Product existingItem = productRepository.findById(id).orElse(null);
 	    if (existingItem == null) {
 	    	throw new ResourceNotFoundException("Product not found");
 	    }
 	    existingItem.set(product);
-	    return productRepository.save(existingItem);
+	    return new ProductDTO(productRepository.save(existingItem));
 	}
 
 	@Transactional
