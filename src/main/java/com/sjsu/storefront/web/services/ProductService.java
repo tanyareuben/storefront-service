@@ -15,13 +15,10 @@ public interface ProductService {
 	
 	public List<ProductDTO> findProductsByCategory(ProductCategory category);
 	
-	public ProductDTO updateProduct(Long id, Product product) throws ResourceNotFoundException;
-
 	public void deleteProduct(Long id);
 
 	public void deleteImage(Long id, Long imgId) throws ResourceNotFoundException;
 
-	public Product createProduct(Product item) throws DuplicateResourceException;
 
 	public List<ProductDTO> getAllProducts();
 
@@ -30,4 +27,8 @@ public interface ProductService {
 	void addImage(Long id, ImageDTO image) throws Exception;
 
 	public List<String> getProductCategories();
+
+	ProductDTO createProduct(ProductDTO product) throws DuplicateResourceException;
+
+	ProductDTO updateProduct(Long id, ProductDTO product) throws ResourceNotFoundException;
 }

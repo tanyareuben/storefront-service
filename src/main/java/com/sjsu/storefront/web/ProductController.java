@@ -23,7 +23,6 @@ import com.sjsu.storefront.common.DuplicateResourceException;
 import com.sjsu.storefront.common.ProductCategory;
 import com.sjsu.storefront.common.ResourceNotFoundException;
 import com.sjsu.storefront.data.model.Image;
-import com.sjsu.storefront.data.model.Product;
 import com.sjsu.storefront.data.model.DTO.ImageDTO;
 import com.sjsu.storefront.data.model.DTO.ProductDTO;
 import com.sjsu.storefront.web.services.ProductService;
@@ -58,9 +57,9 @@ public class ProductController {
 	@Operation(summary = "Create a NEW Product in the system")
 	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping("/bulkadd")
-	public ResponseEntity<String> bulkAddProducts(@RequestBody List<Product> products) {
+	public ResponseEntity<String> bulkAddProducts(@RequestBody List<ProductDTO> products) {
 		logger.info("Going to add a bunch of Products");
-		for(Product product : products) {
+		for(ProductDTO product : products) {
 		    try {
 				productService.createProduct(product);
 			} catch (DuplicateResourceException e) {
@@ -73,7 +72,7 @@ public class ProductController {
 	@Operation(summary = "Create a NEW Product in the system")
 	//@AuthZCheck // Apply the AuthAspect to this method //TODO Uncomment ME
 	@PostMapping
-	public ResponseEntity<String> createProduct(@RequestBody Product product) throws DuplicateResourceException {
+	public ResponseEntity<String> createProduct(@RequestBody ProductDTO product) throws DuplicateResourceException {
 	    productService.createProduct(product);
 	    return ResponseEntity.created(null).body("Product created successfully");
 	}
@@ -110,7 +109,7 @@ public class ProductController {
 	  @Operation(summary = "Update a Product given Product id, the whole Product object needs to be passed in the request")
 	  @AuthZCheck // Apply the AuthAspect to this method
 	  @PutMapping("/{id}")
-	  public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody Product item) {
+	  public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO item) {
 	      
 		  try {
 			  ProductDTO updatedProduct = productService.updateProduct(id, item);

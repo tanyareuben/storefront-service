@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public ProductDTO updateProduct(Long id, Product product) throws ResourceNotFoundException {
+	public ProductDTO updateProduct(Long id, ProductDTO product) throws ResourceNotFoundException {
 		Product existingItem = productRepository.findById(id).orElse(null);
 	    if (existingItem == null) {
 	    	throw new ResourceNotFoundException("Product not found");
@@ -99,16 +99,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public Product createProduct(Product product) throws DuplicateResourceException {
+	public ProductDTO createProduct(ProductDTO product) throws DuplicateResourceException {
 		Optional<Product> existingProduct = productRepository.findByName(product.getName());
 		if (existingProduct.isPresent()) {
 			throw new DuplicateResourceException("Product already Exists");
 		}
-		List<Image> images = product.getImages();
-		for(Image img : images) {
-			img.setProduct(product);
-		}
-	    return productRepository.save(product);
+		Product prod = new Product(product);
+	    return new ProductDTO(productRepository.save(prod));
 	}
 
 	@Transactional

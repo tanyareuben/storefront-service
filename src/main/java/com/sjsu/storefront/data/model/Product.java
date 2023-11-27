@@ -64,19 +64,24 @@ public class Product {
 		this.weight = productDTO.getWeight();
 		for(ImageDTO img : productDTO.getImages()) {
 			Image image = new Image(img, this);
+			image.setProduct(this);
 			this.addImage(image);
 		}
 	}
 
 	//copy another Product object into this user
-	public void set(Product item) {
-		this.name = item.name;
-		this.description = item.description;
-		this.price = item.price;
-		this.weight = item.weight;
-		this.quantityInStock = item.quantityInStock; 
-		this.productCategory = item.productCategory;
-		this.images = item.images;
+	public void set(ProductDTO item) {
+		this.name = item.getName();
+		this.description = item.getDescription();
+		this.price = item.getPrice();
+		this.weight = item.getWeight();
+		this.quantityInStock = item.getQuantityInStock(); 
+		this.productCategory = item.getProductCategory();
+		for(ImageDTO img : item.getImages()) {
+			Image image = new Image(img, this);
+			image.setProduct(this);
+			this.addImage(image);
+		}
 	}
 	
 	public void addImage(Image img) {

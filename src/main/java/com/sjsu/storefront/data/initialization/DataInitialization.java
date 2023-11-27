@@ -164,7 +164,7 @@ public class DataInitialization {
             for (ProductDTO productDTO : productList) {
                 
                 try {
-                	productService.createProduct(new Product(productDTO));
+                	productService.createProduct(productDTO);
                     System.out.println("Added Product" + productDTO);
                 }
                 catch (DuplicateResourceException e) {
