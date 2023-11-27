@@ -13,7 +13,7 @@ services:
       - ./mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
   storefront-app:
-    image: reubensjohn/storefront-app:v4.0
+    image: reubensjohn/storefront-app:v3.0
     depends_on:
       - mysql
     ports:
