@@ -67,6 +67,7 @@ public class User {
 		this.password = usrDto.getPassword();
 		this.phone = usrDto.getPhone();
 		this.userType = usrDto.getUserType();
+		this.address = new Address(usrDto.getAddress());
 	}
 
 	public User(long id, String firstName, String lastName, String email, String password, String phone,
