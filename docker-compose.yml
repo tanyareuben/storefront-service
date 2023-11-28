@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   mysql:
@@ -13,7 +13,7 @@ services:
       - ./mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
 
   storefront-app:
-    image: reubensjohn/storefront-app:v4.0
+    build: .
     depends_on:
       - mysql
     ports:
