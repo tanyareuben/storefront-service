@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   mysql:
@@ -7,14 +7,21 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: storefront
     ports:
-      - "3306:3306"
+      - "3306:3306/tcp"
     volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./mysql/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - mysql-data:/var/lib/mysql/
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: 1
 
   storefront-app:
-    image: reubensjohn/storefront-app:v4.0
+    build: .
     depends_on:
       - mysql
     ports:
       - "8080:8080"
+volumes:
+  mysql-data:
