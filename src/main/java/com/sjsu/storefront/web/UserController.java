@@ -125,7 +125,7 @@ public class UserController {
   
   @Operation(summary =" Call this API to login a user. In the body pass in the email and password only")
   @PostMapping("/login")
-  public ResponseEntity<String> loginUser(@RequestBody UserLoginDTO user) {
+  public ResponseEntity<UserSession> loginUser(@RequestBody UserLoginDTO user) {
 	  
 	  try {
 		  UserSession userSession = userService.login(user.getEmail(), user.getPassword());
@@ -133,10 +133,10 @@ public class UserController {
 		  // Store UserSession in HttpSession
           httpSession.setAttribute("userSession", userSession);
 
-          return ResponseEntity.ok("Login successful");
+          return ResponseEntity.ok(userSession);
 	  }
 	  catch(NotAuthenticated ne) {
-          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       } 
   }
   
